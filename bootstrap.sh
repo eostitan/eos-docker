@@ -4,6 +4,7 @@ echo "Unlocking default wallet"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet open -n default
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet unlock
 
+# Create blockchain accounts
 echo "Create eosio.token user"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 create account eosio eosio.token EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
@@ -34,6 +35,7 @@ docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keo
 echo "Create eosio.rex user"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 create account eosio eosio.rex EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
+# Deploy blockchain smart contracts
 echo "Deploy eosio.bios contract"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.bios/ eosio.bios.wasm eosio.bios.abi -p eosio@active
 
@@ -46,6 +48,7 @@ docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keo
 echo "Deploy eosio.system contract"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
 
+# Initialize testnet chain
 echo "Creating EOS Token"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 push action eosio.token create '[ "eosio", "200000000.0000 EOS"]' -p eosio.token@active
 
@@ -72,6 +75,8 @@ docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keo
 
 echo "Stake EOS for eosio"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 system delegatebw eosio eosio "90000000.0000 EOS" "90000000.0000 EOS"
+
+# Setup producers
 
 echo "Creating producer1 account"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 system newaccount eosio producer1 EOS7UCtmjUzkS8hUuRdrFoPqyg4U3CK9gQ5rGpuAoaXuVz4rfrian EOS7UCtmjUzkS8hUuRdrFoPqyg4U3CK9gQ5rGpuAoaXuVz4rfrian --stake-net "100.0000 EOS" --stake-cpu "100.0000 EOS" --buy-ram "100.0000 EOS"
