@@ -35,6 +35,8 @@ docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keo
 echo "Create eosio.rex user"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 create account eosio eosio.rex EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
+sleep 1
+
 # Deploy blockchain smart contracts
 echo "Deploy eosio.bios contract"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.bios/ eosio.bios.wasm eosio.bios.abi -p eosio@active
