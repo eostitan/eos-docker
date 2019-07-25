@@ -12,4 +12,4 @@ RUN curl -LO https://github.com/EOSIO/eosio.cdt/archive/v1.6.1.tar.gz && tar -xv
 
 RUN git clone https://github.com/eosio/eosio.contracts /eosio.contracts
 
-RUN cd /eosio.contracts/ && git checkout v1.6.1 && mkdir build && cd build && cmake .. && make contracts_project --debug=j
+RUN cd /eosio.contracts/ && git checkout v1.7 && mkdir build && cd build && cmake .. && make contracts_project --debug=j
