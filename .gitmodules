@@ -1,0 +1,3 @@
+[submodule "contracts/delphioracle"]
+	path = contracts/delphioracle
+	url = https://github.com/eostitan/delphioracle
