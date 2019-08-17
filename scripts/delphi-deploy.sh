@@ -11,7 +11,7 @@ echo "Add eosio.code permission to delphioracle"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set account permission delphioracle active --add-code
 
 echo "Deploy delphioracle contract"
-docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract delphioracle /root/contracts/delphioracle/build delphioracle.wasm delphioracle.abi -p delphioracle@active
+docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract delphioracle /root/contracts/delphioracle/build/delphioracle delphioracle.wasm delphioracle.abi -p delphioracle@active
 
 echo "Listing delphioracle code hash"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 get code delphioracle

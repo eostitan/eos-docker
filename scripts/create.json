@@ -1,0 +1,15 @@
+ {
+  "stat":{
+    "max_supply":"21000000.0000 UTX",
+    "mining_reward":"50.0000 UTX",
+    "delay_before_launch":15,
+    "mining_period_duration":60,
+    "difficulty":1,
+    "max_hash_commitment":10000,
+    "fail_to_reveal_penalty":100,
+    "difficulty_readjustment_frequency":1800,
+    "issuance_period_duration":3600,
+    "issuance_period_multiplier":"-50",
+    "issuer":"satoshighost"
+  }
+}
