@@ -1,6 +1,3 @@
 [submodule "contracts/delphioracle"]
 	path = contracts/delphioracle
 	url = https://github.com/eostitan/delphioracle
-[submodule "contracts/morphene_eos"]
-	path = contracts/morphene_eos
-	url = git@github.com:netuoso/morphene_eos
