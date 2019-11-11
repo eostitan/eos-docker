@@ -1,3 +1,7 @@
-#contracts/
+contracts/
 default.wallet
 testing/
+
+## for testing
+scripts/delphiold-deploy.sh
+scripts/delphibackup-deploy.sh
