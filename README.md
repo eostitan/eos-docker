@@ -10,10 +10,7 @@ This repository also includes the initial setup required for DelphiOracle testin
 ### Building
 - Clone this repo
 	- `git clone https://github.com/netuoso/eos-docker`
-	- `git submodule update --init --recursive`
-- Build docker image
-	- `docker build --tag eostestnet -f build-testnet.dockerfile .`
-- Start docker services
+- Start docker services (will build all images)
 	- `cd scripts`
 	- `docker-compose up -d && ./bootstrap.sh`
 - View logs of running nodeos container

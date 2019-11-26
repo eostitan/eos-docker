@@ -4,7 +4,9 @@ services:
 
   nodeos:
     container_name: nodeos
-    image: eostestnet
+    build:
+      context: .
+      dockerfile: ./Dockerfiles/build-testnet.dockerfile
     command: nodeos -e -p eosio --genesis-json /root/.local/share/eosio/nodeos/config/genesis.json --plugin eosio::producer_plugin --plugin eosio::http_plugin --plugin eosio::history_plugin --plugin eosio::chain_api_plugin --plugin eosio::history_api_plugin --http-server-address=0.0.0.0:8888 --access-control-allow-origin=* --contracts-console --http-validate-host=false --filter-on="*"
     stop_grace_period: 3m0s
     volumes:
@@ -20,7 +22,9 @@ services:
   keosd:
     container_name: keosd
     hostname: keosd
-    image: eostestnet
+    build:
+      context: .
+      dockerfile: ./Dockerfiles/build-testnet.dockerfile
     command: keosd --http-server-address=0.0.0.0:8901 --http-validate-host 0 --verbose-http-errors --unlock-timeout=9999999
     volumes:
       - ./default.wallet:/root/eosio-wallet/default.wallet
@@ -28,3 +32,23 @@ services:
       - 8901
     ports:
       - '8901:8901'
+
+  pricefeed:
+    container_name: pricefeed
+    hostname: pricefeed
+    build:
+      context: .
+      dockerfile: ./Dockerfiles/delphioracle-pricefeed.dockerfile
+    command: /bin/sh /delphioracle/scripts/update-docker.sh
+    depends_on:
+      - nodeos
+
+  writehash:
+    container_name: writehash
+    hostname: writehash
+    build:
+      context: .
+      dockerfile: ./Dockerfiles/delphioracle-rng-script.dockerfile
+    command: /bin/sh /delphioracle-rng-script/run.sh
+    depends_on:
+      - nodeos
