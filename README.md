@@ -7,14 +7,14 @@ Building and configuring an EOSIO testnet requires one to take several steps in 
 
 This repository also includes the initial setup required for DelphiOracle testing and development such as creating the `delphioracle` account, cloning the DelphiOracle repository (https://github.com/eostitan/delphioracle), building and deploying the contract, and finally configuring the contract for usage.
 
-Finally, this setup will run a default pricefeed and writehash script for properly testing the DelphiOracle. Enjoy.
+Finally, this setup will run a default pricefeed and writehash script for properly testing the DelphiOracle. Enjoy!
 
-### Building
+### Getting Started
 - Clone this repo
 	- `git clone https://github.com/netuoso/eos-docker`
 - Start docker services (will build all images)
 	- `cd scripts`
-	- `docker-compose up -d && ./bootstrap.sh`
+	- `docker-compose up -d --build --force-recreate && ./bootstrap.sh`
 - View logs of running containers
 	- `docker-compose logs -f`
 
@@ -25,6 +25,9 @@ Finally, this setup will run a default pricefeed and writehash script for proper
 - Development Accounts: `testuser`, `producer1`, `producer2`, `delphioracle`
 	- Private key: 5JUzsJi7rARZy2rT5eHhcdUKTyVPvaksnEKtNWzyiBbifJA1dUW
 	- Public key: EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy
+
+### Troubleshooting
+Sometimes the testnet will get hung attempting to deploy the system contracts. If this happens, just exit out of the process (CTRL+C) and re-run the above command for building the containers and images.
 
 ### Warning
 This software is provided as-is and with no warranty. Please use at your own risk and never use production EOSIO keypairs in development or vice versa. The provided keypairs in this repository are for development purposes only, and using them in the EOSIO mainnet can result in lost or stolen tokens. The author of this repository assumes no responsiblity for your inability to follow these instructions.

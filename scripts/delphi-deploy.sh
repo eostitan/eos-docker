@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Clone delphioracle repository"
+docker exec nodeos bash -c "git clone https://github.com/eostitan/delphioracle /root/contracts/delphioracle"
+
 echo "Build delphioracle oracle"
 docker exec nodeos bash -c "cd /root/contracts/delphioracle && make -p build && cd build && cmake .. && make"
 
