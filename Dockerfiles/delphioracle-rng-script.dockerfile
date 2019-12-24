@@ -15,4 +15,3 @@ ENV MINIMUM_CPU_PERCENT 20
 RUN cd /delphioracle-rng-script/ && git pull
 
 RUN cd /delphioracle-rng-script/ && npm install -g
-
