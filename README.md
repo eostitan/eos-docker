@@ -11,7 +11,7 @@ Finally, this setup will run a default pricefeed and writehash script for proper
 
 ### Getting Started
 - Clone this repo
-	- `git clone https://github.com/netuoso/eos-docker`
+	- `git clone https://github.com/eostitan/eos-docker`
 - Start docker services (will build all images)
 	- `cd scripts`
 	- `docker-compose up -d --build --force-recreate && ./bootstrap.sh`
