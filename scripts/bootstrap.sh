@@ -18,6 +18,9 @@ docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keo
 # echo "Create vpow.token user"
 # docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 create account eosio vpow.token EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
+# echo "Create ux.token user"
+# docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 create account eosio ux.token EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+
 echo "Create eosio.msig user"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 create account eosio eosio.msig EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
@@ -51,6 +54,8 @@ docker exec -it nodeos curl -X POST http://127.0.0.1:8888/v1/producer/schedule_p
 echo "Deploy eosio.bios contract"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.bios/ eosio.bios.wasm eosio.bios.abi -p eosio@active
 
+sleep 1
+
 # Active EOSIO network features
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 push action eosio activate '["f0af56d2c5a48d60a4a5b5c903edfb7db3a736a94ed589d0b797df33ff9d3e1d"]' -p eosio # GET_SENDER
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 push action eosio activate '["2652f5f96006294109b3dd0bbde63693f55324af452b799ee137a81a905eed25"]' -p eosio # FORWARD_SETCODE
@@ -67,13 +72,18 @@ echo "Deploy eosio.token contract"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract eosio.token /eosio.contracts/build/contracts/eosio.token/ eosio.token.wasm eosio.token.abi -p eosio.token@active
 
 # echo "Deploy vpow.token contract"
-# docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract vpow.token /root/contracts/vpowtoken/build/vpowtoken vpowtoken.wasm vpowtoken.abi -p vpow.token@active
+# docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract vpow.token /root/contracts/vpow-contract/build eosio.token.wasm eosio.token.abi -p vpow.token@active
 
-# echo "Set vpow.token eosio.code permission"
-# docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set account permission vpow.token active --add-code
+# echo "Deploy ux.token contract"
+# docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract ux.token /root/contracts/utilityx-v2/contracts/exchange/compiled utilxchange.wasm utilxchange.abi -p ux.token@active
+
+echo "Set vpow.token eosio.code permission"
+docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set account permission vpow.token active --add-code
 
 echo "Deploy eosio.msig contract"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract eosio.msig /eosio.contracts/build/contracts/eosio.msig/ eosio.msig.wasm eosio.msig.abi -p eosio.msig@active
+
+sleep 1
 
 echo "Deploy eosio.system contract"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
