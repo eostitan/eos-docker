@@ -1,6 +1,4 @@
-contracts/
-default.wallet
-testing/
-
-## for testing
-scripts/ignore
+eosio/contracts/
+eosio/default.wallet
+eosio/testing/
+eosio/scripts/ignore

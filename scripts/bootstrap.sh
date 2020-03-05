@@ -1,15 +1,24 @@
 #!/bin/bash
 
-echo "Create development wallet"
-docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet create -n development -f /root/contracts/walletpw.txt
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-echo "Unlock development wallet"
-docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet open -n development
-docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet unlock -n development --password $(cat ../contracts/walletpw.txt)
+if [ `docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet list |grep development|wc -l` -lt 1 ]
+then
+  echo "Create development wallet"
+  docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet create -n development -f /root/contracts/walletpw.txt
 
-echo "Import development keys to wallet"
-docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet import -n development --private-key 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
-docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet import -n development --private-key 5JUzsJi7rARZy2rT5eHhcdUKTyVPvaksnEKtNWzyiBbifJA1dUW
+  echo "Unlock development wallet"
+  docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet open -n development
+  docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet unlock -n development --password $(cat ${DIR}/../eosio/contracts/walletpw.txt)
+
+  echo "Import development keys to wallet"
+  docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet import -n development --private-key 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
+  docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet import -n development --private-key 5JUzsJi7rARZy2rT5eHhcdUKTyVPvaksnEKtNWzyiBbifJA1dUW
+else
+  echo "Unlock development wallet"
+  docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet open -n development
+  docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet unlock -n development --password $(cat ${DIR}/../eosio/contracts/walletpw.txt)
+fi
 
 # Create blockchain accounts
 echo "Create eosio.token user"
@@ -58,7 +67,7 @@ echo "Deploy eosio.token contract"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract eosio.token /eosio.contracts/build/contracts/eosio.token/ eosio.token.wasm eosio.token.abi -p eosio.token@active
 
 # echo "Deploy vpow.token contract"
-# docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract vpow.token /root/contracts/vpow-contract/build eosio.token.wasm eosio.token.abi -p vpow.token@active
+# docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract vpow.token /root/contracts/vpow-contract/build/vpowtoken vpowtoken.wasm vpowtoken.abi -p vpow.token@active
 
 # echo "Deploy ux.exchange contract"
 # docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract ux.exchange /root/contracts/utilityx-v2/contracts/exchange/compiled utilxchange.wasm utilxchange.abi -p ux.exchange@active
@@ -84,7 +93,7 @@ docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keo
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 push action eosio activate '["1a99a59d87e06e09ec5b028a9cbb7749b4a5ad8819004365d02dc4379a8b7241"]' -p eosio # ONLY_LINK_TO_EXISTING_PERMISSION
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 push action eosio activate '["4e7bf348da00a945489b2a681749eb56f5de00b900014e137ddae39f48f69d67"]' -p eosio # RAM_RESTRICTIONS
 
-sleep 1
+sleep 5
 
 echo "Deploy eosio.system contract"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
@@ -94,7 +103,7 @@ echo "Creating EOS Token"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 push action eosio.token create '[ "eosio", "200000000.0000 EOS"]' -p eosio.token@active
 
 # echo "Creating UTX Token"
-# docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 push action vpow.token create '{"stat":{"max_supply":"21000000.0000 UTX","mining_reward":"50.0000 UTX","delay_before_launch":15,"mining_period_duration":60,"difficulty":1,"max_hash_commitment":10000,"fail_to_reveal_penalty":100,"difficulty_readjustment_frequency":1800,"issuance_period_duration":3600,"issuance_period_multiplier":"-50","issuer":"satoshighost"}}' -p vpow.token@active
+# docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 push action vpow.token create '{"issuer":"satoshighost","maximum_supply":"21000000.0000 EOS"}' -p vpow.token@active
 
 echo "Issuing EOS Token to eosio"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 push action eosio.token issue '[ "eosio", "190000000.0000 EOS", "m" ]' -p eosio@active
@@ -120,7 +129,7 @@ docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keo
 echo "Stake EOS for eosio" # We must stake enough of the EOS token to initialize the network
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 system delegatebw eosio eosio "90000000.0000 EOS" "90000000.0000 EOS"
 
-# Setup producers
+# Setup extra producers
 
 echo "Creating producer1 account"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 system newaccount eosio producer1 EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy --stake-net "100.0000 EOS" --stake-cpu "100.0000 EOS" --buy-ram "100.0000 EOS"
@@ -139,6 +148,3 @@ docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keo
 
 echo "Vote producer2 as producer"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 system voteproducer approve eosio producer2
-
-echo "Deploy DelphiOracle contract"
-bash delphi-deploy.sh

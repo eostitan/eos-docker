@@ -10,4 +10,4 @@ RUN curl -LO https://github.com/EOSIO/eosio.cdt/releases/download/v1.6.3/eosio.c
 
 RUN curl -LO https://github.com/EOSIO/eosio.contracts/archive/v1.8.3.tar.gz && tar -xzvf v1.8.3.tar.gz --one-top-level=eosio.contracts --strip-components 1
 
-RUN cd /eosio.contracts/ && mkdir build && cd build && cmake .. && make contracts_project --debug=j
+RUN cd /eosio.contracts/ && mkdir build && cd build && cmake .. && make all
