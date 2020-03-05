@@ -13,10 +13,12 @@ Finally, this setup will run a default pricefeed and writehash script for proper
 - Clone this repo
 	- `git clone https://github.com/eostitan/eos-docker`
 - Start docker services (will build all images)
-	- `cd scripts`
-	- `docker-compose up -d --build --force-recreate && ./bootstrap.sh`
+	- `cd eos-docker`
+	- `./run.sh start`
+- Bootstrap the EOSIO testnet
+	- `./run.sh bootstrap eosio`
 - View logs of running containers
-	- `docker-compose logs -f`
+	- `./run.sh logs eosio`
 
 ### EOSIO Development KeyPairs *(DO NOT USE THESE KEYS IN PRODUCTION)*
 - System Accounts: `eosio`, `eosio.token`, `eosio.msig`, `eosio.bpay`, `eosio.names`, `eosio.ram`, `eosio.ramfree`, `eosio.saving`, `eosio.stake`, `eosio.vpay`, `eosio.rex`
