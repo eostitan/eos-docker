@@ -5,12 +5,12 @@
 #
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 : ${DOCKER_DIR="$DIR/Dockerfiles"}
 : ${EOSIO_DATADIR="$DIR/eosio"}
 : ${STEEM_DATADIR="$DIR/steem"}
-
-# the tag to use when running/replaying eosio
-: ${DOCKER_IMAGE="eosio-testnet"}
+: ${EOS_DK_TAG="eostitan/eosio:latest"}
+: ${STEEM_DK_TAG="steemit/steem:latest"}
 
 BOLD="$(tput bold)"
 RED="$(tput setaf 1)"
@@ -21,10 +21,6 @@ MAGENTA="$(tput setaf 5)"
 CYAN="$(tput setaf 6)"
 WHITE="$(tput setaf 7)"
 RESET="$(tput sgr0)"
-: ${DK_TAG="eostitan/eosio:latest"}
-# Amount of time in seconds to allow the docker container to stop before killing it.
-# Default: 60 seconds (1 minutes)
-: ${STOP_TIME=60}
 
 # Placeholder for custom tag var CUST_TAG (shared between functions)
 CUST_TAG="eosio"
@@ -45,7 +41,9 @@ BUILD_VER=""
 # Steem Blockchain
 : ${STEEM_BC_FOLDER="$STEEM_DATADIR/data"}
 : ${STEEM_EXAMPLE_CONF="$STEEM_DATADIR/configs/config.ini.example"}
+: ${STEEM_EXAMPLE_WALLET="$STEEM_DATADIR/configs/wallet.json.example"}
 : ${STEEM_CONF_FILE="$STEEM_DATADIR/data/config.ini"}
+: ${STEEM_WALLET_FILE="$STEEM_DATADIR/data/wallet.json"}
 # Git repository to use when building Steem - containing steemd code
 : ${STEEM_SOURCE="https://github.com/steemit/steem.git"}
 
@@ -92,15 +90,28 @@ fi
 # if the steem config file doesn't exist, try copying the example config
 if [[ ! -f "$STEEM_CONF_FILE" ]]; then
     if [[ -f "$STEEM_EXAMPLE_CONF" ]]; then
-        echo "${YELLOW}File config.ini not found. copying example (seed)${RESET}"
+        echo "${YELLOW}File config.ini not found. copying example (steem)${RESET}"
         cp -vi "$STEEM_EXAMPLE_CONF" "$STEEM_CONF_FILE" 
-        echo "${GREEN} > Successfully installed example config for seed node.${RESET}"
+        echo "${GREEN} > Successfully installed example config for steem node.${RESET}"
         echo " > You may want to adjust this if you're running a witness"
     else
         echo "${YELLOW}WARNING: You don't seem to have a config file and the example config couldn't be found...${RESET}"
         echo "${YELLOW}${BOLD}You may want to check these files exist, or you won't be able to launch Steem${RESET}"
         echo "Example Config: $STEEM_EXAMPLE_CONF"
         echo "Main Config: $STEEM_CONF_FILE"
+    fi
+fi
+
+# if the steem wallet file doesn't exist, try copying the example wallet
+if [[ ! -f "$STEEM_WALLET_FILE" ]]; then
+    if [[ -f "$STEEM_EXAMPLE_WALLET" ]]; then
+        echo "${YELLOW}File wallet.json not found. copying example (steem)${RESET}"
+        cp -vi "$STEEM_EXAMPLE_WALLET" "$STEEM_WALLET_FILE" 
+        echo "${GREEN} > Successfully installed example wallet for steem node.${RESET}"
+    else
+        echo "${YELLOW}WARNING: You don't seem to have a wallet file and the example wallet couldn't be found...${RESET}"
+        echo "Example Wallet: $STEEM_EXAMPLE_WALLET"
+        echo "Main Wallet: $STEEM_WALLET_FILE"
     fi
 fi
 
@@ -176,17 +187,16 @@ build() {
     cd "$DOCKER_DIR"
     case $1 in
       eosio)
-        docker-compose build
+        docker-compose build keosd nodeos pricefeed writehash
         ;;
       steem)
-        msg bold red " !!! Not Yet Implemented"
-        (exit 1)
+        docker-compose build steem
         ;;
     esac
     ret=$?
     if (( $ret == 0 )); then
         msg bold green " +++ Successfully built EOSIO Testnet images"
-        msg green " +++ Docker tag: ${DOCKER_IMAGE}"
+        msg green " +++ Docker tag: $1"
     else
         msg bold red " !!! ERROR: Something went wrong during the build process."
         msg red " !!! Please scroll up and check for any error output during the build."
@@ -229,6 +239,7 @@ bootstrap() {
   esac
 }
 
+### EOSIO Only
 # Usage: ./run.sh deploy [network] [contract]
 # Deploy specified contract to network
 #
@@ -253,6 +264,7 @@ deploy() {
     fi
 }
 
+### EOSIO Only
 # Usage: ./run.sh cleos [comamnd]
 # Run a cleos command
 #
@@ -314,52 +326,72 @@ wallet_running() {
     fi
 }
 
+# Internal Use Only
+# Checks if the container main container exists and is running. Returns 0 if it does, -1 if not.
+#
+steem_running() {
+    ret=$(docker ps -f 'status=running' -f name="nodeos" | wc -l)
+    if [[ $ret -eq 2 ]]; then
+        return 0
+    else
+        return -1
+    fi
+}
+
+# Internal Use Only
+# Checks if the container wallet container exists and is running. Returns 0 if it does, -1 if not.
+#
+steem_exists() {
+  ret=$(docker ps -a -f name="steem" | wc -l)
+  if [[ $ret -eq 2 ]]; then
+      return 0
+  else
+      return -1
+  fi
+}
+
 # Usage: ./run.sh start
 # Creates and/or starts the Steem docker container
 start() {
     msg bold green " -> Starting container(s) ${1}..."
-    main_exists
     cd "$DOCKER_DIR"
-    if [[ "$#" -ge 1 ]]; then
-      docker-compose up -d $1
-    else
-      docker-compose up -d
-    fi
+    case $1 in
+        eosio)
+            docker-compose up -d nodeos keosd pricefeed writehash
+            ;;
+        steem)
+            docker-compose up -d steem
+            ;;
+        *)
+            docker-compose up -d $1
+            ;;
+    esac
 }
 
 # Usage: ./run.sh stop
 # Stops the Steem container, and removes the container to avoid any leftover
-# configuration, e.g. replay command line options
 #
 stop() {
     msg "If you don't care about a clean stop, you can force stop the container with ${BOLD}./run.sh kill"
-    msg red "Stopping network ${1} ... (allowing up to ${STOP_TIME} seconds before killing)..."
-    main_exists
+    msg red "Stopping network ..."
     cd "$DOCKER_DIR"
-    if [[ "$#" -ge 1 ]]; then
-      docker-compose down $1
-    else
-      docker-compose down
-    fi
+    case $1 in
+        eosio)
+            docker-compose rm -sf nodeos keosd pricefeed writehash
+            ;;
+        steem)
+            docker-compose rm -sf steem
+            ;;
+        *)
+            docker-compose rm -sf $1
+            ;;
+    esac
 }
 
 sbkill() {
     msg bold red "Killing network '${1}'..."
-    main_exists
-    if [[ "$#" -ge 1 ]]; then
-        cd "$DOCKER_DIR"
-        case $1 in
-          eosio)
-            docker-compose down -t 1 $2
-            ;;
-          steem)
-            docker run -v "$DATADIR":/steem -d --name $DOCKER_NAME -t "$DOCKER_IMAGE" steemd --data-dir=/steem/witness_node_data_dir
-            ;;
-          *)
-            msg red Unrecognized network name. Use [eosio/steem]
-            ;;
-        esac
-    fi
+    cd "$DOCKER_DIR"
+    docker-compose down -t 1 $1
 }
 
 # Usage: ./run.sh enter
@@ -377,10 +409,10 @@ enter() {
 shell() {
   case $1 in
     eosio)
-      docker run -v "$EOSIO_DATADIR":/eosio-data --rm -it "eosio-testnet" bash
+      docker run -v "$EOSIO_DATADIR/data":/eosio-data --rm -it "eosio-testnet" bash
       ;;
     steem)
-      docker run -v "$STEEM_DATADIR":/steemd-data --rm -it "steem-testnet" bash
+      docker run -v "$STEEM_DATADIR/data":/steemd-data --rm -it "steemit/steem:latest" bash
       ;;
     *)
       msg bold red "Unrecognized network name. Use [eosio/steem]"
@@ -393,7 +425,17 @@ shell() {
 # connects to the local steemd over websockets on port 8090
 #
 wallet() {
-    docker exec -it "keosd" cleos wallet -u http://nodeos:8888 $@
+    case $1 in
+        eosio)
+            docker exec -it "keosd" cleos wallet -u http://nodeos:8888 $@
+            ;;
+        steem)
+            docker exec -it "steem" /usr/local/steemd-testnet/bin/cli_wallet -w /steemd-data/wallet.json $@
+            ;;
+        *)
+            msg bold red "Unrecognized network name. Use [eosio/steem]"
+            ;;
+    esac
 }
 
 # Usage: ./run.sh logs
@@ -401,19 +443,8 @@ wallet() {
 #
 logs() {
     msg blue "DOCKER LOGS: (press ctrl-c to exit) "
-    main_exists
     cd "$DOCKER_DIR"
-    case $1 in
-      eosio)
-        docker-compose logs -f --tail 30 $2
-        ;;
-      steem)
-        msg red "Not implemented"
-        ;;
-      *)
-        msg bold red "Unrecognized network name. Use [eosio/steem]"
-        ;;
-    esac
+    docker-compose logs -f --tail 30 $1
 }
 
 # Usage: ./run.sh status
@@ -423,34 +454,52 @@ status() {
     echo "${BOLD}${BLUE}========= EOSIO =========${RESET}"
 
     if main_exists; then
-        echo "EOSIO Main exists?: "$GREEN"YES"$RESET
+        echo "Main exists?: "$GREEN"YES"$RESET
     else
-        echo "EOSIO Main exists?: "$RED"NO (!)"$RESET 
-        echo "EOSIO Main doesn't exist, thus it is NOT running. Run '$0 build && $0 start'"$RESET
+        echo "Main exists?: "$RED"NO (!)"$RESET 
+        echo "Main doesn't exist, thus it is NOT running. Run '$0 start eosio'"$RESET
         return
     fi
 
     if main_running; then
-        echo "EOSIO Main running?: "$GREEN"YES"$RESET
+        echo "Main running?: "$GREEN"YES"$RESET
     else
-        echo "EOSIO Main running?: "$RED"NO (!)"$RESET
-        echo "EOSIO Main isn't running. Start it with '$0 start nodeos'"$RESET
+        echo "Main running?: "$RED"NO (!)"$RESET
+        echo "Main isn't running. Start it with '$0 start nodeos'"$RESET
         return
     fi
 
     if wallet_exists; then
-        echo "EOSIO Wallet exists?: "$GREEN"YES"$RESET
+        echo "Wallet exists?: "$GREEN"YES"$RESET
     else
-        echo "EOSIO Wallet exists?: "$RED"NO (!)"$RESET 
-        echo "EOSIO Wallet doesn't exist, thus it is NOT running. Run '$0 build && $0 start'"$RESET
+        echo "Wallet exists?: "$RED"NO (!)"$RESET 
+        echo "Wallet doesn't exist, thus it is NOT running. Run '$0 start eosio'"$RESET
         return
     fi
 
     if wallet_running; then
-        echo "EOSIO Wallet running?: "$GREEN"YES"$RESET
+        echo "Wallet running?: "$GREEN"YES"$RESET
     else
-        echo "EOSIO Wallet running?: "$RED"NO (!)"$RESET
-        echo "EOSIO Wallet isn't running. Start it with '$0 start keosd'"$RESET
+        echo "Wallet running?: "$RED"NO (!)"$RESET
+        echo "Wallet isn't running. Start it with '$0 start keosd'"$RESET
+        return
+    fi
+
+    if steem_running; then
+        echo "Wallet running?: "$GREEN"YES"$RESET
+    else
+        echo "Wallet running?: "$RED"NO (!)"$RESET
+        echo "Wallet isn't running. Start it with '$0 start keosd'"$RESET
+        return
+    fi
+
+    echo "${BOLD}${BLUE}========= Steem =========${RESET}"
+
+    if steem_exists; then
+        echo "Wallet exists?: "$GREEN"YES"$RESET
+    else
+        echo "Wallet exists?: "$RED"NO (!)"$RESET 
+        echo "Wallet doesn't exist, thus it is NOT running. Run '$0 start eosio'"$RESET
         return
     fi
 
@@ -544,8 +593,8 @@ ver() {
 #     ./run.sh clean
 #
 sb_clean() {
-    bc_dir="${DATADIR}/data/blockchain"
-    p2p_dir="${DATADIR}/data/p2p"
+    bc_dir="${STEEM_DATADIR}/data/blockchain"
+    p2p_dir="${STEEM_DATADIR}/data/p2p"
     
     # To prevent the risk of glob problems due to non-existant folders,
     # we re-create them silently before we touch them.
@@ -593,14 +642,14 @@ case $1 in
         sbkill "${@:2}"
         ;;
     restart)
-        stop
+        stop "${@:2}"
         sleep 5
-        start
+        start "${@:2}"
         ;;
     rebuild)
         stop
         sleep 5
-        build
+        build "${@:2}" true
         start
         ;;
     clean)
