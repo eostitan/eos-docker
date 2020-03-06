@@ -5,11 +5,11 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 if [ `docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet list |grep development|wc -l` -lt 1 ]
 then
   echo "Create development wallet"
-  docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet create -n development -f /root/contracts/walletpw.txt
+  docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet create -n development -f /eosio-data/walletpw.txt
 
   echo "Unlock development wallet"
   docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet open -n development
-  docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet unlock -n development --password $(cat ${DIR}/../eosio/contracts/walletpw.txt)
+  docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet unlock -n development --password $(cat ${DIR}/../data/walletpw.txt)
 
   echo "Import development keys to wallet"
   docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet import -n development --private-key 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
@@ -17,7 +17,7 @@ then
 else
   echo "Unlock development wallet"
   docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet open -n development
-  docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet unlock -n development --password $(cat ${DIR}/../eosio/contracts/walletpw.txt)
+  docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 wallet unlock -n development --password $(cat ${DIR}/../data/walletpw.txt)
 fi
 
 # Create blockchain accounts

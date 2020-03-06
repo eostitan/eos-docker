@@ -9,15 +9,13 @@ services:
       context: .
       dockerfile: build-eosio-testnet.dockerfile
     image: eosio-testnet:latest
-    command: nodeos --config-dir /root/.local/share/eosio/nodeos/config/ --config config.ini --logconf /root/.local/share/eosio/nodeos/config/logging.json --genesis-json /root/.local/share/eosio/nodeos/config/genesis.json
+    command: nodeos --data-dir /eosio-data --config-dir /eosio-data --config config.ini --logconf /eosio-data/logging.json --genesis-json /eosio-data/genesis.json
     stop_grace_period: 1m0s
     networks:
       - testnet
     volumes:
+      - ../eosio/data/:/eosio-data
       - ../eosio/contracts/:/root/contracts
-      - ../eosio/data/logging.json:/root/.local/share/eosio/nodeos/config/logging.json
-      - ../eosio/data/genesis.json:/root/.local/share/eosio/nodeos/config/genesis.json
-      - ../eosio/data/config.ini:/root/.local/share/eosio/nodeos/config/config.ini
     ports:
       - '8888:8888'
     depends_on:
@@ -34,7 +32,7 @@ services:
     networks:
       - testnet
     volumes:
-      - ../eosio/data/default.wallet:/root/eosio-wallet/default.wallet
+      - ../eosio/data/:/eosio-data/default.wallet
     expose:
       - 8901
     ports:

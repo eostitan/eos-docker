@@ -1,6 +1,5 @@
-eosio/data/
+eosio/data/*
 eosio/contracts/
-eosio/default.wallet
 eosio/testing/
 eosio/scripts/ignore
 

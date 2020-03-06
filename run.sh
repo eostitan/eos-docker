@@ -228,7 +228,7 @@ bootstrap() {
     eosio)
       cd "$DIR"
       msg yellow build $1 $2
-      bash -c "./scripts/bootstrap.sh $2"
+      bash -c "./eosio/scripts/bootstrap.sh $2"
       ;;
     steem)
       msg red Not yet implemented
@@ -593,23 +593,46 @@ ver() {
 #     ./run.sh clean
 #
 sb_clean() {
-    bc_dir="${STEEM_DATADIR}/data/blockchain"
-    p2p_dir="${STEEM_DATADIR}/data/p2p"
-    
-    # To prevent the risk of glob problems due to non-existant folders,
-    # we re-create them silently before we touch them.
-    mkdir -p "$bc_dir" "$p2p_dir" &> /dev/null
+    ebc_dir="${EOSIO_DATADIR}/data/blocks"
+    ep2p_dir="${EOSIO_DATADIR}/data/p2p"
+    estate_dir="${EOSIO_DATADIR}/data/state"
 
-    msg yellow " :: Blockchain:           $bc_dir"
-    msg yellow " :: P2P files:            $p2p_dir"
-    msg
-    
+    sbc_dir="${STEEM_DATADIR}/data/blockchain"
+    sp2p_dir="${STEEM_DATADIR}/data/p2p"
+
     msg bold red " !!! Clearing testnet data..."
-    rm -rfv "$bc_dir"/*
-    rm -rfv "$p2p_dir"/*
-    mkdir -p "$bc_dir" "$p2p_dir" &> /dev/null
-    msg bold green " +++ Cleared testnet data"
+    case $1 in
+        eosio)
+            msg yellow " :: Blockchain:           $ebc_dir"
+            msg yellow " :: P2P files:            $ep2p_dir"
+            msg yellow " :: State files:          $estate_dir"
+            msg
 
+            # To prevent the risk of glob problems due to non-existant folders,
+            # we re-create them silently before we touch them.
+            mkdir -p "$ebc_dir" "$ep2p_dir" "$estate_dir" &> /dev/null
+            rm -rfv "$ebc_dir"/*
+            rm -rfv "$ep2p_dir"/*
+            rm -rfv "$estate_dir"/*
+            mkdir -p "$ebc_dir" "$ep2p_dir" "$estate_dir" &> /dev/null
+            ;;
+        steem)
+            msg yellow " :: Blockchain:           $sbc_dir"
+            msg yellow " :: P2P files:            $sp2p_dir"
+            msg
+
+            # To prevent the risk of glob problems due to non-existant folders,
+            # we re-create them silently before we touch them.
+            mkdir -p "$sbc_dir" "$sp2p_dir" &> /dev/null
+            rm -rfv "$sbc_dir"/*
+            rm -rfv "$sp2p_dir"/*
+            mkdir -p "$sbc_dir" "$sp2p_dir" &> /dev/null
+            ;;
+        *)
+            msg bold red "Unrecognized network name. Use [eosio/steem]"
+            ;;
+    esac
+    msg bold green " +++ Cleared testnet data"
 }
 
 if [ "$#" -lt 1 ]; then
