@@ -7,8 +7,8 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 : ${DOCKER_DIR="$DIR/Dockerfiles"}
-: ${EOSIO_DATADIR="$DIR/eosio"}
-: ${STEEM_DATADIR="$DIR/steem"}
+: ${EOSIO_DATADIR="$DIR/networks/eosio"}
+: ${STEEM_DATADIR="$DIR/networks/steem"}
 : ${EOS_DK_TAG="eostitan/eosio:latest"}
 : ${STEEM_DK_TAG="steemit/steem:latest"}
 
@@ -407,14 +407,11 @@ start() {
     msg bold green " -> Starting container(s) ${1}..."
     cd "$DOCKER_DIR"
     case $1 in
-        eosio)
-            docker-compose up -d nodeos keosd pricefeed writehash
-            ;;
-        steem)
-            docker-compose up -d steem steem-wallet
+        eosio|steem)
+            docker-compose -f docker-compose-"$1".yml up -d $2
             ;;
         *)
-            docker-compose up -d $1
+            msg red "Network not recognized: [eosio|steem]"
             ;;
     esac
 }
@@ -427,14 +424,11 @@ stop() {
     msg red "Stopping network ..."
     cd "$DOCKER_DIR"
     case $1 in
-        eosio)
-            docker-compose rm -sf nodeos keosd pricefeed writehash
-            ;;
-        steem)
-            docker-compose rm -sf steem steem-wallet
+        eosio|steem)
+            docker-compose -f docker-compose-"$1".yml rm -sf $2
             ;;
         *)
-            docker-compose rm -sf $1
+            msg red "Network not recognized: [eosio|steem]"
             ;;
     esac
 }

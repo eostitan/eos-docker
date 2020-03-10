@@ -1,8 +1,8 @@
-eosio/data/*
-eosio/contracts/
-eosio/testing/
-eosio/scripts/ignore
+networks/eosio/data/*
+networks/eosio/contracts/*
+networks/eosio/testing/
+networks/eosio/scripts/ignore
 
-steem/data/*
+networks/steem/data/*
 
 node_modules/*

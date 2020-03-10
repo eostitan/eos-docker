@@ -14,8 +14,8 @@ services:
     networks:
       - testnet
     volumes:
-      - ../eosio/data/:/eosio-data
-      - ../eosio/contracts/:/root/contracts
+      - ../networks/eosio/data/:/eosio-data
+      - ../networks/eosio/contracts/:/root/contracts
     ports:
       - '8888:8888'
     depends_on:
@@ -32,7 +32,7 @@ services:
     networks:
       - testnet
     volumes:
-      - ../eosio/data/:/eosio-data/default.wallet
+      - ../networks/eosio/data/:/eosio-data/default.wallet
     ports:
       - '8901:8901'
 
@@ -87,32 +87,6 @@ services:
       - testnet
     depends_on:
       - nodeos
-
-  steem:
-    container_name: steem
-    hostname: steem
-    image: steemit/steem:latest
-    command: /usr/local/steemd-testnet/bin/steemd --data-dir /steemd-data
-    volumes:
-      - ../steem/data/:/steemd-data
-    ports:
-      - '8090:8090'
-    restart: always
-    networks:
-      - testnet
-
-  steem-wallet:
-    container_name: steem-wallet
-    hostname: steem-wallet
-    image: steemit/steem:latest
-    command: /usr/local/steemd-testnet/bin/cli_wallet -w /steemd-data/wallet.json -d -s ws://steem:8090 -H 0.0.0.0:8091 --rpc-http-allowip 172.17.0.1 --rpc-http-allowip 172.28.0.1
-    volumes:
-      - ../steem/data/:/steemd-data
-    ports:
-      - '8091:8091'
-    restart: always
-    networks:
-      - testnet
 
 networks:
   testnet:
