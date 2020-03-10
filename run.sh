@@ -170,6 +170,7 @@ help() {
     wallet - open wallet in the container
     enter - enter a bash session in the currently running container
     shell - launch the eosio container with appropriate mounts, then open bash for inspection
+    unittest - run unit tests on the blockchain
     "
     echo
     exit
@@ -178,7 +179,7 @@ help() {
 # Usage: ./run.sh build [network]
 # Build the docker images for specified network
 #
-#   network - specify which network to build network for [eosio/steem]
+#   network - specify which network to build network for [eosio|steem]
 #
 build() {
     fmm="EOSIO Testnet"
@@ -221,36 +222,38 @@ install_docker() {
 # Usage: ./run.sh bootstrap [network]
 # Bootstraps the testnet
 #
-#   network - specify which network to build container for [eosio/steem]
+#   network - specify which network to build container for [eosio|steem]
 #
 bootstrap() {
   case $1 in
-    eosio)
+    eosio|steem)
       cd "$DIR"
-      msg yellow build $1 $2
-      bash -c "./eosio/scripts/bootstrap.sh $2"
-      ;;
-    steem)
-      msg red Not yet implemented
+      msg yellow bootstrap $1
+      bash -c "./$1/scripts/bootstrap.sh $2"
       ;;
     *)
-      msg bold red "Unknown docker image use [eosio/steem]"
+      msg bold red "Unknown docker image use [eosio|steem]"
       ;;
   esac
 }
 
 ### EOSIO Only
-# Usage: ./run.sh deploy [network] [contract]
+# Usage: ./run.sh deploy [contract]
 # Deploy specified contract to network
 #
-#   network - specify which network to build container for [eosio/steem]
-#   contract - specify which contract to build and deploy
+#   contract - specify which contract to deploy
 #
 deploy() {
     if (( $# >= 1 )); then
       cd "$DIR"
       msg yellow set contract $1
       case $1 in
+        ict)
+          docker exec -it nodeos cleos --wallet-url http://keosd:8901 set contract ict /root/contracts/ict/contract/ict/build/ict/ ict.wasm ict.abi -p ict@active
+          ;;
+        vpow.token)
+          docker exec -it nodeos cleos --wallet-url http://keosd:8901 set contract vpow.token /root/contracts/vpow-contract/build/vpowtoken/ vpowtoken.wasm vpowtoken.abi -p vpow.token@active
+          ;;
         delphioracle)
           bash -c "./eosio/scripts/delphi-deploy.sh clone build deploy configure"
           ;;
@@ -258,7 +261,55 @@ deploy() {
           docker exec -it nodeos cleos --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
           ;;
         *)
-          msg red Contract not recognized
+          msg red "Contract not recognized: [ict|delphioracle|eosio.system]"
+          ;;
+      esac
+    fi
+}
+
+### EOSIO Only
+# Usage: ./run.sh initcontract [contract]
+# Initalize specified contract
+#
+#   contract - specify which contract to initcontract
+#
+initcontract() {
+    if (( $# >= 1 )); then
+      cd "$DIR"
+      msg yellow set contract $1
+      case $1 in
+        ict)
+          docker exec -it nodeos cleos --wallet-url http://keosd:8901 push action ict create '{"issuer":"ict","maximum_supply":"10000000.000 TESTS"}' -p ict@active
+          ;;
+        *)
+          msg red "Contract not recognized: [ict]"
+          ;;
+      esac
+    fi
+}
+
+### EOSIO Only
+# Usage: ./run.sh build [contract]
+# Deploy specified contract to network
+#
+#   contract - specify which contract to build
+#
+buildcontract() {
+    if (( $# >= 1 )); then
+      cd "$DIR"
+      msg yellow set contract $1
+      case $1 in
+        ict)
+          docker exec -it nodeos bash -c "cd /root/contracts/ict/contract/ict/build/ && cmake .. && make"
+          ;;
+        delphioracle)
+          bash -c "./eosio/scripts/delphi-deploy.sh clone build deploy configure"
+          ;;
+        eosio.system)
+          docker exec -it nodeos cleos --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
+          ;;
+        *)
+          msg red "Contract not recognized: [ict|delphioracle|eosio.system]"
           ;;
       esac
     fi
@@ -274,7 +325,7 @@ cleos() {
     if (( $# >= 1 )); then
       cd "$DIR"
       msg yellow Execute cleos command: $@
-      docker exec -it nodeos cleos --wallet-url http://keosd:8901 $@
+      docker exec -it nodeos cleos --wallet-url http://keosd:8901 "$@"
     fi
 }
 
@@ -360,7 +411,7 @@ start() {
             docker-compose up -d nodeos keosd pricefeed writehash
             ;;
         steem)
-            docker-compose up -d steem
+            docker-compose up -d steem steem-wallet
             ;;
         *)
             docker-compose up -d $1
@@ -380,7 +431,7 @@ stop() {
             docker-compose rm -sf nodeos keosd pricefeed writehash
             ;;
         steem)
-            docker-compose rm -sf steem
+            docker-compose rm -sf steem steem-wallet
             ;;
         *)
             docker-compose rm -sf $1
@@ -415,7 +466,7 @@ shell() {
       docker run -v "$STEEM_DATADIR/data":/steemd-data --rm -it "steemit/steem:latest" bash
       ;;
     *)
-      msg bold red "Unrecognized network name. Use [eosio/steem]"
+      msg bold red "Unrecognized network name. Use [eosio|steem]"
       ;;
     esac
 }
@@ -432,8 +483,11 @@ wallet() {
         steem)
             docker exec -it "steem" /usr/local/steemd-testnet/bin/cli_wallet -w /steemd-data/wallet.json $@
             ;;
+        true) # used for Steem only
+            docker exec "steem" /usr/local/steemd-testnet/bin/cli_wallet -w /steemd-data/wallet.json $@
+            ;;
         *)
-            msg bold red "Unrecognized network name. Use [eosio/steem]"
+            msg bold red "Unrecognized network name. Use [eosio|steem]"
             ;;
     esac
 }
@@ -444,7 +498,7 @@ wallet() {
 logs() {
     msg blue "DOCKER LOGS: (press ctrl-c to exit) "
     cd "$DOCKER_DIR"
-    docker-compose logs -f --tail 30 $1
+    docker-compose logs -f --tail 30 $@
 }
 
 # Usage: ./run.sh status
@@ -603,6 +657,7 @@ sb_clean() {
     msg bold red " !!! Clearing testnet data..."
     case $1 in
         eosio)
+            msg yellow " ::::::::::::: EOSIO :::::::::::::"
             msg yellow " :: Blockchain:           $ebc_dir"
             msg yellow " :: P2P files:            $ep2p_dir"
             msg yellow " :: State files:          $estate_dir"
@@ -617,6 +672,34 @@ sb_clean() {
             mkdir -p "$ebc_dir" "$ep2p_dir" "$estate_dir" &> /dev/null
             ;;
         steem)
+            msg yellow " ::::::::::::: STEEM :::::::::::::"
+            msg yellow " :: Blockchain:           $sbc_dir"
+            msg yellow " :: P2P files:            $sp2p_dir"
+            msg
+
+            # To prevent the risk of glob problems due to non-existant folders,
+            # we re-create them silently before we touch them.
+            mkdir -p "$sbc_dir" "$sp2p_dir" &> /dev/null
+            rm -rfv "$sbc_dir"/*
+            rm -rfv "$sp2p_dir"/*
+            mkdir -p "$sbc_dir" "$sp2p_dir" &> /dev/null
+            ;;
+        all)
+            msg yellow " ::::::::::::: EOSIO :::::::::::::"
+            msg yellow " :: Blockchain:           $ebc_dir"
+            msg yellow " :: P2P files:            $ep2p_dir"
+            msg yellow " :: State files:          $estate_dir"
+            msg
+
+            # To prevent the risk of glob problems due to non-existant folders,
+            # we re-create them silently before we touch them.
+            mkdir -p "$ebc_dir" "$ep2p_dir" "$estate_dir" &> /dev/null
+            rm -rfv "$ebc_dir"/*
+            rm -rfv "$ep2p_dir"/*
+            rm -rfv "$estate_dir"/*
+            mkdir -p "$ebc_dir" "$ep2p_dir" "$estate_dir" &> /dev/null
+
+            msg yellow " ::::::::::::: STEEM :::::::::::::"
             msg yellow " :: Blockchain:           $sbc_dir"
             msg yellow " :: P2P files:            $sp2p_dir"
             msg
@@ -629,7 +712,7 @@ sb_clean() {
             mkdir -p "$sbc_dir" "$sp2p_dir" &> /dev/null
             ;;
         *)
-            msg bold red "Unrecognized network name. Use [eosio/steem]"
+            msg bold red "Unrecognized network name. Use [eosio|steem]"
             ;;
     esac
     msg bold green " +++ Cleared testnet data"
@@ -643,11 +726,17 @@ case $1 in
     build)
         build "${@:2}"
         ;;
+    buildcontract)
+        buildcontract "${@:2}"
+        ;;
     bootstrap)
         bootstrap "${@:2}"
         ;;
     deploy)
         deploy "${@:2}"
+        ;;
+    initcontract)
+        initcontract "${@:2}"
         ;;
     cleos)
         cleos "${@:2}"
@@ -684,17 +773,26 @@ case $1 in
     wallet)
         wallet "${@:2}"
         ;;
+    wallet_cmd)
+        wallet true "${@:2}"
+        ;;
     enter)
         enter "${@:2}"
         ;;
     shell)
         shell "${@:2}"
         ;;
+    unittest)
+        msg red "not yet implemented: unittest"
+        ;;
     logs)
         logs "${@:2}"
         ;;
     ver|version)
         ver
+        ;;
+    help)
+        help
         ;;
     *)
         msg red 'error'

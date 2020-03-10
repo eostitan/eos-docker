@@ -33,8 +33,6 @@ services:
       - testnet
     volumes:
       - ../eosio/data/:/eosio-data/default.wallet
-    expose:
-      - 8901
     ports:
       - '8901:8901'
 
@@ -97,6 +95,22 @@ services:
     command: /usr/local/steemd-testnet/bin/steemd --data-dir /steemd-data
     volumes:
       - ../steem/data/:/steemd-data
+    ports:
+      - '8090:8090'
+    restart: always
+    networks:
+      - testnet
+
+  steem-wallet:
+    container_name: steem-wallet
+    hostname: steem-wallet
+    image: steemit/steem:latest
+    command: /usr/local/steemd-testnet/bin/cli_wallet -w /steemd-data/wallet.json -d -s ws://steem:8090 -H 0.0.0.0:8091 --rpc-http-allowip 172.17.0.1 --rpc-http-allowip 172.28.0.1
+    volumes:
+      - ../steem/data/:/steemd-data
+    ports:
+      - '8091:8091'
+    restart: always
     networks:
       - testnet
 
