@@ -229,7 +229,7 @@ bootstrap() {
     eosio|steem)
       cd "$DIR"
       msg yellow bootstrap $1
-      bash -c "./$1/scripts/bootstrap.sh $2"
+      bash -c "./networks/$1/scripts/bootstrap.sh $2"
       ;;
     *)
       msg bold red "Unknown docker image use [eosio|steem]"
@@ -255,7 +255,7 @@ deploy() {
           docker exec -it nodeos cleos --wallet-url http://keosd:8901 set contract vpow.token /root/contracts/vpow-contract/build/vpowtoken/ vpowtoken.wasm vpowtoken.abi -p vpow.token@active
           ;;
         delphioracle)
-          bash -c "./eosio/scripts/delphi-deploy.sh clone build deploy configure"
+          bash -c "$EOSIO_DATADIR/scripts/delphi-deploy.sh clone build deploy configure"
           ;;
         eosio.system)
           docker exec -it nodeos cleos --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
@@ -303,7 +303,7 @@ buildcontract() {
           docker exec -it nodeos bash -c "cd /root/contracts/ict/contract/ict/build/ && cmake .. && make"
           ;;
         delphioracle)
-          bash -c "./eosio/scripts/delphi-deploy.sh clone build deploy configure"
+          bash -c "$EOSIO_DATADIR/scripts/delphi-deploy.sh clone build deploy configure"
           ;;
         eosio.system)
           docker exec -it nodeos cleos --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
