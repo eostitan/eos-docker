@@ -84,9 +84,6 @@ docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keo
 echo "Creating EOS Token"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 push action eosio.token create '[ "eosio", "200000000.0000 EOS"]' -p eosio.token@active
 
-# echo "Creating UTX Token"
-# docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 push action vpow.token create '{"issuer":"satoshighost","maximum_supply":"21000000.0000 EOS"}' -p vpow.token@active
-
 echo "Issuing EOS Token to eosio"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 push action eosio.token issue '[ "eosio", "190000000.0000 EOS", "m" ]' -p eosio@active
 
@@ -150,3 +147,6 @@ docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keo
 
 echo "Vote producer2 as producer"
 docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 system voteproducer approve eosio producer2
+
+# echo "Creating UTX Token"
+# docker exec -it nodeos cleos --url http://127.0.0.1:8888 --wallet-url http://keosd:8901 push action vpow.token create '{"issuer":"satoshighost","maximum_supply":"21000000.0000 EOS"}' -p vpow.token@active

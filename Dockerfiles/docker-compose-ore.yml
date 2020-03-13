@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+
+  ore-main:
+    container_name: ore-main
+    hostname: ore-main
+    build:
+      context: .
+      dockerfile: build-eosio-testnet.dockerfile
+    image: eosio-testnet:latest
+    command: nodeos --data-dir /ore-data --config-dir /ore-data --config config.ini --logconf /ore-data/logging.json --genesis-json /ore-data/genesis.json
+    stop_grace_period: 1m0s
+    networks:
+      - testnet
+    volumes:
+      - ../networks/ore/data/:/ore-data
+      - ../networks/ore/contracts/:/root/contracts
+    ports:
+      - '8889:8888'
+    depends_on:
+      - ore-wallet
+
+  ore-wallet:
+    container_name: ore-wallet
+    hostname: ore-wallet
+    build:
+      context: .
+      dockerfile: build-eosio-testnet.dockerfile
+    image: eosio-testnet:latest
+    command: keosd --http-server-address=0.0.0.0:8901 --http-validate-host 0 --verbose-http-errors --unlock-timeout=9999999
+    networks:
+      - testnet
+    volumes:
+      - ../networks/ore/data/:/ore-data/
+    ports:
+      - '8902:8901'
+
+networks:
+  testnet:

@@ -1,7 +1,12 @@
-networks/eosio/data/*
-networks/eosio/contracts/*
-networks/eosio/testing/
-networks/eosio/scripts/ignore
+networks/eos/data/*
+networks/eos/contracts/*
+networks/eos/testing/
+networks/eos/scripts/ignore
+
+networks/ore/data/*
+networks/ore/contracts/*
+networks/ore/testing/
+networks/ore/scripts/ignore
 
 networks/steem/data/*
 

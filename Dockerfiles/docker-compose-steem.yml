@@ -19,7 +19,7 @@ services:
     container_name: steem-wallet
     hostname: steem-wallet
     image: steemit/steem:latest
-    command: /usr/local/steemd-testnet/bin/cli_wallet -w /steemd-data/wallet.json -d -s ws://steem:8090 -H 0.0.0.0:8091 --rpc-http-allowip 172.17.0.1 --rpc-http-allowip 172.28.0.1
+    command: /usr/local/steemd-testnet/bin/cli_wallet -w /steemd-data/wallet.json -d -s ws://steem:8090 -H 0.0.0.0:8091 --rpc-http-allowip 172.17.0.1 --rpc-http-allowip 172.18.0.1 --rpc-http-allowip 172.28.0.1
     volumes:
       - ../networks/steem/data/:/steemd-data
     ports:

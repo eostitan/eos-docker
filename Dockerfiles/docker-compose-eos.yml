@@ -2,9 +2,9 @@ version: '3'
 
 services:
 
-  nodeos:
-    container_name: nodeos
-    hostname: nodeos
+  eos-main:
+    container_name: eos-main
+    hostname: eos-main
     build:
       context: .
       dockerfile: build-eosio-testnet.dockerfile
@@ -14,16 +14,16 @@ services:
     networks:
       - testnet
     volumes:
-      - ../networks/eosio/data/:/eosio-data
-      - ../networks/eosio/contracts/:/root/contracts
+      - ../networks/eos/data/:/eosio-data
+      - ../networks/eos/contracts/:/root/contracts
     ports:
       - '8888:8888'
     depends_on:
-      - keosd
+      - eos-wallet
 
-  keosd:
-    container_name: keosd
-    hostname: keosd
+  eos-wallet:
+    container_name: eos-wallet
+    hostname: eos-wallet
     build:
       context: .
       dockerfile: build-eosio-testnet.dockerfile
@@ -32,7 +32,7 @@ services:
     networks:
       - testnet
     volumes:
-      - ../networks/eosio/data/:/eosio-data/default.wallet
+      - ../networks/eos/data/:/eosio-data/
     ports:
       - '8901:8901'
 
@@ -46,7 +46,7 @@ services:
     command: /bin/sh /delphioracle/scripts/update-docker.sh
     environment:
     - EOS_PROTOCOL=http
-    - EOS_HOST=nodeos
+    - EOS_HOST=eos-main
     - EOS_PORT=8888
     - EOS_CHAIN=83ce967e4a9876d2c050f859e710a58bb06f2d556843391ff28b0c1a95396402
     - EOS_KEY=5JUzsJi7rARZy2rT5eHhcdUKTyVPvaksnEKtNWzyiBbifJA1dUW
@@ -60,7 +60,7 @@ services:
     networks:
       - testnet
     depends_on:
-      - nodeos
+      - eos-main
 
   writehash:
     container_name: writehash
@@ -72,7 +72,7 @@ services:
     command: /bin/sh /delphioracle-rng-script/run.sh
     environment:
     - EOS_PROTOCOL=http
-    - EOS_HOST=nodeos
+    - EOS_HOST=eos-main
     - EOS_PORT=8888
     - EOS_CHAIN=83ce967e4a9876d2c050f859e710a58bb06f2d556843391ff28b0c1a95396402
     - EOS_KEY=5JUzsJi7rARZy2rT5eHhcdUKTyVPvaksnEKtNWzyiBbifJA1dUW
@@ -86,7 +86,7 @@ services:
     networks:
       - testnet
     depends_on:
-      - nodeos
+      - eos-main
 
 networks:
   testnet:
