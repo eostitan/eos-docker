@@ -384,7 +384,7 @@ buildcontract() {
         docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
         ;;
       ore)
-        msg green $@
+        msg red "ORE: buildcontract not yet implemented"
         ;;
       *)
         msg red "Contract not recognized: [ict|delphioracle|eosio.system]"

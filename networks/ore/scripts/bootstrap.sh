@@ -26,8 +26,7 @@ then
   exit
 fi
 
-git clone git@github.com:CryptoMechanics/aikon-system-contract $DIR/../contracts/aikon-system-contract
-git clone git@github.com:CryptoMechanics/aikon-ore-protocol $DIR/../contracts/aikon-ore-protocol
+bash $DIR/oreprotocol-deploy.sh clone build
 
 # Create blockchain accounts
 echo "Create eosio.token user"
