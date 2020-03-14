@@ -20,12 +20,6 @@ else
   docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 wallet unlock -n development --password $(cat ${DIR}/../data/walletpw.txt)
 fi
 
-if [[ ! "$(docker exec -it ore-main cleos get code eosio)" =~ "0000000000000000000000000000000000000000000000000000000000000000" ]]
-then
-  echo "It appears 'boostrap.sh' has already been executed."
-  exit
-fi
-
 bash $DIR/oreprotocol-deploy.sh clone build
 
 # Create blockchain accounts
@@ -63,6 +57,8 @@ echo "Create eosio.wrap user"
 docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 create account eosio eosio.wrap EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
 docker exec -it ore-main curl -X POST http://127.0.0.1:8888/v1/producer/schedule_protocol_feature_activations -d '{"protocol_features_to_activate": ["0ec7e080177b2c02b278d5088611686b49d739925a92d9bfcacd7fc6b74053bd"]}' | jq
+
+sleep 3
 
 # Deploy blockchain smart contracts
 echo "Deploy eosio.bios contract"
@@ -145,4 +141,3 @@ docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://o
 
 echo "Vote producer2 as producer"
 docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system voteproducer approve eosio producer2
-

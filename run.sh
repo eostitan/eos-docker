@@ -329,7 +329,7 @@ deploy() {
           bash -c "$ORE_DATADIR/scripts/delphi-deploy.sh clone build deploy configure"
           ;;
         eosio.system)
-          docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
+          docker exec -it "ore-main" cleos --wallet-url http://ore-wallet:8901 set contract eosio /root/contracts/aikon-system-contract/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
           ;;
         *)
           msg red "Contract not recognized: [ict|delphioracle|eosio.system]"
