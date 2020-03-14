@@ -20,6 +20,15 @@ else
   docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 wallet unlock -n development --password $(cat ${DIR}/../data/walletpw.txt)
 fi
 
+if [[ ! "$(docker exec -it ore-main cleos get code eosio)" =~ "0000000000000000000000000000000000000000000000000000000000000000" ]]
+then
+  echo "It appears 'boostrap.sh' has already been executed."
+  exit
+fi
+
+git clone git@github.com:CryptoMechanics/aikon-system-contract $DIR/../contracts/aikon-system-contract
+git clone git@github.com:CryptoMechanics/aikon-ore-protocol $DIR/../contracts/aikon-ore-protocol
+
 # Create blockchain accounts
 echo "Create eosio.token user"
 docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 create account eosio eosio.token EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
@@ -58,16 +67,16 @@ docker exec -it ore-main curl -X POST http://127.0.0.1:8888/v1/producer/schedule
 
 # Deploy blockchain smart contracts
 echo "Deploy eosio.bios contract"
-docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 set contract eosio /ore.contracts/build/contracts/eosio.bios/ eosio.bios.wasm eosio.bios.abi -p eosio@active
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 set contract eosio /root/contracts/aikon-system-contract/build/contracts/eosio.bios/ eosio.bios.wasm eosio.bios.abi -p eosio@active
 
 echo "Deploy eosio.token contract"
-docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 set contract eosio.token /ore.contracts/build/contracts/eosio.token/ eosio.token.wasm eosio.token.abi -p eosio.token@active
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 set contract eosio.token /root/contracts/aikon-system-contract/build/contracts/eosio.token/ eosio.token.wasm eosio.token.abi -p eosio.token@active
 
 echo "Deploy eosio.msig contract"
-docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 set contract eosio.msig /ore.contracts/build/contracts/eosio.msig/ eosio.msig.wasm eosio.msig.abi -p eosio.msig@active
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 set contract eosio.msig /root/contracts/aikon-system-contract/build/contracts/eosio.msig/ eosio.msig.wasm eosio.msig.abi -p eosio.msig@active
 
 echo "Deploy eosio.wrap contract"
-docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 set contract eosio.wrap /ore.contracts/build/contracts/eosio.wrap/ eosio.wrap.wasm eosio.wrap.abi -p eosio.wrap@active
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 set contract eosio.wrap /root/contracts/aikon-system-contract/build/contracts/eosio.wrap/ eosio.wrap.wasm eosio.wrap.abi -p eosio.wrap@active
 
 # Active EOSIO network features
 docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 push action eosio activate '["f0af56d2c5a48d60a4a5b5c903edfb7db3a736a94ed589d0b797df33ff9d3e1d"]' -p eosio # GET_SENDER
@@ -81,14 +90,18 @@ docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://o
 docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 push action eosio activate '["1a99a59d87e06e09ec5b028a9cbb7749b4a5ad8819004365d02dc4379a8b7241"]' -p eosio # ONLY_LINK_TO_EXISTING_PERMISSION
 docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 push action eosio activate '["4e7bf348da00a945489b2a681749eb56f5de00b900014e137ddae39f48f69d67"]' -p eosio # RAM_RESTRICTIONS
 
-sleep 5
-
 echo "Deploy eosio.system contract"
-docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 set contract eosio /ore.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 set contract eosio /root/contracts/aikon-system-contract/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
 
 # Initialize testnet chain
+echo "Creating SYS Token"
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 push action eosio.token create '[ "eosio", "200000000.0000 SYS"]' -p eosio.token@active
+
 echo "Creating ORE Token"
 docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 push action eosio.token create '[ "eosio", "200000000.0000 ORE"]' -p eosio.token@active
+
+echo "Issuing SYS Token to eosio"
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 push action eosio.token issue '[ "eosio", "190000000.0000 SYS", "m" ]' -p eosio@active
 
 echo "Issuing ORE Token to eosio"
 docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 push action eosio.token issue '[ "eosio", "190000000.0000 ORE", "m" ]' -p eosio@active
@@ -97,27 +110,27 @@ echo "Listing eosio balance"
 docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 get currency balance eosio.token eosio
 
 echo "Init eosio.system Contract"
-docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 push action eosio init '[0, "4,ORE"]' -p eosio@active
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 push action eosio init '[0, "4,SYS"]' -p eosio@active
 
 echo "Creating testuser account"
-docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system newaccount eosio testuser EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy --stake-net "100.0000 ORE" --stake-cpu "100.0000 ORE" --buy-ram "100.0000 ORE"
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system newaccount eosio testuser EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy --stake-net "100.0000 SYS" --stake-cpu "100.0000 SYS" --buy-ram "100.0000 SYS"
 
-echo "Issuing ORE Token to eosio"
-docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 push action eosio.token issue '[ "eosio", "10000000.0000 ORE", "m" ]' -p eosio@active
+echo "Issuing SYS Token to eosio"
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 push action eosio.token issue '[ "eosio", "10000000.0000 SYS", "m" ]' -p eosio@active
 
 echo "Listing eosio balance"
 docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 get currency balance eosio.token eosio
 
 echo "Buy RAM for eosio"
-docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system buyram eosio eosio "100.0000 ORE"
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system buyram eosio eosio "100.0000 SYS"
 
-echo "Stake ORE for eosio" # We must stake enough of the ORE token to initialize the network
-docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system delegatebw eosio eosio "90000.0000 ORE" "90000.0000 ORE"
+echo "Stake SYS for eosio" # We must stake enough of the SYS token to initialize the network
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system delegatebw eosio eosio "90000.0000 SYS" "90000.0000 SYS"
 
 # Setup extra producers
 
 echo "Creating producer1 account"
-docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system newaccount eosio producer1 EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy --stake-net "100.0000 ORE" --stake-cpu "100.0000 ORE" --buy-ram "100.0000 ORE"
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system newaccount eosio producer1 EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy --stake-net "100.0000 SYS" --stake-cpu "100.0000 SYS" --buy-ram "100.0000 SYS"
 
 echo "Register producer1 as producer"
 docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system regproducer producer1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
@@ -126,7 +139,7 @@ echo "Vote producer1 as producer"
 docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system voteproducer approve eosio producer1
 
 echo "Creating producer2 account"
-docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system newaccount eosio producer2 EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy --stake-net "100.0000 ORE" --stake-cpu "100.0000 ORE" --buy-ram "100.0000 ORE"
+docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system newaccount eosio producer2 EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy --stake-net "100.0000 SYS" --stake-cpu "100.0000 SYS" --buy-ram "100.0000 SYS"
 
 echo "Register producer2 as producer"
 docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 system regproducer producer2 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV

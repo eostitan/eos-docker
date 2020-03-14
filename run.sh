@@ -301,27 +301,45 @@ bootstrap() {
 #   contract - specify which contract to deploy
 #
 deploy() {
-  if (( $# >= 1 )); then
-    cd "$DIR"
-    msg yellow set contract $1
-    case $1 in
-      ict)
-        docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 set contract ict /root/contracts/ict/contract/ict/build/ict/ ict.wasm ict.abi -p ict@active
-        ;;
-      vpow.token)
-        docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 set contract vpow.token /root/contracts/vpow-contract/build/vpowtoken/ vpowtoken.wasm vpowtoken.abi -p vpow.token@active
-        ;;
-      delphioracle)
-        bash -c "$EOS_DATADIR/scripts/delphi-deploy.sh clone build deploy configure"
-        ;;
-      eosio.system)
-        docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
-        ;;
-      *)
-        msg red "Contract not recognized: [ict|delphioracle|eosio.system]"
-        ;;
-    esac
-  fi
+  cd "$DIR"
+  msg yellow set contract $2
+  case $1 in
+    eos)
+      case $2 in
+        ict)
+          docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 set contract ict /root/contracts/ict/contract/ict/build/ict/ ict.wasm ict.abi -p ict@active
+          ;;
+        vpow.token)
+          docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 set contract vpow.token /root/contracts/vpow-contract/build/vpowtoken/ vpowtoken.wasm vpowtoken.abi -p vpow.token@active
+          ;;
+        delphioracle)
+          bash -c "$EOS_DATADIR/scripts/delphi-deploy.sh clone build deploy configure"
+          ;;
+        eosio.system)
+          docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
+          ;;
+        *)
+          msg red "Contract not recognized: [ict|delphioracle|eosio.system]"
+          ;;
+      esac
+      ;;
+    ore)
+      case $2 in
+        delphioracle)
+          bash -c "$ORE_DATADIR/scripts/delphi-deploy.sh clone build deploy configure"
+          ;;
+        eosio.system)
+          docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
+          ;;
+        *)
+          msg red "Contract not recognized: [ict|delphioracle|eosio.system]"
+          ;;
+      esac
+      ;;
+    *)
+      msg bold red "Unsupported network. Use [eos|ore]"
+      ;;
+  esac
 }
 
 ### EOS|ORE Only
@@ -403,18 +421,18 @@ setcdt() {
     eos|ore)
       case $2 in
         v1.4.1|v1.6.3)
-          msg yellow "Activating EOSIO.CDT Version $1"
+          msg yellow "$1: Activating EOSIO.CDT Version $2"
           current=$(docker exec $1-main eosio-cpp --version)
           if [[ "$current" == *"${2:1:5}"* ]]; then
-            msg green "EOSIO.CDT version already set"
+            msg green "$1: EOSIO.CDT version already set"
             return
           fi
 
           docker exec "$1"-main bash -c "cp -rf /eosio.cdt/$2/usr/* /usr/"
-          msg yellow "Done"
+          msg yellow "$1: Done"
         ;;
         *)
-          msg red bold "Unknown CDT version. Select from [v1.4.1|v1.6.3]"
+          msg red bold "$1: Unknown CDT version. Select from [v1.4.1|v1.6.3]"
         ;;
       esac
       ;;
@@ -774,16 +792,13 @@ ver() {
 #     ./run.sh clean
 #
 sb_clean() {
-  ebc_dir="${EOS_DATADIR}/data/blocks"
-  ep2p_dir="${EOS_DATADIR}/data/p2p"
-  estate_dir="${EOS_DATADIR}/data/state"
-
-  sbc_dir="${STEEM_DATADIR}/data/blockchain"
-  sp2p_dir="${STEEM_DATADIR}/data/p2p"
-
   msg bold red " !!! Clearing testnet data..."
   case $1 in
     eos)
+      ebc_dir="${EOS_DATADIR}/data/blocks"
+      ep2p_dir="${EOS_DATADIR}/data/p2p"
+      estate_dir="${EOS_DATADIR}/data/state"
+
       msg yellow " ::::::::::::: EOS :::::::::::::"
       msg yellow " :: Blockchain:           $ebc_dir"
       msg yellow " :: P2P files:            $ep2p_dir"
@@ -798,7 +813,29 @@ sb_clean() {
       rm -rfv "$estate_dir"/*
       mkdir -p "$ebc_dir" "$ep2p_dir" "$estate_dir" &> /dev/null
       ;;
+    ore)
+      obc_dir="${ORE_DATADIR}/data/blocks"
+      op2p_dir="${ORE_DATADIR}/data/p2p"
+      ostate_dir="${ORE_DATADIR}/data/state"
+
+      msg yellow " ::::::::::::: ORE :::::::::::::"
+      msg yellow " :: Blockchain:           $obc_dir"
+      msg yellow " :: P2P files:            $op2p_dir"
+      msg yellow " :: State files:          $ostate_dir"
+      msg
+
+      # To prevent the risk of glob problems due to non-existant folders,
+      # we re-create them silently before we touch them.
+      mkdir -p "$obc_dir" "$op2p_dir" "$ostate_dir" &> /dev/null
+      rm -rfv "$obc_dir"/*
+      rm -rfv "$op2p_dir"/*
+      rm -rfv "$ostate_dir"/*
+      mkdir -p "$obc_dir" "$op2p_dir" "$ostate_dir" &> /dev/null
+      ;;
     steem)
+      sbc_dir="${STEEM_DATADIR}/data/blockchain"
+      sp2p_dir="${STEEM_DATADIR}/data/p2p"
+
       msg yellow " ::::::::::::: STEEM :::::::::::::"
       msg yellow " :: Blockchain:           $sbc_dir"
       msg yellow " :: P2P files:            $sp2p_dir"
