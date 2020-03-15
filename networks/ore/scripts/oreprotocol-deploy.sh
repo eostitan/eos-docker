@@ -12,9 +12,9 @@ do
 			;;
 		build)
 			echo "Build ore system contracts using EOSIO.CDT v1.6.3"
-			docker exec ore-main bash -c "cd /root/contracts/aikon-system-contract && make -p build && ./build.sh -e /usr/opt/eosio/1.8.9/ -c /eosio.cdt/v1.6.3/usr/"
+			docker exec ore-main bash -c "cd /root/contracts/aikon-system-contract && mkdir -p build && ./build.sh -e /usr/opt/eosio/1.8.9/ -c /eosio.cdt/v1.6.3/usr/"
 			echo "Build ore protocol contract using EOSIO.CDT v1.6.3"
-			docker exec ore-main bash -c "cd /root/contracts/aikon-ore-protocol/contracts && make -p build && ./build.sh"
+			docker exec ore-main bash -c "cd /root/contracts/aikon-ore-protocol/contracts && mkdir -p build && ./build.sh"
 			;;
 		deploy)
 			echo "Create system.ore user"
