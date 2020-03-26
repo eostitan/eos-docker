@@ -7,8 +7,10 @@ do
 	case $action in
 		clone)
 			echo "Clone ore-protocol repository"
-			git clone git@github.com:CryptoMechanics/aikon-system-contract $DIR/../contracts/aikon-system-contract
-			git clone git@github.com:CryptoMechanics/aikon-ore-protocol $DIR/../contracts/aikon-ore-protocol
+			git clone https://github.com/CryptoMechanics/aikon-system-contract $DIR/../contracts/aikon-system-contract
+			git clone https://github.com/CryptoMechanics/aikon-ore-protocol $DIR/../contracts/aikon-ore-protocol
+#			git clone git@github.com:CryptoMechanics/aikon-system-contract $DIR/../contracts/aikon-system-contract
+#			git clone git@github.com:CryptoMechanics/aikon-ore-protocol $DIR/../contracts/aikon-ore-protocol
 			;;
 		build)
 			echo "Build ore system contracts using EOSIO.CDT v1.6.3"

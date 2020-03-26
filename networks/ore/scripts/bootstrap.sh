@@ -20,8 +20,8 @@ else
   docker exec -it ore-main cleos --url http://127.0.0.1:8888 --wallet-url http://ore-wallet:8901 wallet unlock -n development --password $(cat ${DIR}/../data/walletpw.txt)
 fi
 
-bash $DIR/oreprotocol-deploy.sh build
-#bash $DIR/oreprotocol-deploy.sh clone build
+#bash $DIR/oreprotocol-deploy.sh build
+bash $DIR/oreprotocol-deploy.sh clone build
 
 # Create blockchain accounts
 echo "Create eosio.token user"
