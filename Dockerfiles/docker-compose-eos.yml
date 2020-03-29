@@ -21,6 +21,25 @@ services:
     depends_on:
       - eos-wallet
 
+  eos-main2:
+    container_name: eos-main2
+    hostname: eos-main2
+    build:
+      context: .
+      dockerfile: build-eosio-testnet.dockerfile
+    image: eosio-testnet:latest
+    command: nodeos --data-dir /eosio-data --config-dir /eosio-data --config config.ini --logconf /eosio-data/logging.json --genesis-json /eosio-data/genesis.json
+    stop_grace_period: 1m0s
+    networks:
+      - testnet
+    volumes:
+      - ../networks/eos/data2/:/eosio-data
+      - ../networks/eos/contracts/:/root/contracts
+    ports:
+      - '8889:8888'
+    depends_on:
+      - eos-wallet
+
   eos-wallet:
     container_name: eos-wallet
     hostname: eos-wallet
@@ -36,57 +55,57 @@ services:
     ports:
       - '8901:8901'
 
-  pricefeed:
-    container_name: pricefeed
-    hostname: pricefeed
-    build:
-      context: .
-      dockerfile: delphioracle.dockerfile
-    image: delphioracle:latest
-    command: /bin/sh /delphioracle/scripts/update-docker.sh
-    environment:
-    - EOS_PROTOCOL=http
-    - EOS_HOST=eos-main
-    - EOS_PORT=8888
-    - EOS_CHAIN=83ce967e4a9876d2c050f859e710a58bb06f2d556843391ff28b0c1a95396402
-    - EOS_KEY=5JUzsJi7rARZy2rT5eHhcdUKTyVPvaksnEKtNWzyiBbifJA1dUW
-    - CONTRACT=delphioracle
-    - ORACLE=producer2
-    - ORACLE_PERMISSION=active
-    - FREQ=15000
-    - ORACLE_CONTRACT=delphioracle
-    - ORACLE_NAME=producer2
-    - MINIMUM_CPU_PERCENT=20
-    networks:
-      - testnet
-    depends_on:
-      - eos-main
+  # pricefeed:
+  #   container_name: pricefeed
+  #   hostname: pricefeed
+  #   build:
+  #     context: .
+  #     dockerfile: delphioracle.dockerfile
+  #   image: delphioracle:latest
+  #   command: /bin/sh /delphioracle/scripts/update-docker.sh
+  #   environment:
+  #   - EOS_PROTOCOL=http
+  #   - EOS_HOST=eos-main
+  #   - EOS_PORT=8888
+  #   - EOS_CHAIN=83ce967e4a9876d2c050f859e710a58bb06f2d556843391ff28b0c1a95396402
+  #   - EOS_KEY=5JUzsJi7rARZy2rT5eHhcdUKTyVPvaksnEKtNWzyiBbifJA1dUW
+  #   - CONTRACT=delphioracle
+  #   - ORACLE=producer2
+  #   - ORACLE_PERMISSION=active
+  #   - FREQ=15000
+  #   - ORACLE_CONTRACT=delphioracle
+  #   - ORACLE_NAME=producer2
+  #   - MINIMUM_CPU_PERCENT=20
+  #   networks:
+  #     - testnet
+  #   depends_on:
+  #     - eos-main
 
-  writehash:
-    container_name: writehash
-    hostname: writehash
-    build:
-      context: .
-      dockerfile: delphioracle.dockerfile
-    image: delphioracle:latest
-    command: /bin/sh /delphioracle-rng-script/run.sh
-    environment:
-    - EOS_PROTOCOL=http
-    - EOS_HOST=eos-main
-    - EOS_PORT=8888
-    - EOS_CHAIN=83ce967e4a9876d2c050f859e710a58bb06f2d556843391ff28b0c1a95396402
-    - EOS_KEY=5JUzsJi7rARZy2rT5eHhcdUKTyVPvaksnEKtNWzyiBbifJA1dUW
-    - CONTRACT=delphioracle
-    - ORACLE=producer2
-    - ORACLE_PERMISSION=active
-    - FREQ=15000
-    - ORACLE_CONTRACT=delphioracle
-    - ORACLE_NAME=producer2
-    - MINIMUM_CPU_PERCENT=20
-    networks:
-      - testnet
-    depends_on:
-      - eos-main
+  # writehash:
+  #   container_name: writehash
+  #   hostname: writehash
+  #   build:
+  #     context: .
+  #     dockerfile: delphioracle.dockerfile
+  #   image: delphioracle:latest
+  #   command: /bin/sh /delphioracle-rng-script/run.sh
+  #   environment:
+  #   - EOS_PROTOCOL=http
+  #   - EOS_HOST=eos-main
+  #   - EOS_PORT=8888
+  #   - EOS_CHAIN=83ce967e4a9876d2c050f859e710a58bb06f2d556843391ff28b0c1a95396402
+  #   - EOS_KEY=5JUzsJi7rARZy2rT5eHhcdUKTyVPvaksnEKtNWzyiBbifJA1dUW
+  #   - CONTRACT=delphioracle
+  #   - ORACLE=producer2
+  #   - ORACLE_PERMISSION=active
+  #   - FREQ=15000
+  #   - ORACLE_CONTRACT=delphioracle
+  #   - ORACLE_NAME=producer2
+  #   - MINIMUM_CPU_PERCENT=20
+  #   networks:
+  #     - testnet
+  #   depends_on:
+  #     - eos-main
 
 networks:
   testnet:

@@ -1,4 +1,5 @@
 networks/eos/data/*
+networks/eos/data2/*
 networks/eos/contracts/*
 networks/eos/testing/
 networks/eos/scripts/ignore

@@ -236,7 +236,7 @@ help() {
 # Usage: ./run.sh build [network]
 # Build the docker images for specified network
 #
-#   network - specify which network to build network for [eos|steem]
+#   network - specify which network to build network for [eos|ore|steem]
 #
 build() {
   fmm="EOS Testnet"
@@ -245,7 +245,7 @@ build() {
   cd "$DOCKER_DIR"
   case $1 in
     eos)
-      docker-compose build keosd nodeos pricefeed writehash
+      docker-compose build eos-wallet eos-main eos-main2 pricefeed writehash
       ;;
     steem)
       docker-compose build steem
@@ -279,14 +279,18 @@ install_docker() {
 # Usage: ./run.sh bootstrap [network]
 # Bootstraps the testnet
 #
-#   network - specify which network to build container for [eos|steem]
+#   network - specify which network to build container for [eos|ore|steem]
 #
 bootstrap() {
+  cd "$DIR"
   case $1 in
     eos|ore|steem)
-      cd "$DIR"
       msg yellow bootstrap $1
-      bash -c "./networks/$1/scripts/bootstrap.sh $2"
+      bash -c "./networks/$1/scripts/bootstrap.sh"
+      ;;
+    eos2)
+      msg yellow bootstrap $1
+      bash -c "./networks/eos/scripts/bootstrap.sh 2"
       ;;
     *)
       msg bold red "Unknown docker image use [eos|ore|steem]"
@@ -307,16 +311,35 @@ deploy() {
     eos)
       case $2 in
         ict)
-          docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 set contract ict /root/contracts/ict/contract/ict/build/ict/ ict.wasm ict.abi -p ict@active
+          docker exec -it "eos-main" cleos --wallet-url http://eos-wallet:8901 set contract ict /root/contracts/ict/contract/ict/build/ict/ ict.wasm ict.abi -p ict@active
           ;;
         vpow.token)
-          docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 set contract vpow.token /root/contracts/vpow-contract/build/vpowtoken/ vpowtoken.wasm vpowtoken.abi -p vpow.token@active
+          docker exec -it "eos-main" cleos --wallet-url http://eos-wallet:8901 set contract vpow.token /root/contracts/vpow-contract/build/vpowtoken/ vpowtoken.wasm vpowtoken.abi -p vpow.token@active
           ;;
         delphioracle)
           bash -c "$EOS_DATADIR/scripts/delphi-deploy.sh clone build deploy configure"
           ;;
         eosio.system)
-          docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
+          docker exec -it "eos-main" cleos --wallet-url http://eos-wallet:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
+          ;;
+        *)
+          msg red "Contract not recognized: [ict|delphioracle|eosio.system]"
+          ;;
+      esac
+      ;;
+    eos2)
+      case $2 in
+        ict)
+          docker exec -it "eos-main2" cleos --wallet-url http://eos-wallet:8901 set contract ict /root/contracts/ict/contract/ict/build/ict/ ict.wasm ict.abi -p ict@active
+          ;;
+        vpow.token)
+          docker exec -it "eos-main2" cleos --wallet-url http://eos-wallet:8901 set contract vpow.token /root/contracts/vpow-contract/build/vpowtoken/ vpowtoken.wasm vpowtoken.abi -p vpow.token@active
+          ;;
+        delphioracle)
+          bash -c "$EOS_DATADIR/scripts/delphi-deploy.sh clone build deploy configure"
+          ;;
+        eosio.system)
+          docker exec -it "eos-main2" cleos --wallet-url http://eos-wallet:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
           ;;
         *)
           msg red "Contract not recognized: [ict|delphioracle|eosio.system]"
@@ -353,11 +376,30 @@ initcontract() {
     cd "$DIR"
     msg yellow set contract $1
     case $1 in
-      ict)
-        docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 push action ict create '{"issuer":"ict","maximum_supply":"10000000.000 TESTS"}' -p ict@active
+      eos)
+        case $2 in
+          ict)
+            docker exec -it "eos-main" cleos --wallet-url http://eos-wallet:8901 push action ict create '{"issuer":"ict","maximum_supply":"10000000.0000 EOS"}' -p ict@active
+            docker exec -it "eos-main" cleos --wallet-url http://eos-wallet:8901 push action ict open '{"owner":"producer1", "symbol":"4,EOS", "ram_payer":"producer1"}' -p producer1@active
+            ;;
+          *)
+            msg red "Contract not recognized: [ict]"
+            ;;
+        esac
+        ;;
+      eos2)
+        case $2 in
+          ict)
+            docker exec -it "eos-main2" cleos --wallet-url http://eos-wallet:8901 push action ict create '{"issuer":"ict","maximum_supply":"10000000.0000 EOS"}' -p ict@active
+            docker exec -it "eos-main2" cleos --wallet-url http://eos-wallet:8901 push action ict open '{"owner":"producer1", "symbol":"4,EOS", "ram_payer":"producer1"}' -p producer1@active
+            ;;
+          *)
+            msg red "Contract not recognized: [ict]"
+            ;;
+        esac
         ;;
       *)
-        msg red "Contract not recognized: [ict]"
+        msg red "Network not supported: [eos/eos2]"
         ;;
     esac
   fi
@@ -381,7 +423,7 @@ buildcontract() {
         bash -c "$EOS_DATADIR/scripts/delphi-deploy.sh clone build deploy configure"
         ;;
       eosio.system)
-        docker exec -it "eos-main" cleos --wallet-url http://keosd:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
+        docker exec -it "eos-main" cleos --wallet-url http://eos-wallet:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
         ;;
       ore)
         msg red "ORE: buildcontract not yet implemented"
@@ -403,6 +445,9 @@ cleos() {
   case $1 in
     eos|ore)
       docker exec -it "$1"-main cleos --wallet-url http://"$1"-wallet:8901 "${@:2}"
+    ;;
+    eos2)
+      docker exec -it eos-main2 cleos --wallet-url http://eos-wallet:8901 "${@:2}"
     ;;
     *)
       msg red "Unrecognized network. Use: [eos|ore]"
@@ -545,7 +590,7 @@ start() {
       docker-compose -f docker-compose-"$1".yml -p $1 up -d $2
       ;;
     *)
-      msg red "Network not recognized: [eos|steem]"
+      msg red "Network not recognized: [eos|ore|steem]"
       ;;
   esac
 }
@@ -562,7 +607,7 @@ stop() {
       docker-compose -f docker-compose-"$1".yml -p $1 rm -sf $2
       ;;
     *)
-      msg red "Network not recognized: [eos|steem]"
+      msg red "Network not recognized: [eos|ore|steem]"
       ;;
   esac
 }
@@ -621,7 +666,7 @@ wallet() {
         docker exec "steem" /usr/local/steemd-testnet/bin/cli_wallet -w /steemd-data/wallet.json "${@:2}"
         ;;
     *)
-      msg bold red "Unrecognized network name. Use [eos|steem]"
+      msg bold red "Unrecognized network name. Use [eos|ore|steem]"
       ;;
   esac
 }
@@ -813,6 +858,25 @@ sb_clean() {
       rm -rfv "$estate_dir"/*
       mkdir -p "$ebc_dir" "$ep2p_dir" "$estate_dir" &> /dev/null
       ;;
+    eos2)
+      ebc_dir="${EOS_DATADIR}/data2/blocks"
+      ep2p_dir="${EOS_DATADIR}/data2/p2p"
+      estate_dir="${EOS_DATADIR}/data2/state"
+
+      msg yellow " ::::::::::::: EOS2 :::::::::::::"
+      msg yellow " :: Blockchain:           $ebc_dir"
+      msg yellow " :: P2P files:            $ep2p_dir"
+      msg yellow " :: State files:          $estate_dir"
+      msg
+
+      # To prevent the risk of glob problems due to non-existant folders,
+      # we re-create them silently before we touch them.
+      mkdir -p "$ebc_dir" "$ep2p_dir" "$estate_dir" &> /dev/null
+      rm -rfv "$ebc_dir"/*
+      rm -rfv "$ep2p_dir"/*
+      rm -rfv "$estate_dir"/*
+      mkdir -p "$ebc_dir" "$ep2p_dir" "$estate_dir" &> /dev/null
+      ;;
     ore)
       obc_dir="${ORE_DATADIR}/data/blocks"
       op2p_dir="${ORE_DATADIR}/data/p2p"
@@ -849,34 +913,13 @@ sb_clean() {
       mkdir -p "$sbc_dir" "$sp2p_dir" &> /dev/null
       ;;
     all)
-      msg yellow " ::::::::::::: EOSIO :::::::::::::"
-      msg yellow " :: Blockchain:           $ebc_dir"
-      msg yellow " :: P2P files:            $ep2p_dir"
-      msg yellow " :: State files:          $estate_dir"
-      msg
-
-      # To prevent the risk of glob problems due to non-existant folders,
-      # we re-create them silently before we touch them.
-      mkdir -p "$ebc_dir" "$ep2p_dir" "$estate_dir" &> /dev/null
-      rm -rfv "$ebc_dir"/*
-      rm -rfv "$ep2p_dir"/*
-      rm -rfv "$estate_dir"/*
-      mkdir -p "$ebc_dir" "$ep2p_dir" "$estate_dir" &> /dev/null
-
-      msg yellow " ::::::::::::: STEEM :::::::::::::"
-      msg yellow " :: Blockchain:           $sbc_dir"
-      msg yellow " :: P2P files:            $sp2p_dir"
-      msg
-
-      # To prevent the risk of glob problems due to non-existant folders,
-      # we re-create them silently before we touch them.
-      mkdir -p "$sbc_dir" "$sp2p_dir" &> /dev/null
-      rm -rfv "$sbc_dir"/*
-      rm -rfv "$sp2p_dir"/*
-      mkdir -p "$sbc_dir" "$sp2p_dir" &> /dev/null
+      sb_clean eos
+      sb_clean eos2
+      sb_clean ore
+      sb_clean steem
       ;;
     *)
-      msg bold red "Unrecognized network name. Use [eos|steem]"
+      msg bold red "Unrecognized network name. Use [eos|ore|steem]"
       ;;
   esac
   msg bold green " +++ Cleared testnet data"
