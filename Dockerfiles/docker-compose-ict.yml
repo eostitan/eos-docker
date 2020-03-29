@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+  ict-main:
+    container_name: ict-main
+    hostname: ict-main
+    build:
+      context: .
+      dockerfile: build-eosio-testnet.dockerfile
+    image: eosio-testnet:latest
+    command: nodeos --data-dir /eosio-data --config-dir /eosio-data --config config.ini --logconf /eosio-data/logging.json --genesis-json /eosio-data/genesis.json
+    stop_grace_period: 1m0s
+    networks:
+      - testnet
+    volumes:
+      - ../networks/eos/data/:/eosio-data
+      - ../networks/eos/contracts/:/root/contracts
+    ports:
+      - '8888:8888'
+
+networks:
+  testnet:

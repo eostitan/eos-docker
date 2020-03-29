@@ -311,7 +311,7 @@ deploy() {
     eos)
       case $2 in
         ict)
-          docker exec -it "eos-main" cleos --wallet-url http://eos-wallet:8901 set contract ict /root/contracts/ict/contract/ict/build/ict/ ict.wasm ict.abi -p ict@active
+          docker exec -it "eos-main" cleos --wallet-url http://eos-wallet:8901 set contract ict /root/contracts/ict/contract/ict/src/ ict.wasm ict.abi -p ict@active
           ;;
         vpow.token)
           docker exec -it "eos-main" cleos --wallet-url http://eos-wallet:8901 set contract vpow.token /root/contracts/vpow-contract/build/vpowtoken/ vpowtoken.wasm vpowtoken.abi -p vpow.token@active
@@ -330,7 +330,7 @@ deploy() {
     eos2)
       case $2 in
         ict)
-          docker exec -it "eos-main2" cleos --wallet-url http://eos-wallet:8901 set contract ict /root/contracts/ict/contract/ict/build/ict/ ict.wasm ict.abi -p ict@active
+          docker exec -it "eos-main2" cleos --wallet-url http://eos-wallet:8901 set contract ict /root/contracts/ict/contract/ict/src/ ict.wasm ict.abi -p ict@active
           ;;
         vpow.token)
           docker exec -it "eos-main2" cleos --wallet-url http://eos-wallet:8901 set contract vpow.token /root/contracts/vpow-contract/build/vpowtoken/ vpowtoken.wasm vpowtoken.abi -p vpow.token@active
