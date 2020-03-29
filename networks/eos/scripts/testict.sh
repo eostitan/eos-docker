@@ -2,6 +2,12 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 cd $DIR/../../..
 
+git clone git@github.com:CryptoMechanics/ict networks/eos/contracts/ict
+
+cd networks/eos/contracts/ict && git checkout wip-multioracle && cp service/config.json.sample service/config.json
+
+cd $DIR/../../..
+
 ./run.sh clean eos
 ./run.sh clean eos2
 ./run.sh restart eos
