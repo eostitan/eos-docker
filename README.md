@@ -28,8 +28,32 @@ Finally, this setup will run a default pricefeed and writehash script for proper
 	- Private key: 5JUzsJi7rARZy2rT5eHhcdUKTyVPvaksnEKtNWzyiBbifJA1dUW
 	- Public key: EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy
 
+### Usage
+```
+Usage: ./run.sh COMMAND [DATA]
+
+Commands:
+  start - starts network|container(s) - [eos|steem|ore]
+  clean - Remove testnet files - [eos|steem|ore]
+  stop - stops container(s) - [eos|steem|ore]
+  status - show status of eos container - [eos|steem|ore]
+  restart - restarts container(s) - [eos|steem|ore]
+  install_docker - install docker
+  rebuild - builds eos container(s), and then restarts it - [eos|steem|ore]
+  build - build docker container(s) - [eos|steem|ore]
+  buildcontact - build specific contact inside main container - [eos|ore]
+  cleos - access cleos command line in container - [eos|ore]
+  setcdt - set eosio.cdt version in container - [eos|ore]
+  logs - show log stream - [eos|steem|ore]
+  wallet - open wallet in the container - [eos|steem|ore]
+  enter - enter a bash session in the currently running container - [eos|steem|ore]
+  shell - launch the eos container with appropriate mounts, then open bash for inspection - [eos|steem|ore]
+```
+
+###
+
 ### Troubleshooting
-Sometimes the testnet will get hung attempting to deploy the system contracts. If this happens, just exit out of the process (CTRL+C) and re-run the above command for building the containers and images.
+Sometimes the testnet will get hung attempting to deploy the system contracts. If this happens, just exit out of the process (CTRL+C), restart docker, and re-run the above command for building the containers and images. The docker process may not have enough resources to deploy the contract in the required amount of time.
 
 ### Warning
 This software is provided as-is and with no warranty. Please use at your own risk and never use production EOSIO keypairs in development or vice versa. The provided keypairs in this repository are for development purposes only, and using them in the EOSIO mainnet can result in lost or stolen tokens. The author of this repository assumes no responsiblity for your inability to follow these instructions.
