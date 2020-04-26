@@ -37,6 +37,20 @@ BUILD_VER=""
 : ${EOS_SOURCE="https://github.com/eosio/eos.git"}
 : ${EOS_CONTRACTS_SOURCE="https://github.com/eosio/eosio.contracts.git"}
 
+# EOS2 Blockchain
+: ${EOS2_DATADIR="$DIR/networks/eos"}
+: ${EOS2_DK_TAG="eostitan/eosio:latest"}
+: ${EOS2_BC_FOLDER="$EOS2_DATADIR/data2"}
+: ${EOS2_EXAMPLE_CONF="$EOS2_DATADIR/configs/config.ini.example"}
+: ${EOS2_EXAMPLE_GENESIS="$EOS2_DATADIR/configs/genesis2.json.example"}
+: ${EOS2_EXAMPLE_LOGGING="$EOS2_DATADIR/configs/logging.json.example"}
+: ${EOS2_CONF_FILE="$EOS2_DATADIR/data2/config.ini"}
+: ${EOS2_GENESIS_FILE="$EOS2_DATADIR/data2/genesis.json"}
+: ${EOS2_LOGGING_FILE="$EOS2_DATADIR/data2/logging.json"}
+# Git repository to use when building EOS2 - containing EOSIO code
+: ${EOS2_SOURCE="https://github.com/eosio/eos.git"}
+: ${EOS2_CONTRACTS_SOURCE="https://github.com/eosio/eosio.contracts.git"}
+
 # ORE Blockchain
 : ${ORE_DATADIR="$DIR/networks/ore"}
 : ${ORE_DK_TAG="eostitan/ore:latest"}
