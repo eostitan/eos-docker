@@ -50,7 +50,14 @@ Commands:
   shell - launch the eos container with appropriate mounts, then open bash for inspection - [eos|steem|ore]
 ```
 
-###
+### Starting an EOS Testnet
+- `./run.sh start eos`
+- `./run.sh bootstrap eos`
+- `./run.sh logs eos`
+
+### Debugging
+Launch a shell inside of a running container:
+- `./run.sh enter eos-main`
 
 ### Troubleshooting
 Sometimes the testnet will get hung attempting to deploy the system contracts. If this happens, just exit out of the process (CTRL+C), restart docker, and re-run the above command for building the containers and images. The docker process may not have enough resources to deploy the contract in the required amount of time.
