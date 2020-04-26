@@ -9,17 +9,6 @@ This repository also includes the initial setup required for DelphiOracle testin
 
 Finally, this setup will run a default pricefeed and writehash script for properly testing the DelphiOracle. Enjoy!
 
-### Getting Started
-- Clone this repo
-	- `git clone https://github.com/eostitan/eos-docker`
-- Start docker services (will build all images)
-	- `cd eos-docker`
-	- `./run.sh start`
-- Bootstrap the EOSIO testnet
-	- `./run.sh bootstrap eosio`
-- View logs of running containers
-	- `./run.sh logs eosio`
-
 ### EOSIO Development KeyPairs *(DO NOT USE THESE KEYS IN PRODUCTION)*
 - System Accounts: `eosio`, `eosio.token`, `eosio.msig`, `eosio.bpay`, `eosio.names`, `eosio.ram`, `eosio.ramfree`, `eosio.saving`, `eosio.stake`, `eosio.vpay`, `eosio.rex`
 	- Private key: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
