@@ -8,11 +8,11 @@ RUN curl -LO https://github.com/EOSIO/eos/releases/download/v1.8.9/eosio_1.8.9-1
 
 # Download and unpackage EOSIO.CDT 1.4.1
 # RUN curl -o /eosio.cdt/eosio.cdt-1.4.1.x86_64.deb --create-dirs -L https://github.com/EOSIO/eosio.cdt/releases/download/v1.4.1/eosio.cdt-1.4.1.x86_64.deb \
-    && dpkg-deb -x /eosio.cdt/eosio.cdt-1.4.1.x86_64.deb /eosio.cdt/v1.4.1
+#    && dpkg-deb -x /eosio.cdt/eosio.cdt-1.4.1.x86_64.deb /eosio.cdt/v1.4.1
 
 # Download and unpackage EOSIO.CDT 1.5.0
 # RUN curl -o /eosio.cdt/eosio.cdt_1.5.0-1_amd64.deb --create-dirs -L https://github.com/EOSIO/eosio.cdt/releases/download/v1.5.0/eosio.cdt_1.5.0-1_amd64.deb \
-    && dpkg-deb -x /eosio.cdt/eosio.cdt-1.4.1.x86_64.deb /eosio.cdt/v1.5.0
+#    && dpkg-deb -x /eosio.cdt/eosio.cdt-1.4.1.x86_64.deb /eosio.cdt/v1.5.0
 
 # Download and unpackage EOSIO.CDT 1.6.3
 RUN curl -o /eosio.cdt/eosio.cdt_1.6.3-1-ubuntu-18.04_amd64.deb --create-dirs -L https://github.com/EOSIO/eosio.cdt/releases/download/v1.6.3/eosio.cdt_1.6.3-1-ubuntu-18.04_amd64.deb \
