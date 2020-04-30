@@ -301,8 +301,11 @@ build() {
     eos)
       docker-compose build eos-wallet eos-main eos-main2 pricefeed writehash
       ;;
+    ore)
+      docker-compose build ore-wallet ore-main
+      ;;
     steem)
-      docker-compose build steem
+      docker-compose build steem-wallet steem
       ;;
   esac
   ret=$?

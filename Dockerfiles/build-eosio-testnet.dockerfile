@@ -29,7 +29,7 @@ RUN curl -LO https://github.com/EOSIO/eosio.contracts/archive/v1.8.3.tar.gz && t
 RUN cp -rf /eosio.cdt/v1.6.3/usr/* /usr/
 
 # Build EOSIO.Contracts
-# RUN cd /eosio.contracts/ && mkdir build && cd build && cmake .. && make all
+RUN cd /eosio.contracts/ && mkdir build && cd build && cmake .. && make all
 
 # Download ORE.Contracts
 # RUN git clone https://github.com/API-market/eosio.contracts /ore.contracts/

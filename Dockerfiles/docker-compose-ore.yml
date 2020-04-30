@@ -8,7 +8,7 @@ services:
     build:
       context: .
       dockerfile: build-eosio-testnet.dockerfile
-    image: eosio-testnet:latest
+    image: eostitan/eosio-testnet:latest
     command: nodeos --data-dir /ore-data --config-dir /ore-data --config config.ini --logconf /ore-data/logging.json --genesis-json /ore-data/genesis.json
     stop_grace_period: 1m0s
     networks:
@@ -27,7 +27,7 @@ services:
     build:
       context: .
       dockerfile: build-eosio-testnet.dockerfile
-    image: eosio-testnet:latest
+    image: eostitan/eosio-testnet:latest
     command: keosd --http-server-address=0.0.0.0:8901 --http-validate-host 0 --verbose-http-errors --unlock-timeout=9999999
     networks:
       - testnet

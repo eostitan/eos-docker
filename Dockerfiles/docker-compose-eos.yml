@@ -8,7 +8,7 @@ services:
     build:
       context: .
       dockerfile: build-eosio-testnet.dockerfile
-    image: eosio-testnet:latest
+    image: eostitan/eosio-testnet:latest
     command: nodeos --data-dir /eosio-data --config-dir /eosio-data --config config.ini --logconf /eosio-data/logging.json --genesis-json /eosio-data/genesis.json
     stop_grace_period: 1m0s
     networks:
@@ -21,24 +21,25 @@ services:
     depends_on:
       - eos-wallet
 
-  eos-main2:
-    container_name: eos-main2
-    hostname: eos-main2
-    build:
-      context: .
-      dockerfile: build-eosio-testnet.dockerfile
-    image: eosio-testnet:latest
-    command: nodeos --data-dir /eosio-data --config-dir /eosio-data --config config.ini --logconf /eosio-data/logging.json --genesis-json /eosio-data/genesis.json
-    stop_grace_period: 1m0s
-    networks:
-      - testnet
-    volumes:
-      - ../networks/eos/data2/:/eosio-data
-      - ../networks/eos/contracts/:/root/contracts
-    ports:
-      - '8889:8888'
-    depends_on:
-      - eos-wallet
+  # Uncomment the following service for testing ICT or multi-chain contracts
+  # eos-main2:
+  #   container_name: eos-main2
+  #   hostname: eos-main2
+  #   build:
+  #     context: .
+  #     dockerfile: build-eosio-testnet.dockerfile
+  #   image: eostitan/eosio-testnet:latest
+  #   command: nodeos --data-dir /eosio-data --config-dir /eosio-data --config config.ini --logconf /eosio-data/logging.json --genesis-json /eosio-data/genesis.json
+  #   stop_grace_period: 1m0s
+  #   networks:
+  #     - testnet
+  #   volumes:
+  #     - ../networks/eos/data2/:/eosio-data
+  #     - ../networks/eos/contracts/:/root/contracts
+  #   ports:
+  #     - '8889:8888'
+  #   depends_on:
+  #     - eos-wallet
 
   eos-wallet:
     container_name: eos-wallet
@@ -46,7 +47,7 @@ services:
     build:
       context: .
       dockerfile: build-eosio-testnet.dockerfile
-    image: eosio-testnet:latest
+    image: eostitan/eosio-testnet:latest
     command: keosd --http-server-address=0.0.0.0:8901 --http-validate-host 0 --verbose-http-errors --unlock-timeout=9999999
     networks:
       - testnet
