@@ -90,6 +90,46 @@ if [[ ! -f "$EOS_CONF_FILE" ]]; then
   fi
 fi
 
+# if the eos2 genesis file doesn't exist, try copying the example genesis file
+if [[ ! -f "$EOS2_GENESIS_FILE" ]]; then
+  if [[ -f "$EOS2_EXAMPLE_GENESIS" ]]; then
+    echo "${YELLOW}EOS: File genesis.json not found. copying example${RESET}"
+    cp -vi "$EOS2_EXAMPLE_GENESIS" "$EOS2_GENESIS_FILE" 
+    echo "${GREEN} > Successfully installed example genesis file for eos2 node.${RESET}"
+  else
+    echo "${YELLOW}WARNING: You don't seem to have a genesis file and the example genesis couldn't be found...${RESET}"
+    echo "Example Config: $EOS2_EXAMPLE_GENESIS"
+    echo "Main Config: $EOS2_GENESIS_FILE"
+  fi
+fi
+
+# if the eos2 logging file doesn't exist, try copying the example logging config
+if [[ ! -f "$EOS2_LOGGING_FILE" ]]; then
+  if [[ -f "$EOS2_EXAMPLE_LOGGING" ]]; then
+    echo "${YELLOW}EOS: File logging.json not found. copying example${RESET}"
+    cp -vi "$EOS2_EXAMPLE_LOGGING" "$EOS2_LOGGING_FILE" 
+    echo "${GREEN} > Successfully installed example logging config for eos2 node.${RESET}"
+  else
+    echo "${YELLOW}WARNING: You don't seem to have a logging config file and the example config couldn't be found...${RESET}"
+    echo "Example Config: $EOS2_EXAMPLE_LOGGING"
+    echo "Main Config: $EOS2_LOGGING_FILE"
+  fi
+fi
+
+# if the eos2 config file doesn't exist, try copying the example config
+if [[ ! -f "$EOS2_CONF_FILE" ]]; then
+  if [[ -f "$EOS2_EXAMPLE_CONF" ]]; then
+    echo "${YELLOW}EOS: File config.ini not found. copying example${RESET}"
+    cp -vi "$EOS2_EXAMPLE_CONF" "$EOS2_CONF_FILE" 
+    echo "${GREEN} > Successfully installed example config for eos2 node.${RESET}"
+    echo " > You may want to adjust this if you're running a witness"
+  else
+    echo "${YELLOW}WARNING: You don't seem to have a config file and the example config couldn't be found...${RESET}"
+    echo "Example Config: $EOS2_EXAMPLE_CONF"
+    echo "Main Config: $EOS2_CONF_FILE"
+  fi
+fi
+
 # if the eos genesis file doesn't exist, try copying the example genesis file
 if [[ ! -f "$EOS_GENESIS_FILE" ]]; then
   if [[ -f "$EOS_EXAMPLE_GENESIS" ]]; then
