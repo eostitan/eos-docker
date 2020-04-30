@@ -644,7 +644,12 @@ start() {
   cd "$DOCKER_DIR"
   case $1 in
     eos|ore|steem)
-      docker-compose -f docker-compose-"$1".yml -p $1 up -d $2
+      if [[ ${@:2} =~ "pull" ]]; then
+        services=$(echo ${@:2} | sed "s/pull//")
+        docker-compose -f docker-compose-"$1".yml -p $1 pull $services && docker-compose -f docker-compose-"$1".yml -p $1 up -d $services
+      else
+        docker-compose -f docker-compose-"$1".yml -p $1 up -d $2
+      fi
       ;;
     *)
       msg red "Network not recognized: [eos|ore|steem]"

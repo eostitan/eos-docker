@@ -5,10 +5,10 @@ services:
   eos-main:
     container_name: eos-main
     hostname: eos-main
+    image: eostitan/eos-testnet:latest
     build:
       context: .
       dockerfile: build-eosio-testnet.dockerfile
-    image: eostitan/eosio-testnet:latest
     command: nodeos --data-dir /eosio-data --config-dir /eosio-data --config config.ini --logconf /eosio-data/logging.json --genesis-json /eosio-data/genesis.json
     stop_grace_period: 1m0s
     networks:
@@ -28,7 +28,7 @@ services:
   #   build:
   #     context: .
   #     dockerfile: build-eosio-testnet.dockerfile
-  #   image: eostitan/eosio-testnet:latest
+  #   image: eostitan/eos-testnet:latest
   #   command: nodeos --data-dir /eosio-data --config-dir /eosio-data --config config.ini --logconf /eosio-data/logging.json --genesis-json /eosio-data/genesis.json
   #   stop_grace_period: 1m0s
   #   networks:
@@ -47,7 +47,7 @@ services:
     build:
       context: .
       dockerfile: build-eosio-testnet.dockerfile
-    image: eostitan/eosio-testnet:latest
+    image: eostitan/eos-testnet:latest
     command: keosd --http-server-address=0.0.0.0:8901 --http-validate-host 0 --verbose-http-errors --unlock-timeout=9999999
     networks:
       - testnet
