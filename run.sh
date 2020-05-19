@@ -76,6 +76,20 @@ BUILD_VER=""
 # Git repository to use when building Steem - containing steemd code
 : ${STEEM_SOURCE="https://github.com/steemit/steem.git"}
 
+# WORBLI Blockchain
+: ${WORBLI_DATADIR="$DIR/networks/worbli"}
+: ${WORBLI_DK_TAG="worbli/worbli:latest"}
+: ${WORBLI_BC_FOLDER="$WORBLI_DATADIR/data"}
+: ${WORBLI_EXAMPLE_CONF="$WORBLI_DATADIR/configs/config.ini.example"}
+: ${WORBLI_EXAMPLE_GENESIS="$WORBLI_DATADIR/configs/genesis.json.example"}
+: ${WORBLI_EXAMPLE_LOGGING="$WORBLI_DATADIR/configs/logging.json.example"}
+: ${WORBLI_CONF_FILE="$WORBLI_DATADIR/data/config.ini"}
+: ${WORBLI_GENESIS_FILE="$WORBLI_DATADIR/data/genesis.json"}
+: ${WORBLI_LOGGING_FILE="$WORBLI_DATADIR/data/logging.json"}
+# Git repository to use when building WORBLI - containing WORBLI code
+: ${WORBLI_SOURCE="https://github.com/worbli/worbli.git"}
+: ${WORBLI_CONTRACTS_SOURCE="https://github.com/worbli/worbli.contracts.git"}
+
 # if the eos config file doesn't exist, try copying the example config
 if [[ ! -f "$EOS_CONF_FILE" ]]; then
   if [[ -f "$EOS_EXAMPLE_CONF" ]]; then
@@ -87,6 +101,46 @@ if [[ ! -f "$EOS_CONF_FILE" ]]; then
     echo "${YELLOW}WARNING: You don't seem to have a config file and the example config couldn't be found...${RESET}"
     echo "Example Config: $EOS_EXAMPLE_CONF"
     echo "Main Config: $EOS_CONF_FILE"
+  fi
+fi
+
+# if the eos genesis file doesn't exist, try copying the example genesis file
+if [[ ! -f "$EOS_GENESIS_FILE" ]]; then
+  if [[ -f "$EOS_EXAMPLE_GENESIS" ]]; then
+    echo "${YELLOW}EOS: File genesis.json not found. copying example${RESET}"
+    cp -vi "$EOS_EXAMPLE_GENESIS" "$EOS_GENESIS_FILE" 
+    echo "${GREEN} > Successfully installed example genesis file for eos node.${RESET}"
+  else
+    echo "${YELLOW}WARNING: You don't seem to have a genesis file and the example genesis couldn't be found...${RESET}"
+    echo "Example Config: $EOS_EXAMPLE_GENESIS"
+    echo "Main Config: $EOS_GENESIS_FILE"
+  fi
+fi
+
+# if the eos logging file doesn't exist, try copying the example logging config
+if [[ ! -f "$EOS_LOGGING_FILE" ]]; then
+  if [[ -f "$EOS_EXAMPLE_LOGGING" ]]; then
+    echo "${YELLOW}EOS: File logging.json not found. copying example${RESET}"
+    cp -vi "$EOS_EXAMPLE_LOGGING" "$EOS_LOGGING_FILE" 
+    echo "${GREEN} > Successfully installed example logging config for eos node.${RESET}"
+  else
+    echo "${YELLOW}WARNING: You don't seem to have a logging config file and the example config couldn't be found...${RESET}"
+    echo "Example Config: $EOS_EXAMPLE_LOGGING"
+    echo "Main Config: $EOS_LOGGING_FILE"
+  fi
+fi
+
+# if the eos2 config file doesn't exist, try copying the example config
+if [[ ! -f "$EOS2_CONF_FILE" ]]; then
+  if [[ -f "$EOS2_EXAMPLE_CONF" ]]; then
+    echo "${YELLOW}EOS: File config.ini not found. copying example${RESET}"
+    cp -vi "$EOS2_EXAMPLE_CONF" "$EOS2_CONF_FILE" 
+    echo "${GREEN} > Successfully installed example config for eos2 node.${RESET}"
+    echo " > You may want to adjust this if you're running a witness"
+  else
+    echo "${YELLOW}WARNING: You don't seem to have a config file and the example config couldn't be found...${RESET}"
+    echo "Example Config: $EOS2_EXAMPLE_CONF"
+    echo "Main Config: $EOS2_CONF_FILE"
   fi
 fi
 
@@ -116,43 +170,43 @@ if [[ ! -f "$EOS2_LOGGING_FILE" ]]; then
   fi
 fi
 
-# if the eos2 config file doesn't exist, try copying the example config
-if [[ ! -f "$EOS2_CONF_FILE" ]]; then
-  if [[ -f "$EOS2_EXAMPLE_CONF" ]]; then
+# if the worbli config file doesn't exist, try copying the example config
+if [[ ! -f "$WORBLI_CONF_FILE" ]]; then
+  if [[ -f "$WORBLI_EXAMPLE_CONF" ]]; then
     echo "${YELLOW}EOS: File config.ini not found. copying example${RESET}"
-    cp -vi "$EOS2_EXAMPLE_CONF" "$EOS2_CONF_FILE" 
-    echo "${GREEN} > Successfully installed example config for eos2 node.${RESET}"
+    cp -vi "$WORBLI_EXAMPLE_CONF" "$WORBLI_CONF_FILE" 
+    echo "${GREEN} > Successfully installed example config for worbli node.${RESET}"
     echo " > You may want to adjust this if you're running a witness"
   else
     echo "${YELLOW}WARNING: You don't seem to have a config file and the example config couldn't be found...${RESET}"
-    echo "Example Config: $EOS2_EXAMPLE_CONF"
-    echo "Main Config: $EOS2_CONF_FILE"
+    echo "Example Config: $WORBLI_EXAMPLE_CONF"
+    echo "Main Config: $WORBLI_CONF_FILE"
   fi
 fi
 
-# if the eos genesis file doesn't exist, try copying the example genesis file
-if [[ ! -f "$EOS_GENESIS_FILE" ]]; then
-  if [[ -f "$EOS_EXAMPLE_GENESIS" ]]; then
+# if the worbli genesis file doesn't exist, try copying the example genesis file
+if [[ ! -f "$WORBLI_GENESIS_FILE" ]]; then
+  if [[ -f "$WORBLI_EXAMPLE_GENESIS" ]]; then
     echo "${YELLOW}EOS: File genesis.json not found. copying example${RESET}"
-    cp -vi "$EOS_EXAMPLE_GENESIS" "$EOS_GENESIS_FILE" 
-    echo "${GREEN} > Successfully installed example genesis file for eos node.${RESET}"
+    cp -vi "$WORBLI_EXAMPLE_GENESIS" "$WORBLI_GENESIS_FILE" 
+    echo "${GREEN} > Successfully installed example genesis file for worbli node.${RESET}"
   else
     echo "${YELLOW}WARNING: You don't seem to have a genesis file and the example genesis couldn't be found...${RESET}"
-    echo "Example Config: $EOS_EXAMPLE_GENESIS"
-    echo "Main Config: $EOS_GENESIS_FILE"
+    echo "Example Config: $WORBLI_EXAMPLE_GENESIS"
+    echo "Main Config: $WORBLI_GENESIS_FILE"
   fi
 fi
 
-# if the eos logging file doesn't exist, try copying the example logging config
-if [[ ! -f "$EOS_LOGGING_FILE" ]]; then
-  if [[ -f "$EOS_EXAMPLE_LOGGING" ]]; then
+# if the worbli logging file doesn't exist, try copying the example logging config
+if [[ ! -f "$WORBLI_LOGGING_FILE" ]]; then
+  if [[ -f "$WORBLI_EXAMPLE_LOGGING" ]]; then
     echo "${YELLOW}EOS: File logging.json not found. copying example${RESET}"
-    cp -vi "$EOS_EXAMPLE_LOGGING" "$EOS_LOGGING_FILE" 
-    echo "${GREEN} > Successfully installed example logging config for eos node.${RESET}"
+    cp -vi "$WORBLI_EXAMPLE_LOGGING" "$WORBLI_LOGGING_FILE" 
+    echo "${GREEN} > Successfully installed example logging config for worbli node.${RESET}"
   else
     echo "${YELLOW}WARNING: You don't seem to have a logging config file and the example config couldn't be found...${RESET}"
-    echo "Example Config: $EOS_EXAMPLE_LOGGING"
-    echo "Main Config: $EOS_LOGGING_FILE"
+    echo "Example Config: $WORBLI_EXAMPLE_LOGGING"
+    echo "Main Config: $WORBLI_LOGGING_FILE"
   fi
 fi
 
@@ -267,21 +321,21 @@ help() {
   echo "Usage: $0 COMMAND [DATA]"
   echo
   echo "Commands: 
-  start - starts network|container(s) - [eos|steem|ore]
-  clean - Remove testnet files - [eos|steem|ore]
-  stop - stops container(s) - [eos|steem|ore]
-  status - show status of eos container - [eos|steem|ore]
-  restart - restarts container(s) - [eos|steem|ore]
+  start - starts network|container(s) - [eos|ore|steem|worbli]
+  clean - Remove testnet files - [eos|ore|steem|worbli]
+  stop - stops container(s) - [eos|ore|steem|worbli]
+  status - show status of eos container - [eos|ore|steem|worbli]
+  restart - restarts container(s) - [eos|ore|steem|worbli]
   install_docker - install docker
-  rebuild - builds eos container(s), and then restarts it - [eos|steem|ore]
-  build - build docker container(s) - [eos|steem|ore]
+  rebuild - builds eos container(s), and then restarts it - [eos|ore|steem|worbli]
+  build - build docker container(s) - [eos|ore|steem|worbli]
   buildcontact - build specific contact inside main container - [eos|ore]
   cleos - access cleos command line in container - [eos|ore]
   setcdt - set eosio.cdt version in container - [eos|ore]
-  logs - show log stream - [eos|steem|ore]
-  wallet - open wallet in the container - [eos|steem|ore]
-  enter - enter a bash session in the currently running container - [eos|steem|ore]
-  shell - launch the eos container with appropriate mounts, then open bash for inspection - [eos|steem|ore]
+  logs - show log stream - [eos|ore|steem|worbli]
+  wallet - open wallet in the container - [eos|ore|steem|worbli]
+  enter - enter a bash session in the currently running container - [eos|ore|steem|worbli]
+  shell - launch the eos container with appropriate mounts, then open bash for inspection - [eos|ore|steem|worbli]
   "
   echo
   exit
@@ -290,7 +344,7 @@ help() {
 # Usage: ./run.sh build [network]
 # Build the docker images for specified network
 #
-#   network - specify which network to build network for [eos|ore|steem]
+#   network - specify which network to build network for [eos|ore|steem|worbli]
 #
 build() {
   fmm="EOS Testnet"
@@ -336,21 +390,23 @@ install_docker() {
 # Usage: ./run.sh bootstrap [network]
 # Bootstraps the testnet
 #
-#   network - specify which network to build container for [eos|ore|steem]
+#   network - specify which network to build container for [eos|ore|steem|worbli]
 #
 bootstrap() {
   cd "$DIR"
+  msg yellow bootstrap $1
   case $1 in
     eos|ore|steem)
-      msg yellow bootstrap $1
       bash -c "./networks/$1/scripts/bootstrap.sh"
       ;;
     eos2)
-      msg yellow bootstrap $1
       bash -c "./networks/eos/scripts/bootstrap.sh 2"
       ;;
+    worbli)
+      bash -c "./networks/worbli/scripts/bootstrap.sh"
+      ;;
     *)
-      msg bold red "Unknown docker image use [eos|ore|steem]"
+      msg bold red "Unknown docker image use [eos|ore|steem|worbli]"
       ;;
   esac
 }
@@ -363,7 +419,7 @@ bootstrap() {
 #
 deploy() {
   cd "$DIR"
-  msg yellow set contract $2
+  msg yellow Deploy contract $2
   case $1 in
     eos)
       case $2 in
@@ -431,7 +487,7 @@ deploy() {
 initcontract() {
   if (( $# >= 1 )); then
     cd "$DIR"
-    msg yellow set contract $1
+    msg yellow Init contract $1
     case $1 in
       eos)
         case $2 in
@@ -471,10 +527,10 @@ initcontract() {
 buildcontract() {
   if (( $# >= 1 )); then
     cd "$DIR"
-    msg yellow set contract $1
+    msg yellow Build contract $1
     case $1 in
       ict)
-        docker exec -it "eos-main" bash -c "cd /root/contracts/ict/contract/ict/build/ && cmake .. && make"
+        docker exec -it "eos-main" bash -c "mkdir -p /root/contracts/ict/contract/ict/build/ && cd /root/contracts/ict/contract/ict/build/ && cmake .. && make"
         ;;
       delphioracle)
         bash -c "$EOS_DATADIR/scripts/delphi-deploy.sh clone build deploy configure"
@@ -482,11 +538,18 @@ buildcontract() {
       eosio.system)
         docker exec -it "eos-main" cleos --wallet-url http://eos-wallet:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
         ;;
+      worbli)
+        docker exec -it "worbli-main" bash -c "cd /root/contracts/ && git clone https://github.com/worbli/worbli.contracts" &&
+        setcdt worbli v1.6.3 &&
+        docker exec -it "worbli-main" bash -c "mkdir -p /root/contracts/worbli.contracts/build && cd /root/contracts/worbli.contracts/build && cmake .. && make contracts_project" &&
+        setcdt worbli v1.5.0 &&
+        docker exec -it "worbli-main" bash -c "cd /root/contracts/worbli.contracts/build && make worblitimelock"
+        ;;
       ore)
         msg red "ORE: buildcontract not yet implemented"
         ;;
       *)
-        msg red "Contract not recognized: [ict|delphioracle|eosio.system]"
+        msg red "Contract not recognized: [ict|delphioracle|eosio.system|worbli]"
         ;;
     esac
   fi
@@ -520,9 +583,9 @@ cleos() {
 #
 setcdt() {
   case $1 in
-    eos|ore)
+    eos|ore|worbli)
       case $2 in
-        v1.4.1|v1.6.3)
+        v1.5.0|v1.6.3|v1.7.0)
           msg yellow "$1: Activating EOSIO.CDT Version $2"
           current=$(docker exec $1-main eosio-cpp --version)
           if [[ "$current" == *"${2:1:5}"* ]]; then
@@ -643,16 +706,16 @@ start() {
   msg bold green " -> Starting container(s) ${1}..."
   cd "$DOCKER_DIR"
   case $1 in
-    eos|ore|steem)
+    eos|ore|steem|worbli)
       if [[ ${@:2} =~ "pull" ]]; then
         services=$(echo ${@:2} | sed "s/pull//")
-        docker-compose -f docker-compose-"$1".yml -p $1 pull $services && docker-compose -f docker-compose-"$1".yml -p $1 up -d $services
+        docker-compose -f docker-compose-"$1".yml -p $1 pull $services && docker-compose -f docker-compose-"$1".yml -p $1 up -d $services --build
       else
-        docker-compose -f docker-compose-"$1".yml -p $1 up -d $2
+        docker-compose -f docker-compose-"$1".yml -p $1 up -d $2 --build
       fi
       ;;
     *)
-      msg red "Network not recognized: [eos|ore|steem]"
+      msg red "Network not recognized: [eos|ore|steem|worbli]"
       ;;
   esac
 }
@@ -665,11 +728,11 @@ stop() {
   msg red "Stopping network ..."
   cd "$DOCKER_DIR"
   case $1 in
-    eos|ore|steem)
+    eos|ore|steem|worbli)
       docker-compose -f docker-compose-"$1".yml -p $1 rm -sf $2
       ;;
     *)
-      msg red "Network not recognized: [eos|ore|steem]"
+      msg red "Network not recognized: [eos|ore|steem|worbli]"
       ;;
   esac
 }
@@ -704,7 +767,7 @@ shell() {
       docker run -v "$STEEM_DATADIR/data:/steemd-data" --rm -it "steemit/steem:latest" bash
       ;;
     *)
-      msg bold red "Unrecognized network name. Use [eos|ore|steem]"
+      msg bold red "Unrecognized network name. Use [eos|ore|steem|worbli]"
       ;;
     esac
 }
@@ -728,7 +791,7 @@ wallet() {
         docker exec "steem" /usr/local/steemd-testnet/bin/cli_wallet -w /steemd-data/wallet.json "${@:2}"
         ;;
     *)
-      msg bold red "Unrecognized network name. Use [eos|ore|steem]"
+      msg bold red "Unrecognized network name. Use [eos|ore|steem|worbli]"
       ;;
   esac
 }
@@ -740,11 +803,11 @@ logs() {
   msg blue "DOCKER LOGS: (press ctrl-c to exit) "
   cd "$DOCKER_DIR"
   case $1 in
-    eos|ore|steem)
+    eos|ore|steem|worbli)
       docker-compose -f docker-compose-"$1".yml -p $1 logs -f --tail 30 $2
       ;;
     *)
-      msg red "Network not recognized: [eos|ore|steem]"
+      msg red "Network not recognized: [eos|ore|steem|worbli]"
       ;;
   esac
 }
@@ -939,6 +1002,25 @@ sb_clean() {
       rm -rfv "$estate_dir"/*
       mkdir -p "$ebc_dir" "$ep2p_dir" "$estate_dir" &> /dev/null
       ;;
+    worbli)
+      wbc_dir="${WORBLI_DATADIR}/data/blocks"
+      wp2p_dir="${WORBLI_DATADIR}/data/p2p"
+      wstate_dir="${WORBLI_DATADIR}/data/state"
+
+      msg yellow " ::::::::::::: WORBLI :::::::::::::"
+      msg yellow " :: Blockchain:           $wbc_dir"
+      msg yellow " :: P2P files:            $wp2p_dir"
+      msg yellow " :: State files:          $wstate_dir"
+      msg
+
+      # To prevent the risk of glob problems due to non-existant folders,
+      # we re-create them silently before we touch them.
+      mkdir -p "$wbc_dir" "$wp2p_dir" "$wstate_dir" &> /dev/null
+      rm -rfv "$wbc_dir"/*
+      rm -rfv "$wp2p_dir"/*
+      rm -rfv "$wstate_dir"/*
+      mkdir -p "$wbc_dir" "$wp2p_dir" "$wstate_dir" &> /dev/null
+      ;;
     ore)
       obc_dir="${ORE_DATADIR}/data/blocks"
       op2p_dir="${ORE_DATADIR}/data/p2p"
@@ -977,11 +1059,12 @@ sb_clean() {
     all)
       sb_clean eos
       sb_clean eos2
+      sb_clean worbli
       sb_clean ore
       sb_clean steem
       ;;
     *)
-      msg bold red "Unrecognized network name. Use [eos|ore|steem]"
+      msg bold red "Unrecognized network name. Use [eos|ore|steem|worbli]"
       ;;
   esac
   msg bold green " +++ Cleared testnet data"

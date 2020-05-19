@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+
+  worbli-main:
+    container_name: worbli-main
+    hostname: worbli-main
+    build:
+      context: .
+      dockerfile: build-eosio-testnet.dockerfile
+    image: eostitan/eos-testnet:latest
+    command: nodeos --data-dir /worbli-data --config-dir /worbli-data --config config.ini --logconf /worbli-data/logging.json --genesis-json /worbli-data/genesis.json
+    stop_grace_period: 1m0s
+    networks:
+      - testnet
+    volumes:
+      - ../networks/worbli/data/:/worbli-data
+      - ../networks/worbli/contracts/:/root/contracts
+    ports:
+      - '8889:8888'
+    depends_on:
+      - worbli-wallet
+
+  worbli-wallet:
+    container_name: worbli-wallet
+    hostname: worbli-wallet
+    build:
+      context: .
+      dockerfile: build-eosio-testnet.dockerfile
+    image: eostitan/eos-testnet:latest
+    command: keosd --http-server-address=0.0.0.0:8901 --http-validate-host 0 --verbose-http-errors --unlock-timeout=9999999
+    networks:
+      - testnet
+    volumes:
+      - ../networks/worbli/data/:/worbli-data/
+    ports:
+      - '8901:8901'
+
+networks:
+  testnet:
