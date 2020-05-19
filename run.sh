@@ -329,9 +329,9 @@ help() {
   install_docker - install docker
   rebuild - builds eos container(s), and then restarts it - [eos|ore|steem|worbli]
   build - build docker container(s) - [eos|ore|steem|worbli]
-  buildcontact - build specific contact inside main container - [eos|ore]
-  cleos - access cleos command line in container - [eos|ore]
-  setcdt - set eosio.cdt version in container - [eos|ore]
+  buildcontact - build specific contact inside main container - [eos|ore|worbli]
+  cleos - access cleos command line in container - [eos|ore|worbli]
+  setcdt - set eosio.cdt version in container - [eos|ore|worbli]
   logs - show log stream - [eos|ore|steem|worbli]
   wallet - open wallet in the container - [eos|ore|steem|worbli]
   enter - enter a bash session in the currently running container - [eos|ore|steem|worbli]
@@ -354,6 +354,9 @@ build() {
   case $1 in
     eos)
       docker-compose build eos-wallet eos-main eos-main2 pricefeed writehash
+      ;;
+    worbli)
+      docker-compose build worbli-wallet worbli-main
       ;;
     ore)
       docker-compose build ore-wallet ore-main
@@ -473,7 +476,7 @@ deploy() {
       esac
       ;;
     *)
-      msg bold red "Unsupported network. Use [eos|ore]"
+      msg bold red "Unsupported network. Use [eos|ore|worbli]"
       ;;
   esac
 }
@@ -539,11 +542,12 @@ buildcontract() {
         docker exec -it "eos-main" cleos --wallet-url http://eos-wallet:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
         ;;
       worbli)
-        docker exec -it "worbli-main" bash -c "cd /root/contracts/ && git clone https://github.com/worbli/worbli.contracts" &&
+        docker exec -it "worbli-main" bash -c "cd /root/contracts/ && git clone https://github.com/worbli/worbli.contracts & cd /root/contracts/worbli.contracts && git checkout . && git apply /root/contracts/split-cmake-project.patch" &&
         setcdt worbli v1.6.3 &&
         docker exec -it "worbli-main" bash -c "mkdir -p /root/contracts/worbli.contracts/build && cd /root/contracts/worbli.contracts/build && cmake .. && make contracts_project" &&
         setcdt worbli v1.5.0 &&
-        docker exec -it "worbli-main" bash -c "cd /root/contracts/worbli.contracts/build && make worblitimelock"
+        docker exec -it "worbli-main" bash -c "cd /root/contracts/worbli.contracts/build && make worblitimelock" &&
+        setcdt worbli v1.6.3
         ;;
       ore)
         msg red "ORE: buildcontract not yet implemented"
@@ -570,7 +574,7 @@ cleos() {
       docker exec -it eos-main2 cleos --wallet-url http://eos-wallet:8901 "${@:2}"
     ;;
     *)
-      msg red "Unrecognized network. Use: [eos|ore]"
+      msg red "Unrecognized network. Use: [eos|ore|worbli]"
     ;;
   esac
 }
@@ -709,9 +713,9 @@ start() {
     eos|ore|steem|worbli)
       if [[ ${@:2} =~ "pull" ]]; then
         services=$(echo ${@:2} | sed "s/pull//")
-        docker-compose -f docker-compose-"$1".yml -p $1 pull $services && docker-compose -f docker-compose-"$1".yml -p $1 up -d $services --build
+        docker-compose -f docker-compose-"$1".yml -p $1 pull $services && docker-compose -f docker-compose-"$1".yml -p $1 up -d $services
       else
-        docker-compose -f docker-compose-"$1".yml -p $1 up -d $2 --build
+        docker-compose -f docker-compose-"$1".yml -p $1 up -d $2
       fi
       ;;
     *)

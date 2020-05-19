@@ -1,0 +1,76 @@
+From 65c557d04e754f57149097c643c0ba56e7dba762 Mon Sep 17 00:00:00 2001
+From: "Andrew Chaney (netuoso)" <andrewc@pobox.com>
+Date: Tue, 19 May 2020 15:54:04 -0500
+Subject: [PATCH] Split project file
+
+---
+ CMakeLists.txt                          | 14 +++++++++++++-
+ contracts/CMakeLists.txt                |  2 +-
+ contracts/worblitimelock/CMakeLists.txt |  8 +++++++-
+ 3 files changed, 21 insertions(+), 3 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 39ddb99..d188146 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -19,7 +19,7 @@ find_package(eosio.cdt)
+ 
+ message(STATUS "Building eosio.contracts v${VERSION_FULL}")
+ 
+-set(EOSIO_CDT_VERSION_MIN "1.6")
++set(EOSIO_CDT_VERSION_MIN "1.5")
+ set(EOSIO_CDT_VERSION_SOFT_MAX "1.6")
+ #set(EOSIO_CDT_VERSION_HARD_MAX "")
+ 
+@@ -57,6 +57,18 @@ ExternalProject_Add(
+    BUILD_ALWAYS 1
+ )
+ 
++ExternalProject_Add(
++   worblitimelock
++   SOURCE_DIR ${CMAKE_SOURCE_DIR}/contracts/worblitimelock
++   BINARY_DIR ${CMAKE_BINARY_DIR}/contracts/worblitimelock
++   CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${EOSIO_CDT_ROOT}/lib/cmake/eosio.cdt/EosioWasmToolchain.cmake
++   UPDATE_COMMAND ""
++   PATCH_COMMAND ""
++   TEST_COMMAND ""
++   INSTALL_COMMAND ""
++   BUILD_ALWAYS 1
++)
++
+ if (APPLE)
+    set(OPENSSL_ROOT "/usr/local/opt/openssl")
+ elseif (UNIX)
+diff --git a/contracts/CMakeLists.txt b/contracts/CMakeLists.txt
+index 592ffef..fa357ad 100755
+--- a/contracts/CMakeLists.txt
++++ b/contracts/CMakeLists.txt
+@@ -21,4 +21,4 @@ add_subdirectory(eosio.msig)
+ add_subdirectory(eosio.system)
+ add_subdirectory(eosio.token)
+ add_subdirectory(eosio.wrap)
+-add_subdirectory(worblitimelock)
++#add_subdirectory(worblitimelock)
+diff --git a/contracts/worblitimelock/CMakeLists.txt b/contracts/worblitimelock/CMakeLists.txt
+index 88aa0f0..285fb74 100755
+--- a/contracts/worblitimelock/CMakeLists.txt
++++ b/contracts/worblitimelock/CMakeLists.txt
+@@ -1,3 +1,10 @@
++cmake_minimum_required( VERSION 3.5 )
++
++project(worblitimelock)
++
++set(EOSIO_WASM_OLD_BEHAVIOR "Off")
++find_package(eosio.cdt)
++
+ add_contract(worblitimelock worblitimelock ${CMAKE_CURRENT_SOURCE_DIR}/src/worblitimelock.cpp)
+ 
+ target_include_directories(worblitimelock
+@@ -7,4 +14,3 @@ target_include_directories(worblitimelock
+ set_target_properties(worblitimelock
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+-
+-- 
+2.25.0
+
