@@ -635,6 +635,30 @@ eos_wallet_exists() {
 # Internal Use Only
 # Checks if the container main container exists. Returns 0 if it does, -1 if not.
 #
+worbli_main_exists() {
+  ret=$(docker ps -a -f name="worbli-main" | wc -l)
+  if [[ $ret -eq 2 ]]; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+# Internal Use Only
+# Checks if the container wallet container exists. Returns 0 if it does, -1 if not.
+#
+worbli_wallet_exists() {
+  ret=$(docker ps -a -f name="worbli-wallet" | wc -l)
+  if [[ $ret -eq 2 ]]; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+# Internal Use Only
+# Checks if the container main container exists. Returns 0 if it does, -1 if not.
+#
 ore_main_exists() {
   ret=$(docker ps -a -f name="ore-main" | wc -l)
   if [[ $ret -eq 2 ]]; then
@@ -673,6 +697,30 @@ eos_main_running() {
 #
 eos_wallet_running() {
   ret=$(docker ps -f 'status=running' -f name="eos-wallet" | wc -l)
+  if [[ $ret -eq 2 ]]; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+# Internal Use Only
+# Checks if the container main container exists and is running. Returns 0 if it does, -1 if not.
+#
+worbli_main_running() {
+  ret=$(docker ps -f 'status=running' -f name="worbli-main" | wc -l)
+  if [[ $ret -eq 2 ]]; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+# Internal Use Only
+# Checks if the container wallet container exists and is running. Returns 0 if it does, -1 if not.
+#
+worbli_wallet_running() {
+  ret=$(docker ps -f 'status=running' -f name="worbli-wallet" | wc -l)
   if [[ $ret -eq 2 ]]; then
     return 0
   else
@@ -847,7 +895,34 @@ status() {
       echo "eos-wallet exists?: "$RED"NO (!)"$RESET 
       echo "eos-wallet doesn't exist, thus it is NOT running. Run '$0 start eos-wallet'"$RESET
   fi
+  
+  echo "${BOLD}${BLUE}========= WORBLI =========${RESET}"
 
+  if worbli_main_exists; then
+      echo "worbli-main exists?: "$GREEN"YES"$RESET
+    if worbli_main_running; then
+        echo "worbli-main running?: "$GREEN"YES"$RESET
+    else
+        echo "worbli-main running?: "$RED"NO (!)"$RESET
+        echo "worbli-main isn't running. Start it with '$0 start worbli-main'"$RESET
+    fi
+  else
+      echo "worbli-main exists?: "$RED"NO (!)"$RESET 
+      echo "worbli-main doesn't exist, thus it is NOT running. Run '$0 start worbli-main'"$RESET
+  fi
+
+  if worbli_wallet_exists; then
+      echo "worbli-wallet exists?: "$GREEN"YES"$RESET
+    if worbli_wallet_running; then
+        echo "worbli-wallet running?: "$GREEN"YES"$RESET
+    else
+        echo "worbli-wallet running?: "$RED"NO (!)"$RESET
+        echo "worbli-wallet isn't running. Start it with '$0 start worbli-wallet'"$RESET
+    fi
+  else
+      echo "worbli-wallet exists?: "$RED"NO (!)"$RESET 
+      echo "worbli-wallet doesn't exist, thus it is NOT running. Run '$0 start worbli-wallet'"$RESET
+  fi
   echo "${BOLD}${BLUE}========= ORE =========${RESET}"
 
   if ore_main_exists; then
