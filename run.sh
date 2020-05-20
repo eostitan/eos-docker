@@ -542,7 +542,7 @@ buildcontract() {
         docker exec -it "eos-main" cleos --wallet-url http://eos-wallet:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
         ;;
       worbli)
-        docker exec -it "worbli-main" bash -c "cd /root/contracts/ && git clone https://github.com/worbli/worbli.contracts & cd /root/contracts/worbli.contracts && git checkout . && git apply /root/contracts/split-cmake-project.patch" &&
+        docker exec -it "worbli-main" bash -c "cd /root/contracts/ && git clone https://github.com/worbli/worbli.contracts && cd /root/contracts/worbli.contracts && git checkout . && git apply /root/contracts/split-cmake-project.patch" &&
         setcdt worbli v1.6.3 &&
         docker exec -it "worbli-main" bash -c "mkdir -p /root/contracts/worbli.contracts/build && cd /root/contracts/worbli.contracts/build && cmake .. && make contracts_project" &&
         setcdt worbli v1.5.0 &&
