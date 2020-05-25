@@ -542,13 +542,9 @@ buildcontract() {
         docker exec -it "eos-main" cleos --wallet-url http://eos-wallet:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
         ;;
       worbli)
-        docker exec -it "worbli-main" bash -c "cd /root/contracts/ && git clone https://github.com/worbli/worbli.contracts" &&
-        docker exec -it "worbli-main" bash -c "cd /root/contracts/worbli.contracts && git checkout . && git apply /root/contracts/split-cmake-project.patch"
-        setcdt worbli v1.6.3 &&
-        docker exec -it "worbli-main" bash -c "mkdir -p /root/contracts/worbli.contracts/build && cd /root/contracts/worbli.contracts/build && cmake .. && make contracts_project" &&
-        setcdt worbli v1.5.0 &&
-        docker exec -it "worbli-main" bash -c "cd /root/contracts/worbli.contracts/build && make worblitimelock" &&
-        setcdt worbli v1.6.3
+        docker exec -it "worbli-main" bash -c "cd /root/contracts/ && git clone https://github.com/eostitan/eosio.contracts" &&
+        docker exec -it "worbli-main" bash -c "cd /root/contracts/eosio.contracts && git checkout worbli-dev "
+        docker exec -it "worbli-main" bash -c "mkdir -p /root/contracts/eosio.contracts/build && cd /root/contracts/eosio.contracts/build && cmake .. && make contracts_project"
         ;;
       ore)
         msg red "ORE: buildcontract not yet implemented"
@@ -568,7 +564,7 @@ buildcontract() {
 #
 cleos() {
   case $1 in
-    eos|ore)
+    eos|ore|worbli)
       docker exec -it "$1"-main cleos --wallet-url http://"$1"-wallet:8901 "${@:2}"
     ;;
     eos2)

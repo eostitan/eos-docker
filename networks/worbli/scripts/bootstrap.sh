@@ -38,11 +38,11 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 docker exec -it $CONTAINER curl -X POST http://127.0.0.1:8888/v1/producer/schedule_protocol_feature_activations -d '{"protocol_features_to_activate": ["0ec7e080177b2c02b278d5088611686b49d739925a92d9bfcacd7fc6b74053bd"]}' | jq
 
 # set system contracts
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://worbli-wallet:8901 set contract eosio /root/contracts/worbli.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://worbli-wallet:8901 set contract eosio /root/contracts/eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
 # set token contracts
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://worbli-wallet:8901 set contract eosio.token /root/contracts/worbli.contracts/build/contracts/eosio.token/ eosio.token.wasm eosio.token.abi -p eosio.token@active
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://worbli-wallet:8901 set contract eosio.token /root/contracts/eosio.contracts/build/contracts/eosio.token/ eosio.token.wasm eosio.token.abi -p eosio.token@active
 # set the msig contracts
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://worbli-wallet:8901 set contract eosio.msig /root/contracts/worbli.contracts/build/contracts/eosio.msig/ eosio.msig.wasm eosio.msig.abi -p eosio.msig@active
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://worbli-wallet:8901 set contract eosio.msig /root/contracts/eosio.contracts/build/contracts/eosio.msig/ eosio.msig.wasm eosio.msig.abi -p eosio.msig@active
 
 # Initialize testnet chain
 echo "WORBLI: Creating WBI Token"
@@ -58,7 +58,7 @@ echo "WORBLI: Transfer balance to wobli.admin"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://worbli-wallet:8901 transfer eosio worbli.admin "1704465939.3675 WBI" ""
 
 # set the sudo contracts
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://worbli-wallet:8901 set contract eosio.sudo /root/contracts/worbli.contracts/build/contracts/eosio.wrap/ eosio.wrap.wasm eosio.wrap.abi -p eosio.sudo@active
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://worbli-wallet:8901 set contract eosio.sudo /root/contracts/eosio.contracts/build/contracts/eosio.wrap/ eosio.wrap.wasm eosio.wrap.abi -p eosio.sudo@active
 
 # push action setpriv - msig,sudo
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://worbli-wallet:8901 push action eosio setpriv '[ "eosio.msig", "1"]' -p eosio@active
