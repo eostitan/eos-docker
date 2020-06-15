@@ -66,6 +66,8 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 
 docker exec -it $CONTAINER curl -X POST http://127.0.0.1:8888/v1/producer/schedule_protocol_feature_activations -d '{"protocol_features_to_activate": ["0ec7e080177b2c02b278d5088611686b49d739925a92d9bfcacd7fc6b74053bd"]}' | jq
 
+sleep 1
+
 # Deploy blockchain smart contracts
 echo "Deploy eosio.bios contract"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://eos-wallet:8901 set contract eosio /eosio.contracts/build/contracts/eosio.bios/ eosio.bios.wasm eosio.bios.abi -p eosio@active
