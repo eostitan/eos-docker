@@ -4,6 +4,11 @@ networks/eos/contracts/*
 networks/eos/testing/
 networks/eos/scripts/ignore
 
+networks/ux/data/*
+networks/ux/contracts/*
+networks/ux/testing/
+networks/ux/scripts/ignore
+
 networks/worbli/data/*
 networks/worbli/contracts/*
 networks/worbli/testing/

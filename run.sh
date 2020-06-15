@@ -51,6 +51,20 @@ BUILD_VER=""
 : ${EOS2_SOURCE="https://github.com/eosio/eos.git"}
 : ${EOS2_CONTRACTS_SOURCE="https://github.com/eosio/eosio.contracts.git"}
 
+# UX Blockchain
+: ${UX_DATADIR="$DIR/networks/ux"}
+: ${UX_DK_TAG="eostitan/eosio:latest"}
+: ${UX_BC_FOLDER="$UX_DATADIR/data"}
+: ${UX_EXAMPLE_CONF="$UX_DATADIR/configs/config.ini.example"}
+: ${UX_EXAMPLE_GENESIS="$UX_DATADIR/configs/genesis.json.example"}
+: ${UX_EXAMPLE_LOGGING="$UX_DATADIR/configs/logging.json.example"}
+: ${UX_CONF_FILE="$UX_DATADIR/data/config.ini"}
+: ${UX_GENESIS_FILE="$UX_DATADIR/data/genesis.json"}
+: ${UX_LOGGING_FILE="$UX_DATADIR/data/logging.json"}
+# Git repository to use when building UX - containing EOSIO code
+: ${UX_SOURCE="https://github.com/eosio/eos.git"}
+: ${UX_CONTRACTS_SOURCE="https://github.com/eosio/eosio.contracts.git"}
+
 # ORE Blockchain
 : ${ORE_DATADIR="$DIR/networks/ore"}
 : ${ORE_DK_TAG="eostitan/ore:latest"}
@@ -167,6 +181,46 @@ if [[ ! -f "$EOS2_LOGGING_FILE" ]]; then
     echo "${YELLOW}WARNING: You don't seem to have a logging config file and the example config couldn't be found...${RESET}"
     echo "Example Config: $EOS2_EXAMPLE_LOGGING"
     echo "Main Config: $EOS2_LOGGING_FILE"
+  fi
+fi
+
+# if the ux config file doesn't exist, try copying the example config
+if [[ ! -f "$UX_CONF_FILE" ]]; then
+  if [[ -f "$UX_EXAMPLE_CONF" ]]; then
+    echo "${YELLOW}UX: File config.ini not found. copying example${RESET}"
+    cp -vi "$UX_EXAMPLE_CONF" "$UX_CONF_FILE" 
+    echo "${GREEN} > Successfully installed example config for ux node.${RESET}"
+    echo " > You may want to adjust this if you're running a witness"
+  else
+    echo "${YELLOW}WARNING: You don't seem to have a config file and the example config couldn't be found...${RESET}"
+    echo "Example Config: $UX_EXAMPLE_CONF"
+    echo "Main Config: $UX_CONF_FILE"
+  fi
+fi
+
+# if the ux genesis file doesn't exist, try copying the example genesis file
+if [[ ! -f "$UX_GENESIS_FILE" ]]; then
+  if [[ -f "$UX_EXAMPLE_GENESIS" ]]; then
+    echo "${YELLOW}UX: File genesis.json not found. copying example${RESET}"
+    cp -vi "$UX_EXAMPLE_GENESIS" "$UX_GENESIS_FILE" 
+    echo "${GREEN} > Successfully installed example genesis file for ux node.${RESET}"
+  else
+    echo "${YELLOW}WARNING: You don't seem to have a genesis file and the example genesis couldn't be found...${RESET}"
+    echo "Example Config: $UX_EXAMPLE_GENESIS"
+    echo "Main Config: $UX_GENESIS_FILE"
+  fi
+fi
+
+# if the ux logging file doesn't exist, try copying the example logging config
+if [[ ! -f "$UX_LOGGING_FILE" ]]; then
+  if [[ -f "$UX_EXAMPLE_LOGGING" ]]; then
+    echo "${YELLOW}UX: File logging.json not found. copying example${RESET}"
+    cp -vi "$UX_EXAMPLE_LOGGING" "$UX_LOGGING_FILE" 
+    echo "${GREEN} > Successfully installed example logging config for ux node.${RESET}"
+  else
+    echo "${YELLOW}WARNING: You don't seem to have a logging config file and the example config couldn't be found...${RESET}"
+    echo "Example Config: $UX_EXAMPLE_LOGGING"
+    echo "Main Config: $UX_LOGGING_FILE"
   fi
 fi
 
@@ -321,21 +375,21 @@ help() {
   echo "Usage: $0 COMMAND [DATA]"
   echo
   echo "Commands: 
-  start - starts network|container(s) - [eos|ore|steem|worbli]
-  clean - Remove testnet files - [eos|ore|steem|worbli]
-  stop - stops container(s) - [eos|ore|steem|worbli]
-  status - show status of eos container - [eos|ore|steem|worbli]
-  restart - restarts container(s) - [eos|ore|steem|worbli]
+  start - starts network|container(s) - [eos|ux|ore|steem|worbli]
+  clean - Remove testnet files - [eos|ux|ore|steem|worbli]
+  stop - stops container(s) - [eos|ux|ore|steem|worbli]
+  status - show status of eos container - [eos|ux|ore|steem|worbli]
+  restart - restarts container(s) - [eos|ux|ore|steem|worbli]
   install_docker - install docker
-  rebuild - builds eos container(s), and then restarts it - [eos|ore|steem|worbli]
-  build - build docker container(s) - [eos|ore|steem|worbli]
-  buildcontact - build specific contact inside main container - [eos|ore|worbli]
-  cleos - access cleos command line in container - [eos|ore|worbli]
-  setcdt - set eosio.cdt version in container - [eos|ore|worbli]
-  logs - show log stream - [eos|ore|steem|worbli]
-  wallet - open wallet in the container - [eos|ore|steem|worbli]
-  enter - enter a bash session in the currently running container - [eos|ore|steem|worbli]
-  shell - launch the eos container with appropriate mounts, then open bash for inspection - [eos|ore|steem|worbli]
+  rebuild - builds eos container(s), and then restarts it - [eos|ux|ore|steem|worbli]
+  build - build docker container(s) - [eos|ux|ore|steem|worbli]
+  buildcontact - build specific contact inside main container - [eos|ux|ore|worbli]
+  cleos - access cleos command line in container - [eos|ux|ore|worbli]
+  setcdt - set eosio.cdt version in container - [eos|ux|ore|worbli]
+  logs - show log stream - [eos|ux|ore|steem|worbli]
+  wallet - open wallet in the container - [eos|ux|ore|steem|worbli]
+  enter - enter a bash session in the currently running container - [eos|ux|ore|steem|worbli]
+  shell - launch the eos container with appropriate mounts, then open bash for inspection - [eos|ux|ore|steem|worbli]
   "
   echo
   exit
@@ -344,7 +398,7 @@ help() {
 # Usage: ./run.sh build [network]
 # Build the docker images for specified network
 #
-#   network - specify which network to build network for [eos|ore|steem|worbli]
+#   network - specify which network to build network for [eos|ux|ore|steem|worbli]
 #
 build() {
   fmm="EOS Testnet"
@@ -354,6 +408,9 @@ build() {
   case $1 in
     eos)
       docker-compose build eos-wallet eos-main eos-main2 pricefeed writehash
+      ;;
+    ux)
+      docker-compose build ux-wallet ux-main
       ;;
     worbli)
       docker-compose build worbli-wallet worbli-main
@@ -393,13 +450,13 @@ install_docker() {
 # Usage: ./run.sh bootstrap [network]
 # Bootstraps the testnet
 #
-#   network - specify which network to build container for [eos|ore|steem|worbli]
+#   network - specify which network to build container for [eos|ux|ore|steem|worbli]
 #
 bootstrap() {
   cd "$DIR"
   msg yellow bootstrap $1
   case $1 in
-    eos|ore|steem)
+    eos|ux|ore|steem)
       bash -c "./networks/$1/scripts/bootstrap.sh"
       ;;
     eos2)
@@ -409,7 +466,7 @@ bootstrap() {
       bash -c "./networks/worbli/scripts/bootstrap.sh"
       ;;
     *)
-      msg bold red "Unknown docker image use [eos|ore|steem|worbli]"
+      msg bold red "Unknown docker image use [eos|ux|ore|steem|worbli]"
       ;;
   esac
 }
@@ -462,6 +519,16 @@ deploy() {
           ;;
       esac
       ;;
+    ux)
+      case $2 in
+        eosio.system)
+          docker exec -it "ore-main" cleos --wallet-url http://ore-wallet:8901 set contract eosio /root/contracts/aikon-system-contract/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
+          ;;
+        *)
+          msg red "Contract not recognized: [eosio.system]"
+          ;;
+      esac
+      ;;
     ore)
       case $2 in
         delphioracle)
@@ -476,7 +543,7 @@ deploy() {
       esac
       ;;
     *)
-      msg bold red "Unsupported network. Use [eos|ore|worbli]"
+      msg bold red "Unsupported network. Use [eos|ux|ore|worbli]"
       ;;
   esac
 }
@@ -564,14 +631,14 @@ buildcontract() {
 #
 cleos() {
   case $1 in
-    eos|ore|worbli)
+    eos|ux|ore|worbli)
       docker exec -it "$1"-main cleos --wallet-url http://"$1"-wallet:8901 "${@:2}"
     ;;
     eos2)
       docker exec -it eos-main2 cleos --wallet-url http://eos-wallet:8901 "${@:2}"
     ;;
     *)
-      msg red "Unrecognized network. Use: [eos|ore|worbli]"
+      msg red "Unrecognized network. Use: [eos|ux|ore|worbli]"
     ;;
   esac
 }
@@ -584,7 +651,7 @@ cleos() {
 #
 setcdt() {
   case $1 in
-    eos|ore|worbli)
+    eos|ux|ore|worbli)
       case $2 in
         v1.5.0|v1.6.3|v1.7.0)
           msg yellow "$1: Activating EOSIO.CDT Version $2"
@@ -622,6 +689,30 @@ eos_main_exists() {
 #
 eos_wallet_exists() {
   ret=$(docker ps -a -f name="eos-wallet" | wc -l)
+  if [[ $ret -eq 2 ]]; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+# Internal Use Only
+# Checks if the container main container exists. Returns 0 if it does, -1 if not.
+#
+ux_main_exists() {
+  ret=$(docker ps -a -f name="ux-main" | wc -l)
+  if [[ $ret -eq 2 ]]; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+# Internal Use Only
+# Checks if the container wallet container exists. Returns 0 if it does, -1 if not.
+#
+ux_wallet_exists() {
+  ret=$(docker ps -a -f name="ux-wallet" | wc -l)
   if [[ $ret -eq 2 ]]; then
     return 0
   else
@@ -680,6 +771,30 @@ ore_wallet_exists() {
 # Internal Use Only
 # Checks if the container main container exists and is running. Returns 0 if it does, -1 if not.
 #
+ux_main_running() {
+  ret=$(docker ps -f 'status=running' -f name="ux-main" | wc -l)
+  if [[ $ret -eq 2 ]]; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+# Internal Use Only
+# Checks if the container wallet container exists and is running. Returns 0 if it does, -1 if not.
+#
+ux_wallet_running() {
+  ret=$(docker ps -f 'status=running' -f name="ux-wallet" | wc -l)
+  if [[ $ret -eq 2 ]]; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+# Internal Use Only
+# Checks if the container main container exists and is running. Returns 0 if it does, -1 if not.
+#
 eos_main_running() {
   ret=$(docker ps -f 'status=running' -f name="eos-main" | wc -l)
   if [[ $ret -eq 2 ]]; then
@@ -700,6 +815,7 @@ eos_wallet_running() {
     return -1
   fi
 }
+
 
 # Internal Use Only
 # Checks if the container main container exists and is running. Returns 0 if it does, -1 if not.
@@ -755,7 +871,7 @@ start() {
   msg bold green " -> Starting container(s) ${1}..."
   cd "$DOCKER_DIR"
   case $1 in
-    eos|ore|steem|worbli)
+    eos|ux|ore|steem|worbli)
       if [[ ${@:2} =~ "pull" ]]; then
         services=$(echo ${@:2} | sed "s/pull//")
         docker-compose -f docker-compose-"$1".yml -p $1 pull $services && docker-compose -f docker-compose-"$1".yml -p $1 up -d $services
@@ -764,7 +880,7 @@ start() {
       fi
       ;;
     *)
-      msg red "Network not recognized: [eos|ore|steem|worbli]"
+      msg red "Network not recognized: [eos|ux|ore|steem|worbli]"
       ;;
   esac
 }
@@ -777,11 +893,11 @@ stop() {
   msg red "Stopping network ..."
   cd "$DOCKER_DIR"
   case $1 in
-    eos|ore|steem|worbli)
+    eos|ux|ore|steem|worbli)
       docker-compose -f docker-compose-"$1".yml -p $1 rm -sf $2
       ;;
     *)
-      msg red "Network not recognized: [eos|ore|steem|worbli]"
+      msg red "Network not recognized: [eos|ux|ore|steem|worbli]"
       ;;
   esac
 }
@@ -816,7 +932,7 @@ shell() {
       docker run -v "$STEEM_DATADIR/data:/steemd-data" --rm -it "steemit/steem:latest" bash
       ;;
     *)
-      msg bold red "Unrecognized network name. Use [eos|ore|steem|worbli]"
+      msg bold red "Unrecognized network name. Use [eos|ux|ore|steem|worbli]"
       ;;
     esac
 }
@@ -840,7 +956,7 @@ wallet() {
         docker exec "steem" /usr/local/steemd-testnet/bin/cli_wallet -w /steemd-data/wallet.json "${@:2}"
         ;;
     *)
-      msg bold red "Unrecognized network name. Use [eos|ore|steem|worbli]"
+      msg bold red "Unrecognized network name. Use [eos|ux|ore|steem|worbli]"
       ;;
   esac
 }
@@ -852,11 +968,11 @@ logs() {
   msg blue "DOCKER LOGS: (press ctrl-c to exit) "
   cd "$DOCKER_DIR"
   case $1 in
-    eos|ore|steem|worbli)
+    eos|ux|ore|steem|worbli)
       docker-compose -f docker-compose-"$1".yml -p $1 logs -f --tail 30 $2
       ;;
     *)
-      msg red "Network not recognized: [eos|ore|steem|worbli]"
+      msg red "Network not recognized: [eos|ux|ore|steem|worbli]"
       ;;
   esac
 }
@@ -891,6 +1007,34 @@ status() {
   else
       echo "eos-wallet exists?: "$RED"NO (!)"$RESET 
       echo "eos-wallet doesn't exist, thus it is NOT running. Run '$0 start eos-wallet'"$RESET
+  fi
+
+  echo "${BOLD}${BLUE}========= UX =========${RESET}"
+
+  if ux_main_exists; then
+      echo "ux-main exists?: "$GREEN"YES"$RESET
+    if ux_main_running; then
+        echo "ux-main running?: "$GREEN"YES"$RESET
+    else
+        echo "ux-main running?: "$RED"NO (!)"$RESET
+        echo "ux-main isn't running. Start it with '$0 start ux-main'"$RESET
+    fi
+  else
+      echo "ux-main exists?: "$RED"NO (!)"$RESET 
+      echo "ux-main doesn't exist, thus it is NOT running. Run '$0 start ux-main'"$RESET
+  fi
+
+  if ux_wallet_exists; then
+      echo "ux-wallet exists?: "$GREEN"YES"$RESET
+    if ux_wallet_running; then
+        echo "ux-wallet running?: "$GREEN"YES"$RESET
+    else
+        echo "ux-wallet running?: "$RED"NO (!)"$RESET
+        echo "ux-wallet isn't running. Start it with '$0 start ux-wallet'"$RESET
+    fi
+  else
+      echo "ux-wallet exists?: "$RED"NO (!)"$RESET 
+      echo "ux-wallet doesn't exist, thus it is NOT running. Run '$0 start ux-wallet'"$RESET
   fi
   
   echo "${BOLD}${BLUE}========= WORBLI =========${RESET}"
@@ -1078,6 +1222,25 @@ sb_clean() {
       rm -rfv "$estate_dir"/*
       mkdir -p "$ebc_dir" "$ep2p_dir" "$estate_dir" &> /dev/null
       ;;
+    ux)
+      ubc_dir="${UX_DATADIR}/data/blocks"
+      up2p_dir="${UX_DATADIR}/data/p2p"
+      ustate_dir="${UX_DATADIR}/data/state"
+
+      msg yellow " ::::::::::::: UX :::::::::::::"
+      msg yellow " :: Blockchain:           $ubc_dir"
+      msg yellow " :: P2P files:            $up2p_dir"
+      msg yellow " :: State files:          $ustate_dir"
+      msg
+
+      # To prevent the risk of glob problems due to non-existant folders,
+      # we re-create them silently before we touch them.
+      mkdir -p "$ubc_dir" "$up2p_dir" "$ustate_dir" &> /dev/null
+      rm -rfv "$ubc_dir"/*
+      rm -rfv "$up2p_dir"/*
+      rm -rfv "$ustate_dir"/*
+      mkdir -p "$ubc_dir" "$up2p_dir" "$ustate_dir" &> /dev/null
+      ;;
     worbli)
       wbc_dir="${WORBLI_DATADIR}/data/blocks"
       wp2p_dir="${WORBLI_DATADIR}/data/p2p"
@@ -1140,7 +1303,7 @@ sb_clean() {
       sb_clean steem
       ;;
     *)
-      msg bold red "Unrecognized network name. Use [eos|ore|steem|worbli]"
+      msg bold red "Unrecognized network name. Use [eos|ux|ore|steem|worbli]"
       ;;
   esac
   msg bold green " +++ Cleared testnet data"

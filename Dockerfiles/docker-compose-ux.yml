@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+
+  ux-main:
+    container_name: ux-main
+    hostname: ux-main
+    image: eostitan/eos-testnet:latest
+    build:
+      context: .
+      dockerfile: build-eosio-testnet.dockerfile
+    command: nodeos --data-dir /ux-data --config-dir /ux-data --config config.ini --logconf /ux-data/logging.json --genesis-json /ux-data/genesis.json
+    stop_grace_period: 1m0s
+    networks:
+      - testnet
+    volumes:
+      - ../networks/ux/data/:/ux-data
+      - ../networks/ux/contracts/:/root/contracts
+    ports:
+      - '8888:8888'
+    depends_on:
+      - ux-wallet
+
+  #   container_name: ux-main2
+  #   hostname: ux-main2
+  #   build:
+  #     context: .
+  #     dockerfile: build-eosio-testnet.dockerfile
+  #   image: eostitan/eos-testnet:latest
+  #   command: nodeos --data-dir /ux-data --config-dir /ux-data --config config.ini --logconf /ux-data/logging.json --genesis-json /ux-data/genesis.json
+  #   stop_grace_period: 1m0s
+  #   networks:
+  #     - testnet
+  #   volumes:
+  #     - ../networks/ux/data2/:/ux-data
+  #     - ../networks/ux/contracts/:/root/contracts
+  #   ports:
+  #     - '8889:8888'
+  #   depends_on:
+  #     - ux-wallet
+
+  ux-wallet:
+    container_name: ux-wallet
+    hostname: ux-wallet
+    build:
+      context: .
+      dockerfile: build-eosio-testnet.dockerfile
+    image: eostitan/eos-testnet:latest
+    command: keosd --http-server-address=0.0.0.0:8901 --http-validate-host 0 --verbose-http-errors --unlock-timeout=9999999
+    networks:
+      - testnet
+    volumes:
+      - ../networks/ux/data/:/ux-data/
+    ports:
+      - '8901:8901'
+
+networks:
+  testnet:
