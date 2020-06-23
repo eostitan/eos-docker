@@ -407,19 +407,19 @@ build() {
   cd "$DOCKER_DIR"
   case $1 in
     eos)
-      docker-compose build eos-wallet eos-main eos-main2 pricefeed writehash
+      docker-compose -f Dockerfiles/build eos-wallet eos-main eos-main2 pricefeed writehash
       ;;
     ux)
-      docker-compose build ux-wallet ux-main
+      docker-compose -f Dockerfiles/build ux-wallet ux-main
       ;;
     worbli)
-      docker-compose build worbli-wallet worbli-main
+      docker-compose -f Dockerfiles/build worbli-wallet worbli-main
       ;;
     ore)
-      docker-compose build ore-wallet ore-main
+      docker-compose -f Dockerfiles/build ore-wallet ore-main
       ;;
     steem)
-      docker-compose build steem-wallet steem
+      docker-compose -f Dockerfiles/build steem-wallet steem
       ;;
   esac
   ret=$?
