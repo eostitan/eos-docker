@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y curl libicu60 libusb-1.0-0 libcurl3-gnu
 
 # Install EOSIO
 RUN curl -LO https://github.com/EOSIO/eos/releases/download/v2.0.6/eosio_2.0.6-1-ubuntu-18.04_amd64.deb \
-    && dpkg -i eosio_2.0.6-1-ubuntu-18.04_amd64.deb
+   && dpkg -i eosio_2.0.6-1-ubuntu-18.04_amd64.deb
 
 # Download and unpackage EOSIO.CDT 1.6.3
 RUN curl -o /eosio.cdt/eosio.cdt_1.6.3-1-ubuntu-18.04_amd64.deb --create-dirs -L https://github.com/EOSIO/eosio.cdt/releases/download/v1.6.3/eosio.cdt_1.6.3-1-ubuntu-18.04_amd64.deb \
