@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install -y curl libicu60 libusb-1.0-0 libcurl3-gnutls git cmake g++ nodejs npm nano
 
-# TODO : Replace with updated UX Network binaries
+# TODO : Replace with updated UX Network nodeos binaries or package
 # Install EOSIO
 RUN curl -LO https://github.com/EOSIO/eos/releases/download/v2.0.6/eosio_2.0.6-1-ubuntu-18.04_amd64.deb \
    && dpkg -i eosio_2.0.6-1-ubuntu-18.04_amd64.deb
