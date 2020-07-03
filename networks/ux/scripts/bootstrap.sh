@@ -55,7 +55,7 @@ docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux
 echo "Create eosio.rex user"
 docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 create account eosio eosio.rex EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
-bash $DIR/uxprotocol-deploy.sh build deploy
+bash $DIR/uxprotocol-deploy.sh clone build deploy
 
 #bash $DIR/uxprotocol-deploy.sh clone
 #bash $DIR/uxprotocol-deploy.sh clone build deploy
