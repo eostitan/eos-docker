@@ -8,6 +8,7 @@ DATADIR="data"
 
 echo $CONTAINER
 
+########### Create wallet
 
 if [ `docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 wallet list |grep $WALLETNAME|wc -l` -lt 1 ]
 then
@@ -26,6 +27,8 @@ else
   docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 wallet open -n $WALLETNAME
   docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 wallet unlock -n $WALLETNAME --password $(cat ${DIR}/../$DATADIR/walletpw.txt)
 fi
+########### // 
+
 
 ########### Create blockchain accounts
 echo "Create eosio.token user"
@@ -55,14 +58,22 @@ docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux
 echo "Create eosio.rex user"
 docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 create account eosio eosio.rex EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
+echo "Create eosio.info user"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 create account eosio eosio.info EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+
+echo "Create eosio.proof user"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 create account eosio eosio.proof EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+########### // 
+
+
+########### Clone / build / deploy process
+
 bash $DIR/uxprotocol-deploy.sh clone build deploy
+########### // 
 
-#bash $DIR/uxprotocol-deploy.sh clone
-#bash $DIR/uxprotocol-deploy.sh clone build deploy
-#bash $DIR/uxprotocol-deploy.sh build deploy
-#bash $DIR/uxprotocol-deploy.sh deploy
 
-########### Initialize testnet chain
+########### General Chain Deployment & Testing
+
 echo ""
 echo "Creating UTX / UTXRAM Tokens"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token create '[ "eosio", "2500000000.0000 UTX"]' -p eosio.token@active
@@ -85,8 +96,16 @@ echo "Creating testuser1 account"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 system newaccount eosio testuser1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "1.0000 UTX" --stake-cpu "1.0000 UTX" --buy-ram "1.0000 UTX" --transfer
 
 echo ""
+echo "Creating testuser2 account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 system newaccount eosio testuser2 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "1.0000 UTX" --stake-cpu "1.0000 UTX" --buy-ram "1.0000 UTX" --transfer
+
+echo ""
 echo "Transfering tokens to testuser1"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token transfer '["eosio", "testuser1", "160000000.0000 UTX",  ""]' -p eosio@active
+
+echo ""
+echo "Transfering tokens to testuser2"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token transfer '["eosio", "testuser2", "11000000.0000 UTX",  ""]' -p eosio@active
 
 echo ""
 echo "attempt to register without sufficient stake (should fail)"
@@ -119,3 +138,63 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 echo ""
 echo "unstake tokens (should work)"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio undelegatebw '{"from":"testuser1", "receiver":"testuser1", "unstake_net_quantity":"75000000.0000 UTX", "unstake_cpu_quantity":"74000000.0000 UTX"}' -p testuser1@active
+
+echo ""
+echo "stake 140 million tokens (required for network activation)" 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio delegatebw '{"from":"testuser1", "receiver":"testuser1", "stake_net_quantity":"70000000.0000 UTX", "stake_cpu_quantity":"70000000.0000 UTX", "transfer":0}' -p testuser1@active
+
+echo ""
+echo "register with sufficient stake (should work)"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio regproducer '["testuser1", "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", "https://eostitan.com", 124]' -p testuser1@active
+
+echo ""
+echo "stake 10 million tokens"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio delegatebw '{"from":"testuser2", "receiver":"testuser2", "stake_net_quantity":"5000000.0000 UTX", "stake_cpu_quantity":"5000000.0000 UTX", "transfer":0}' -p testuser2@active
+
+echo ""
+echo "register with sufficient stake (should work)"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio regproducer '["testuser2", "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", "https://eostitan.com", 124]' -p testuser2@active
+
+echo ""
+echo "vote producer"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio voteproducer '{"voter":"testuser1", "proxy":"", "producers":["testuser1", "testuser2"]}' -p testuser1@active
+########### // 
+
+
+########### eosio.info tests
+
+
+echo "add KYC account testuser1"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkycacc '{"account":"testuser1"}' -p eosio@active
+
+echo "add key type passport verified - pav"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"pav", "definition":"Verification of passport", "user":false}' -p eosio@active
+
+echo "add key type driver's license verified - dlv"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"dlv", "definition":"Verification of driver license", "user":false}' -p eosio@active
+
+echo "add name user key"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"name", "definition":"Public user name", "user":true}' -p eosio@active
+
+echo "add key verification for testuser1"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info adduserver '{"kyc_account":"testuser1", "user":"testuser1", "verification_key":"pav"}' -p testuser1@active
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info adduserver '{"kyc_account":"testuser1", "user":"testuser1", "verification_key":"dlv"}' -p testuser1@active
+
+echo "add key verification for testuser2"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info adduserver '{"kyc_account":"testuser1", "user":"testuser2", "verification_key":"pav"}' -p testuser1@active
+
+echo "attempt to add user verification from non-permissined account (should fail)"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info adduserver '{"kyc_account":"testuser2", "user":"testuser2", "verification_key":"dlv"}' -p testuser2@active
+
+echo "add user defined key for testuser2"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info setuserkey '{"user":"testuser2", "key":"name", "memo":"Bob"}' -p testuser2@active
+
+########### //
+
+########### ownership tests
+########### note: this is not part of the UX Network boot sequence. This contract will be residing on Worbli
+
+echo "test proof-of-ownership contract"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.proof prove '{"user":"testuser1", "code":"00"}' -p testuser1@owner
+
+########### //

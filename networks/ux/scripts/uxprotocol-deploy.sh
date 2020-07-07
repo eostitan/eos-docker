@@ -10,9 +10,15 @@ do
 			echo "Clone UX contracts repository"
 			git clone https://github.com/CryptoMechanics/ux.contracts $DIR/../contracts/ux.contracts
 
+			echo "Clone proof-of-ownership contracts repository"
+			git https://github.com/CryptoMechanics/proof-of-ownership $DIR/../contracts/ownership
+
 			;;
 		build)
-
+			
+			echo "Build proof-of-ownership using EOSIO.CDT v1.7.0"
+			docker exec ux-main bash -c "cd /root/contracts/proof-of-ownership/build && cmake .. && make"
+			
 			echo "Build ux system contracts using EOSIO.CDT v1.7.0"
 			docker exec ux-main bash -c "cd /root/contracts/ux.contracts && mkdir -p build && ./build.sh -e /usr/opt/eosio/1.9./ -c /eosio.cdt/v1.7.0/usr/"
 			
@@ -38,14 +44,20 @@ do
 			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio activate '["299dcb6af692324b899b39f16d5a530a33062804e41f09dc97e9f156b4476707"]' -p eosio # WTMSIG_BLOCK_SIGNATURES
 
 			# Deploy blockchain smart contracts
-			echo "Deploy ux eosio.bios contract"
-			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio /root/contracts/ux.contracts/build/contracts/eosio.bios/ eosio.bios.wasm eosio.bios.abi -p eosio@active
+			# echo "Deploy ux eosio.bios contract"
+			# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio /root/contracts/ux.contracts/build/contracts/eosio.bios/ eosio.bios.wasm eosio.bios.abi -p eosio@active
 
 			echo "Deploy ux NEW eosio.system contract"
 			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio /root/contracts/ux.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
 
 			echo "Deploy ux eosio.token contract"
 			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio.token /root/contracts/ux.contracts/build/contracts/eosio.token/ eosio.token.wasm eosio.token.abi -p eosio.token@active
+
+			echo "Deploy ux eosio.info contract"
+			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio.info /root/contracts/ux.contracts/build/contracts/eosio.info/ eosio.info.wasm eosio.info.abi -p eosio.info@active
+
+			echo "Deploy ux eosio.proof contract"
+			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio.proof /root/contracts/proof-of-ownership/build/ownership/ ownership.wasm ownership.abi -p eosio.proof@active
 
 			# echo "Deploy eosio.msig contract"
 			# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio.msig /eosio.contracts/build/contracts/eosio.msig/ eosio.msig.wasm eosio.msig.abi -p eosio.msig@active
