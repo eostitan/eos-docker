@@ -27,6 +27,7 @@ else
   docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 wallet open -n $WALLETNAME
   docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 wallet unlock -n $WALLETNAME --password $(cat ${DIR}/../$DATADIR/walletpw.txt)
 fi
+
 ########### // 
 
 
@@ -63,12 +64,14 @@ docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux
 
 echo "Create eosio.proof user"
 docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 create account eosio eosio.proof EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+
 ########### // 
 
 
 ########### Clone / build / deploy process
 
 bash $DIR/uxprotocol-deploy.sh clone build deploy
+
 ########### // 
 
 
@@ -158,6 +161,7 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 echo ""
 echo "vote producer"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio voteproducer '{"voter":"testuser1", "proxy":"", "producers":["testuser1", "testuser2"]}' -p testuser1@active
+
 ########### // 
 
 

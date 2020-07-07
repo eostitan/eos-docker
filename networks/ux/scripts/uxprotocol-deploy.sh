@@ -44,8 +44,8 @@ do
 			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio activate '["299dcb6af692324b899b39f16d5a530a33062804e41f09dc97e9f156b4476707"]' -p eosio # WTMSIG_BLOCK_SIGNATURES
 
 			# Deploy blockchain smart contracts
-			# echo "Deploy ux eosio.bios contract"
-			# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio /root/contracts/ux.contracts/build/contracts/eosio.bios/ eosio.bios.wasm eosio.bios.abi -p eosio@active
+			echo "Deploy ux eosio.bios contract"
+			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio /root/contracts/ux.contracts/build/contracts/eosio.bios/ eosio.bios.wasm eosio.bios.abi -p eosio@active
 
 			echo "Deploy ux NEW eosio.system contract"
 			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio /root/contracts/ux.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
