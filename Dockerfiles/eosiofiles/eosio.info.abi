@@ -1,0 +1,277 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.1",
+    "types": [],
+    "structs": [
+        {
+            "name": "addkeytype",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "definition",
+                    "type": "string"
+                },
+                {
+                    "name": "user",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "addkycacc",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "adduserver",
+            "base": "",
+            "fields": [
+                {
+                    "name": "kyc_account",
+                    "type": "name"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "verification_key",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "delkycacc",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "deluserkey",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "key",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "deluserver",
+            "base": "",
+            "fields": [
+                {
+                    "name": "kyc_account",
+                    "type": "name"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "verification_key",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "keytype",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "definition",
+                    "type": "string"
+                },
+                {
+                    "name": "user",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "kycaccount",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "setuserkey",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "updkeytype",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "definition",
+                    "type": "string"
+                },
+                {
+                    "name": "user",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "userkey",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "userverif",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "verification_key",
+                    "type": "name"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "time_point"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "addkeytype",
+            "type": "addkeytype",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "addkycacc",
+            "type": "addkycacc",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "adduserver",
+            "type": "adduserver",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "delkycacc",
+            "type": "delkycacc",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "deluserkey",
+            "type": "deluserkey",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "deluserver",
+            "type": "deluserver",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setuserkey",
+            "type": "setuserkey",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "updkeytype",
+            "type": "updkeytype",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "keytypes",
+            "type": "keytype",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "kycaccounts",
+            "type": "kycaccount",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "userkeys",
+            "type": "userkey",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "userverifs",
+            "type": "userverif",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": []
+}
