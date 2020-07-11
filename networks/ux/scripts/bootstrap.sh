@@ -80,11 +80,15 @@ bash $DIR/uxprotocol-deploy.sh clone build deploy
 echo ""
 echo "Creating UTX / UTXRAM Tokens"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token create '[ "eosio", "2500000000.0000 UTX"]' -p eosio.token@active
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token create '[ "eosio", "8388608.0000 UTXRAM"]' -p eosio.token@active
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token create '[ "eosio", "9437184.0000 UTXRAM"]' -p eosio.token@active
 
 echo ""
 echo "Issuing UTX Token to eosio"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "180000000.0000 UTX", "eosio" ]' -p eosio@active
+
+echo ""
+echo "Issuing UTXRAM to eosio"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "1048576.0000 UTXRAM", "eosio" ]' -p eosio@active
 
 echo ""
 echo "Init eosio.system Contract"
@@ -96,11 +100,35 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 
 echo ""
 echo "Creating testuser1 account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 system newaccount eosio testuser1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "1.0000 UTX" --stake-cpu "1.0000 UTX" --buy-ram "1.0000 UTX" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio testuser1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "1.0000 UTX" --stake-cpu "1.0000 UTX" --buy-ram "4.0000 UTXRAM" --transfer
 
 echo ""
 echo "Creating testuser2 account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 system newaccount eosio testuser2 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "1.0000 UTX" --stake-cpu "1.0000 UTX" --buy-ram "1.0000 UTX" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio testuser2 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "1.0000 UTX" --stake-cpu "1.0000 UTX" --buy-ram "4.0000 UTXRAM" --transfer
+
+echo ""
+echo "Buy ram for testuser1 invalid increment (should fail)"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system buyram eosio testuser1 "8.2530 UTXRAM"
+
+echo ""
+echo "Buy ram for testuser1"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system buyram eosio testuser1 "8.0000 UTXRAM"
+
+echo ""
+echo "Buy ram for testuser2 invalid increment (should fail)"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system buyram eosio testuser2 3000 --bytes
+
+echo ""
+echo "Buy ram for testuser2"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system buyram eosio testuser2 2 --kbytes
+
+echo ""
+echo "Sell ram for testuser2 invalid increment (should fail)"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system sellram testuser2 2000
+
+echo ""
+echo "Sell ram for testuser2"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system sellram testuser1 1024
 
 echo ""
 echo "Transfering tokens to testuser1"
