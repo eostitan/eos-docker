@@ -17,7 +17,7 @@ do
 		build)
 			
 			echo "Build proof-of-ownership using EOSIO.CDT v1.7.0"
-			docker exec ux-main bash -c "cd /root/contracts/proof-of-ownership/build && cmake .. && make"
+			docker exec ux-main bash -c "cd /root/contracts/ownership/build && cmake .. && make"
 			
 			echo "Build ux system contracts using EOSIO.CDT v1.7.0"
 			docker exec ux-main bash -c "cd /root/contracts/ux.contracts && mkdir -p build && ./build.sh -e /usr/opt/eosio/1.9./ -c /eosio.cdt/v1.7.0/usr/"
