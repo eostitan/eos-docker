@@ -65,6 +65,9 @@ docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux
 echo "Create eosio.proof user"
 docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 create account eosio eosio.proof EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
+echo "Create eosio.freeze user"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 create account eosio eosio.freeze EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+
 ########### // 
 
 
@@ -223,8 +226,25 @@ docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux
 
 ########### //
 
+########### eosio.freeze tests
+
+echo "add eosio.freeze to frozen accounts"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.freeze freezeacc '{"account":"eosio.freeze"}' -p eosio.freeze@owner
+
+echo "add testuser1 to frozen accounts"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.freeze freezeacc '{"account":"testuser1"}' -p testuser1@owner
+
+echo "attempt to update authorization (should fail)"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio updateauth '{"account":"testuser1", "permission":"active", "parent":"owner", "auth":{"threshold": 1, "keys": [], "waits": [], "accounts": [{"weight": 1, "permission": {"actor": "testuser1", "permission": "active"}}]}}' -p testuser1@active
+
+echo "attempts to update eosio.freeze code (should fail)"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio.freeze /root/contracts/ux.contracts/build/contracts/eosio.token/ eosio.token.wasm eosio.token.abi -p eosio.freeze@active
+
+########### //
+
+
 ########### ownership tests
-########### note: this is not part of the UX Network boot sequence. This contract will be residing on Worbli
+########### This contract will be residing on Worbli and on UX Network
 
 echo "test proof-of-ownership contract"
 docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.proof prove '{"user":"testuser1", "code":"00"}' -p testuser1@owner

@@ -5,7 +5,7 @@ services:
   ux-main:
     container_name: ux-main
     hostname: ux-main
-    image: eostitan/ux-testnet:gg14
+    image: eostitan/ux-testnet:gg15
     build:
       context: .
       dockerfile: build-uxg.dockerfile
@@ -45,7 +45,7 @@ services:
     build:
       context: .
       dockerfile: build-uxg.dockerfile
-    image: eostitan/ux-testnet:gg14
+    image: eostitan/ux-testnet:gg15
     command: keosd --http-server-address=0.0.0.0:8901 --http-validate-host 0 --verbose-http-errors --unlock-timeout=9999999
     networks:
       - testnet

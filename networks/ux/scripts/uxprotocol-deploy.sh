@@ -11,7 +11,7 @@ do
 			git clone https://github.com/CryptoMechanics/ux.contracts $DIR/../contracts/ux.contracts
 
 			echo "Clone proof-of-ownership contracts repository"
-			git https://github.com/CryptoMechanics/proof-of-ownership $DIR/../contracts/ownership
+			git clone https://github.com/CryptoMechanics/proof-of-ownership $DIR/../contracts/ownership
 
 			;;
 		build)
@@ -58,6 +58,9 @@ do
 
 			echo "Deploy ux eosio.proof contract"
 			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio.proof /root/contracts/proof-of-ownership/build/ownership/ ownership.wasm ownership.abi -p eosio.proof@active
+
+			echo "Deploy ux eosio.freeze contract"
+			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio.freeze /root/contracts/ux.contracts/build/contracts/eosio.freeze/ eosio.freeze.wasm eosio.freeze.abi -p eosio.freeze@active
 
 			# echo "Deploy eosio.msig contract"
 			# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio.msig /eosio.contracts/build/contracts/eosio.msig/ eosio.msig.wasm eosio.msig.abi -p eosio.msig@active
