@@ -24,7 +24,7 @@ do
 			
 			;;
 		deploy)
-			docker exec -it ux-main curl -X POST http://127.0.0.1:8888/v1/producer/schedule_protocol_feature_activations -d '{"protocol_features_to_activate": ["0ec7e080177b2c02b278d5088611686b49d739925a92d9bfcacd7fc6b74053bd"]}' | jq
+			docker exec -it ux-main curl -X POST http://127.0.0.1:8888/v1/producer/schedule_protocol_feature_activations -d '{"protocol_features_to_activate": ["0ec7e080177b2c02b278d5088611686b49d739925a92d9bfcacd7fc6b74053bd"]}'
 
 			echo "Deploy OLD eosio.system contract"
 			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio /eosio.contracts/build/contracts/eosio.system/ eosio.system.wasm eosio.system.abi -p eosio@active
@@ -57,7 +57,7 @@ do
 			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio.info /root/contracts/ux.contracts/build/contracts/eosio.info/ eosio.info.wasm eosio.info.abi -p eosio.info@active
 
 			echo "Deploy ux eosio.proof contract"
-			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio.proof /root/contracts/proof-of-ownership/build/ownership/ ownership.wasm ownership.abi -p eosio.proof@active
+			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio.proof /root/contracts/ownership/build/ownership/ ownership.wasm ownership.abi -p eosio.proof@active
 
 			echo "Deploy ux eosio.freeze contract"
 			docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 set contract eosio.freeze /root/contracts/ux.contracts/build/contracts/eosio.freeze/ eosio.freeze.wasm eosio.freeze.abi -p eosio.freeze@active
