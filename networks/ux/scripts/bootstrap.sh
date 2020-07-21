@@ -277,7 +277,7 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 
 echo ""
 echo "Issuing UTXRAM to eosio"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "4.0000 UTXRAM", "eosio" ]' -p eosio@active
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "4000.0000 UTXRAM", "eosio" ]' -p eosio@active
 
 echo ""
 echo "Issuing UTX Token to eosio"
@@ -285,7 +285,7 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 
 echo ""
 echo "Creating quibus account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio quibus EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "17990000.0000 UTX" --buy-ram "4.0000 UTXRAM" # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio quibus EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "17990000.0000 UTX" --buy-ram "4000.0000 UTXRAM" # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
 ########### //
 
@@ -308,7 +308,7 @@ docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux
 echo "add key type resident permit verified - repev"
 docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"repev", "definition":"Verification of residence permit", "user":false}' -p eosio@active
 
-echo "add key type address verified - utbiv"
+echo "add key type address verified through utility bill - utbiv"
 docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"utbiv", "definition":"Verification of utility bill", "user":false}' -p eosio@active
 
 echo "add name user key"
@@ -328,6 +328,9 @@ docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux
 
 echo "add twitter handle user key"
 docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"twitter", "definition":"Twitter handle", "user":true}' -p eosio@active
+
+echo "add website handle user key"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"website", "definition":"Website", "user":true}' -p eosio@active
 
 ########### //
 
