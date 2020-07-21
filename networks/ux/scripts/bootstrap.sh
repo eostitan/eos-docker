@@ -355,7 +355,7 @@ docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux
 
 # echo ""
 # echo "Creating genesis1 account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio genesis1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "912.0000 UTX" --stake-cpu "912.0000 UTX" --buy-ram "4.0000 UTXRAM" --transfer
+# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio genesis1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "912.0000 UTX" --stake-cpu "912.0000 UTX" --buy-ram "4.0000 UTXRAM" --transfer -p eosio@active
 
 ########### //
 
