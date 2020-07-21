@@ -260,12 +260,24 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token create '[ "eosio", "536870912.0000 UTXRAM"]' -p eosio.token@active #512 gb upperbound
 
 echo ""
-echo "Issuing UTX Token to eosio"
+echo "Issuing UTXRAM token to eosio"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "1.0000 UTX", "eosio" ]' -p eosio@active
+
+echo ""
+echo "Issuing UTXRAM Token to eosio"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "1048576.0000 UTXRAM", "eosio" ]' -p eosio@active
 
 echo ""
 echo "Init eosio.system Contract"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio init '[0, "4,UTX"]' -p eosio@active
+
+# echo ""
+# echo "Buy RAM with UTXRAM (eosio)"
+# docker exec -it $CONTAINER cleos  --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system buyram eosio eosio "1048576.0000 UTXRAM" -p eosio@active
+
+# echo ""
+# echo "Delegate UTX token to eosio"
+# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio delegatebw '[ "eosio", "eosio", "10000.0000 UTX", "10000.0000 UTX", false]' -p eosio@active
 
 echo ""
 echo "Setting global params"
@@ -345,25 +357,25 @@ docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux
 # echo "add key verification for testuser1 by quibus" 
 # docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info adduserver '{"kyc_account":"quibus", "user":"testuser1", "verification_key":"passv"}' -p quibus@active
 
-# echo ""
-# echo "Issuing UTXRAM to eosio"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "4.0000 UTXRAM", "eosio" ]' -p eosio@active
+echo ""
+echo "Issuing UTXRAM to eosio"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "4.0000 UTXRAM", "eosio" ]' -p eosio@active
 
-# echo ""
-# echo "Issuing UTX Token to eosio"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "1824.0000 UTX", "eosio" ]' -p eosio@active
+echo ""
+echo "Issuing UTX Token to eosio"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "1824.0000 UTX", "eosio" ]' -p eosio@active
 
-# echo ""
-# echo "Creating genesis1 account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio genesis1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "912.0000 UTX" --stake-cpu "912.0000 UTX" --buy-ram "4.0000 UTXRAM" --transfer -p eosio@active
+echo ""
+echo "Creating genesis1 account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio genesis1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "912.0000 UTX" --stake-cpu "912.0000 UTX" --buy-ram "4.0000 UTXRAM" --transfer -p eosio@active
 
 ########### //
 
-########### issuance finalization + activation
+########### issuance finalization + activation august 31st / september 1st
 
-# issuing the RAM tokens
+# issuing the UTXRAM tokens
 
 # cancelling the quibus subsidy
 
-# activation of Z1SS stake / chain
+# activation of Z1SS stake / chain by voting
 
