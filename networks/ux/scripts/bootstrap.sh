@@ -352,7 +352,7 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 
 echo ""
 echo "Self vote"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system voteproducer prods bp1 bp1
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system voteproducer prods bp1 bp1 -p bp1@active
 
 ########### //
 
