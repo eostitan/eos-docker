@@ -338,19 +338,24 @@ docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux
 ########### asynchronous claim process over 1 month
 ########### BPs with sufficient stake can register
 ########### z1ss' stake is used to bootstrap 21 "fake BPs" + any number of "real BPs" 
+
 ########### example for issuance + account creation after successful KYC / proof-of-ownership claim : testuser3 with 1824.0000 WBI tokens
 
-echo ""
-echo "Issuing UTXRAM to eosio"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "4.0000 UTXRAM", "eosio" ]' -p eosio@active
+# quibus writes verification status to eosio.info
+# echo "add key verification for testuser1 by quibus" 
+# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info adduserver '{"kyc_account":"quibus", "user":"testuser1", "verification_key":"passv"}' -p quibus@active
 
-echo ""
-echo "Issuing UTX Token to eosio"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "1824.0000 UTX", "eosio" ]' -p eosio@active
+# echo ""
+# echo "Issuing UTXRAM to eosio"
+# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "4.0000 UTXRAM", "eosio" ]' -p eosio@active
 
-echo ""
-echo "Creating genesis1 account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio genesis1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "912.0000 UTX" --stake-cpu "912.0000 UTX" --buy-ram "4.0000 UTXRAM" --transfer
+# echo ""
+# echo "Issuing UTX Token to eosio"
+# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "1824.0000 UTX", "eosio" ]' -p eosio@active
+
+# echo ""
+# echo "Creating genesis1 account"
+# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio genesis1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "912.0000 UTX" --stake-cpu "912.0000 UTX" --buy-ram "4.0000 UTXRAM" --transfer
 
 ########### //
 
