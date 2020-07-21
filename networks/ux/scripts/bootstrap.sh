@@ -312,6 +312,8 @@ echo ""
 echo "Regproducer quibus"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer quibus EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
+sleep 120
+
 echo ""
 echo "Self vote"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system voteproducer prods quibus quibus
