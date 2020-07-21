@@ -285,6 +285,7 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 
 ########### //
 
+
 ########### creation + seeding of quibus account
 
 echo ""
@@ -312,7 +313,7 @@ echo ""
 echo "Regproducer quibus"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer quibus EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-sleep 120
+#sleep 120
 
 echo ""
 echo "Self vote"
@@ -320,6 +321,40 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 
 ########### //
 
+########### creation + seeding of bp1 account
+
+echo ""
+echo "Issuing UTXRAM to eosio"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "4000.0000 UTXRAM", "eosio" ]' -p eosio@active
+
+echo ""
+echo "Issuing UTX Token to eosio"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "210000000.0000 UTX", "eosio" ]' -p eosio@active
+
+
+echo ""
+echo "Creating quibus account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "179900000.0000 UTX" --buy-ram "4000.0000 UTXRAM" # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+
+echo ""
+echo "Transfer from eosio to quibus"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 transfer eosio bp1 "11000000.0000 UTX" "" -p eosio@active
+
+echo ""
+echo "Self-delegate quibus"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 system delegatebw bp1 bp1 "100.0000 UTX" "10000000.0000 UTX" -p quibus@active
+
+echo ""
+echo "Regproducer quibus"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+
+#sleep 120
+
+echo ""
+echo "Self vote"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system voteproducer prods bp1 bp1
+
+########### //
 
 ########### eosio.info setup
 
