@@ -342,7 +342,7 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 
 echo ""
 echo "Self-delegate quibus"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 system delegatebw bp1 bp1 "100.0000 UTX" "10000000.0000 UTX" -p quibus@active
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 system delegatebw bp1 bp1 "100.0000 UTX" "10000000.0000 UTX" -p bp1@active
 
 echo ""
 echo "Regproducer quibus"
