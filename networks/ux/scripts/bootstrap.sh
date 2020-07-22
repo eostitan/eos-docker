@@ -305,266 +305,266 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 
 ########### creation + seeding of bp1, bp2, bp3, [...], bp21 account
 
-# echo ""
-# echo "Issuing UTXRAM to eosio"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "168.0000 UTXRAM", "eosio" ]' -p eosio@active
+echo ""
+echo "Issuing UTXRAM to eosio"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "168.0000 UTXRAM", "eosio" ]' -p eosio@active
 
-# echo ""
-# echo "Issuing UTX Token to eosio"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "210000000.0000 UTX", "eosio" ]' -p eosio@active
+echo ""
+echo "Issuing UTX Token to eosio"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "210000000.0000 UTX", "eosio" ]' -p eosio@active
 
-# echo ""
-# echo "Creating bp1 account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bp1 account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bp2 account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp2 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bp2 account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp2 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bp3 account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp3 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bp3 account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp3 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bp4 account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp4 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bp4 account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp4 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bp5 account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp5 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bp5 account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp5 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpa account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpa EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpa account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpa EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpb account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpb EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpb account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpb EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpc account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpc EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpc account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpc EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpd account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpd EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpd account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpd EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpe account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpe EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpe account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpe EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpf account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpf EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpf account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpf EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpg account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpg EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpg account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpg EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bph account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bph EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bph account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bph EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpi account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpi EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpi account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpi EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpj account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpj EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpj account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpj EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpk account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpk EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpk account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpk EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpl account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpl EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpl account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpl EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpm account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpm EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpm account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpm EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpn account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpn EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpn account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpn EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpo account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpo EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpo account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpo EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Creating bpp account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpp EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating bpp account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpp EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# echo ""
-# echo "Regproducer bp1"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bp1"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bp2"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp2 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bp2"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp2 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bp3"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp3 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bp3"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp3 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bp4"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp4 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bp4"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp4 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bp5"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp5 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bp5"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp5 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpa"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpa EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpa"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpa EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpb"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpb EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpb"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpb EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpc"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpc EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpc"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpc EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpd"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpd EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpd"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpd EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpe"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpe EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpe"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpe EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpf"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpf EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpf"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpf EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpg"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpg EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpg"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpg EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bph"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bph EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bph"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bph EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpi"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpi EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpi"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpi EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpj"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpj EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpj"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpj EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpk"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpk EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpk"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpk EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpl"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpl EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpl"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpl EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpm"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpm EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpm"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpm EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpn"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpn EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpn"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpn EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpo"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpo EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpo"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpo EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
-# echo ""
-# echo "Regproducer bpp"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpp EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
+echo ""
+echo "Regproducer bpp"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpp EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV "" 0 
 
 
 ########### //
 
 ########### eosio.info setup
 
-# echo ""
-# echo "adding quibus account as kyc verifier account"
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkycacc '{"account":"quibus"}' -p eosio@active
+echo ""
+echo "adding quibus account as kyc verifier account"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkycacc '{"account":"quibus"}' -p eosio@active
 
-# echo "add key type passport verified - passv"
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"passv", "definition":"Verification of passport", "user":false}' -p eosio@active
+echo "add key type passport verified - passv"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"passv", "definition":"Verification of passport", "user":false}' -p eosio@active
 
-# echo "add key type driver's license verified - drliv"
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"drliv", "definition":"Verification of driver license", "user":false}' -p eosio@active
+echo "add key type driver's license verified - drliv"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"drliv", "definition":"Verification of driver license", "user":false}' -p eosio@active
 
-# echo "add key type government id verified - goidv"
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"goidv", "definition":"Verification of government-issued ID", "user":false}' -p eosio@active
+echo "add key type government id verified - goidv"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"goidv", "definition":"Verification of government-issued ID", "user":false}' -p eosio@active
 
-# echo "add key type resident permit verified - repev"
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"repev", "definition":"Verification of residence permit", "user":false}' -p eosio@active
+echo "add key type resident permit verified - repev"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"repev", "definition":"Verification of residence permit", "user":false}' -p eosio@active
 
-# echo "add key type address verified through utility bill - utbiv"
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"utbiv", "definition":"Verification of utility bill", "user":false}' -p eosio@active
+echo "add key type address verified through utility bill - utbiv"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"utbiv", "definition":"Verification of utility bill", "user":false}' -p eosio@active
 
-# echo "add name user key"
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"name", "definition":"Public user name", "user":true}' -p eosio@active
+echo "add name user key"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"name", "definition":"Public user name", "user":true}' -p eosio@active
 
-# echo "add email user key"
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"email", "definition":"Email Address", "user":true}' -p eosio@active
+echo "add email user key"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"email", "definition":"Email Address", "user":true}' -p eosio@active
 
-# echo "add description user key"
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"description", "definition":"Description or biography", "user":true}' -p eosio@active
+echo "add description user key"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"description", "definition":"Description or biography", "user":true}' -p eosio@active
 
-# echo "add linkedin user key"
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"linkedin", "definition":"LinkedIn", "user":true}' -p eosio@active
+echo "add linkedin user key"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"linkedin", "definition":"LinkedIn", "user":true}' -p eosio@active
 
-# echo "add telegram handle user key"
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"telegram", "definition":"Telegram handle or channel link", "user":true}' -p eosio@active
+echo "add telegram handle user key"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"telegram", "definition":"Telegram handle or channel link", "user":true}' -p eosio@active
 
-# echo "add twitter handle user key"
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"twitter", "definition":"Twitter handle", "user":true}' -p eosio@active
+echo "add twitter handle user key"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"twitter", "definition":"Twitter handle", "user":true}' -p eosio@active
 
-# echo "add website handle user key"
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"website", "definition":"Website", "user":true}' -p eosio@active
+echo "add website handle user key"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkeytype '{"key":"website", "definition":"Website", "user":true}' -p eosio@active
 
 ########### //
 
 ########### asynchronous claim process over 1 month
 ########### creation + seeding of whale account upon all accounts claim completion
 
-# echo ""
-# echo "Issuing UTXRAM to eosio"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "4.0000 UTXRAM", "eosio" ]' -p eosio@active
+echo ""
+echo "Issuing UTXRAM to eosio"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "4.0000 UTXRAM", "eosio" ]' -p eosio@active
 
-# echo ""
-# echo "Issuing UTX Token to eosio"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "180000000.0000 UTX", "eosio" ]' -p eosio@active
+echo ""
+echo "Issuing UTX Token to eosio"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "180000000.0000 UTX", "eosio" ]' -p eosio@active
 
-# echo ""
-# echo "Creating whale account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio whale EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "179990000.0000 UTX" --buy-ram "4.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
+echo ""
+echo "Creating whale account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio whale EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "179990000.0000 UTX" --buy-ram "4.0000 UTXRAM" --transfer # eosio stakes +/- 1% token supply to quibus for initial issuance + account creation, to be rescinded after claim period
 
-# # quibus writes verification status to eosio.info
-# echo "add key verification for whale by quibus" 
-# docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info adduserver '{"kyc_account":"quibus", "user":"whale", "verification_key":"passv"}' -p quibus@active
+# quibus writes verification status to eosio.info
+echo "add key verification for whale by quibus" 
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info adduserver '{"kyc_account":"quibus", "user":"whale", "verification_key":"passv"}' -p quibus@active
 
 ########### //
 
 ########### issuance finalization + activation august 31st / september 1st
 
-# issuing the UTXRAM tokens to whale (assuming 10% of total claimed tokens)
+#issuing the UTXRAM tokens to whale (assuming 10% of total claimed tokens)
 
-# echo ""
-# echo "Issuing UTXRAM to eosio"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "838860.8000 UTXRAM", "eosio" ]' -p eosio@active
+echo ""
+echo "Issuing UTXRAM to eosio"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "838860.8000 UTXRAM", "eosio" ]' -p eosio@active
 
-# echo ""
-# echo "Transfering tokens to whale"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token transfer '["eosio", "whale", "838860.8000 UTXRAM",  ""]' -p eosio@active
+echo ""
+echo "Transfering tokens to whale"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token transfer '["eosio", "whale", "838860.8000 UTXRAM",  ""]' -p eosio@active
 
 ########### activation of chain by voting
 
-# echo ""
-# echo "Vote with whale account"
-# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio voteproducer '{"voter":"whale", "proxy":"", "producers":["bp1","bp2","bp3","bp4","bp5","bpa","bpb","bpc","bpd","bpe","bpf","bpg","bph","bpi","bpj","bpk","bpl","bpm","bpn","bpo","bpp"]}' -p whale@active
+echo ""
+echo "Vote with whale account"
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio voteproducer '{"voter":"whale", "proxy":"", "producers":["bp1","bp2","bp3","bp4","bp5","bpa","bpb","bpc","bpd","bpe","bpf","bpg","bph","bpi","bpj","bpk","bpl","bpm","bpn","bpo","bpp"]}' -p whale@active
 
 ########### //
