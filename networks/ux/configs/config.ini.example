@@ -274,7 +274,7 @@ enable-stale-production = true
 # pause-on-startup = false
 
 # Limits the maximum time (in milliseconds) that is allowed a pushed transaction's code to execute before being considered invalid (eosio::producer_plugin)
-max-transaction-time = 30
+max-transaction-time = 3000
 
 # Limits the maximum age (in seconds) of the DPOS Irreversible Block for a chain this node will produce blocks on (use negative value to indicate unlimited) (eosio::producer_plugin)
 # max-irreversible-block-age = -1
@@ -282,7 +282,26 @@ max-transaction-time = 30
 # ID of producer controlled by this node (e.g. inita; may specify multiple times) (eosio::producer_plugin)
 producer-name = eosio
 producer-name = bp1
-producer-name = quibus
+producer-name = bp2
+producer-name = bp3
+producer-name = bp4
+producer-name = bp5
+producer-name = bpa
+producer-name = bpb
+producer-name = bpc
+producer-name = bpd
+producer-name = bpe
+producer-name = bpf
+producer-name = bpg
+producer-name = bph
+producer-name = bpi
+producer-name = bpj
+producer-name = bpk
+producer-name = bpl
+producer-name = bpm
+producer-name = bpn
+producer-name = bpo
+producer-name = bpp
 
 # (DEPRECATED - Use signature-provider instead) Tuple of [public key, WIF private key] (may specify multiple times) (eosio::producer_plugin)
 # private-key = 

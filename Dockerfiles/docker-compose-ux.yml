@@ -5,7 +5,7 @@ services:
   ux-main:
     container_name: ux-main
     hostname: ux-main
-    image: eostitan/ux-testnet:gg15
+    image: eostitan/ux-testnet:gg20
     build:
       context: .
       dockerfile: build-uxg.dockerfile
@@ -17,7 +17,8 @@ services:
       - ../networks/ux/data/:/ux-data
       - ../networks/ux/contracts/:/root/contracts
     ports:
-      - '8888:8888'
+      - '8899:8888'
+      - '9876:9876'
     depends_on:
       - ux-wallet
 
@@ -45,7 +46,7 @@ services:
     build:
       context: .
       dockerfile: build-uxg.dockerfile
-    image: eostitan/ux-testnet:gg15
+    image: eostitan/ux-testnet:gg20
     command: keosd --http-server-address=0.0.0.0:8901 --http-validate-host 0 --verbose-http-errors --unlock-timeout=9999999
     networks:
       - testnet
