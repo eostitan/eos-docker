@@ -317,7 +317,8 @@ producer-name = bpp
 #    KEY:<data>          is a string form of a valid EOSIO private key which maps to the provided public key
 # 
 #    KEOSD:<data>        is the URL where keosd is available and the approptiate wallet(s) are unlocked (eosio::producer_plugin)
-signature-provider = EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV=KEY:5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
+signature-provider = EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh=KEY:5KT16xm1PWMxDSDFcUicHP5dSJuPh5d2xbnrP5jQAteokyv4xM7
+signature-provider = EOS89h57NxqzSBLNq1Euc1V8PUtYFzZ8M2qMYrqG5WX4KKd5eKJ1Y=KEY:5JMPqttmWsqQfCFbw4CBmDcGyUMCdossEEyyFPmaNu2Fv868NX9
 
 # Limits the maximum time (in milliseconds) that is allowed for sending blocks to a keosd provider for signing (eosio::producer_plugin)
 # keosd-provider-timeout = 5

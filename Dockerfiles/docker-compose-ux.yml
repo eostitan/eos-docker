@@ -17,7 +17,7 @@ services:
       - ../networks/ux/data/:/ux-data
       - ../networks/ux/contracts/:/root/contracts
     ports:
-      - '8899:8888'
+      - '8888:8888'
       - '9876:9876'
     depends_on:
       - ux-wallet
