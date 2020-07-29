@@ -545,22 +545,22 @@ docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux
 ########### asynchronous claim process over 1 month
 ########### creation + seeding of whale account upon all accounts claim completion
 
-echo ""
-echo "Issuing UTX Token to eosio"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "180000000.0000 UTX", "eosio" ]' -p eosio@active
+# echo ""
+# echo "Issuing UTX Token to eosio"
+# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token issue '[ "eosio", "180000000.0000 UTX", "eosio" ]' -p eosio@active
 
-echo ""
-echo "Creating whale1111111 account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio whale1111111 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "179990000.0000 UTX" --buy-ram "4.0000 UTXRAM" --transfer
+# echo ""
+# echo "Creating whale1111111 account"
+# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio whale1111111 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "10000.0000 UTX" --stake-cpu "179990000.0000 UTX" --buy-ram "4.0000 UTXRAM" --transfer
 
-echo ""
-echo "Transfering UTXRAM tokens to whale1111111"
-echo "UTXRAM is allocated at 1.0000 UTXRAM per 213.981 WBI, minus 4.0000 UTXRAM tokens for account creation."
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token transfer '["eosio", "whale1111111", "841192.1809 UTXRAM",  ""]' -p eosio@active 
+# echo ""
+# echo "Transfering UTXRAM tokens to whale1111111"
+# echo "UTXRAM is allocated at 1.0000 UTXRAM per 213.981 WBI, minus 4.0000 UTXRAM tokens for account creation."
+# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.token transfer '["eosio", "whale1111111", "841192.1809 UTXRAM",  ""]' -p eosio@active 
 
-echo ""
-echo "add key verification for whale by asynqverify1" 
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info adduserver '{"kyc_account":"asynqverify1", "user":"whale1111111", "verification_key":"passv"}' -p asynqverify1@active
+# echo ""
+# echo "add key verification for whale by asynqverify1" 
+# docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info adduserver '{"kyc_account":"asynqverify1", "user":"whale1111111", "verification_key":"passv"}' -p asynqverify1@active
 
 ########### //
 
