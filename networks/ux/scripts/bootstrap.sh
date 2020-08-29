@@ -311,6 +311,7 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 echo ""
 echo "Creating asynqverify1 account"
 docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio asynqverify1 EOS7dzAsko6EUpVCwPAM8C4YUMUEHiLSen5c5Q85rvyT1nQJfGmSt EOS7dzAsko6EUpVCwPAM8C4YUMUEHiLSen5c5Q85rvyT1nQJfGmSt --stake-net "5900000.0000 UTX" --stake-cpu "30000000.0000 UTX" --buy-ram "167771.0000 UTXRAM" --transfer # eosio stakes full 35,900,000 UTX + 167,771.9049 UTXRAM to asynqverify1 for initial issuance + account creation
+#docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio asynqverify1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV --stake-net "5900000.0000 UTX" --stake-cpu "30000000.0000 UTX" --buy-ram "167771.0000 UTXRAM" --transfer # eosio stakes full 35,900,000 UTX + 167,771.9049 UTXRAM to asynqverify1 for initial issuance + account creation
 
 echo "add KYC account testuser1"
 docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio.info addkycacc '{"account":"asynqverify1"}' -p eosio@active
@@ -570,4 +571,13 @@ docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux
 # echo "Vote with whale account"
 # docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio voteproducer '{"voter":"whale", "proxy":"", "producers":["bp1","bp2","bp3","bp4","bp5","bpa","bpb","bpc","bpd","bpe","bpf","bpg","bph","bpi","bpj","bpk","bpl","bpm","bpn","bpo","bpp"]}' -p whale@active
 
+########### //
+
+########### clone/build/deploy asynq contract
+# bash $DIR/asynq-deploy.sh clone build deploy
+
+########### asynq contract tests
+# echo ""
+# echo "Test asynq contract"
+# bash $DIR/asynq-deploy.sh addtestdata printaggregations reindex printaggregations
 ########### //
