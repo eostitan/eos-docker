@@ -5,6 +5,10 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CONTAINER="ux-main"
 WALLETNAME="development"
 DATADIR="data"
+#BPKEY="EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ"
+BPKEY="EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy"
+#BPSIGNINGKEY="EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh"
+BPSIGNINGKEY="EOS6CRG7tXc9u2ySGqkH69JrwG4yXojkZBVUMLgUnKfM6uJpDUtKy"
 
 echo $CONTAINER
 
@@ -330,171 +334,171 @@ docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http:/
 
 echo ""
 echo "Creating bp1 account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp1 EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp1 $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
 
 echo ""
 echo "Creating bp2 account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp2 EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp2 $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
 
 echo ""
 echo "Creating bp3 account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp3 EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp3 $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
 
 echo ""
 echo "Creating bp4 account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp4 EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp4 $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
 
 echo ""
 echo "Creating bp5 account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp5 EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bp5 $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
 
 echo ""
 echo "Creating bpa account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpa EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpa $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
 
 echo ""
 echo "Creating bpb account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpb EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpb $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
 
 echo ""
 echo "Creating bpc account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpc EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpc $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
 
 echo ""
 echo "Creating bpd account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpd EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpd $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
 
 echo ""
 echo "Creating bpe account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpe EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpe $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
 
 echo ""
 echo "Creating bpf account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpf EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpf $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
 
 echo ""
 echo "Creating bpg account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpg EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpg $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
 
 echo ""
 echo "Creating bph account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bph EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bph $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
 
 echo ""
 echo "Creating bpi account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpi EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpi $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
 
 echo ""
 echo "Creating bpj account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpj EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpj $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
 
 echo ""
 echo "Creating bpk account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpk EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpk $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
 
 echo ""
 echo "Creating bpl account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpl EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpl $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
 
 echo ""
 echo "Creating bpm account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpm EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpm $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer 
 
 echo ""
 echo "Creating bpn account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpn EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpn $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
 
 echo ""
 echo "Creating bpo account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpo EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpo $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
 
 echo ""
 echo "Creating bpp account"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpp EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ EOS6iJ1LrJM9oNucD5hrgV3trzqv4ULU4y3k5hm1zjpLJmYzHtTLJ --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system newaccount eosio bpp $BPKEY $BPKEY --stake-net "10000.0000 UTX" --stake-cpu "9990000.0000 UTX" --buy-ram "8.0000 UTXRAM" --transfer
 
 echo ""
 echo "Regproducer bp1"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp1 EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp1 $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bp2"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp2 EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp2 $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bp3"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp3 EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp3 $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bp4"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp4 EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp4 $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bp5"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp5 EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bp5 $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpa"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpa EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpa $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpb"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpb EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpb $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpc"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpc EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpc $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpd"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpd EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpd $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpe"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpe EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpe $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpf"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpf EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpf $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpg"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpg EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpg $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bph"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bph EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bph $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpi"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpi EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpi $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpj"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpj EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpj $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpk"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpk EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpk $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpl"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpl EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpl $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpm"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpm EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpm $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpn"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpn EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpn $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpo"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpo EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpo $BPSIGNINGKEY "" 0 
 
 echo ""
 echo "Regproducer bpp"
-docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpp EOS5P9Sue2zY1tRZBFZGKoz6Ryefgz3jgAojSaQTUGKzLG2gAewNh "" 0 
+docker exec -it $CONTAINER cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 --verbose system regproducer bpp $BPSIGNINGKEY "" 0 
 
 
 ########### //
