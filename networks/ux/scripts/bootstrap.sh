@@ -577,6 +577,13 @@ docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux
 
 ########### //
 
+########### initialise resource oracle
+echo ""
+echo "Initialise resource oracle"
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio activatefeat '{"feature": "resource"}' -p eosio@active
+docker exec -it ux-main cleos --url http://127.0.0.1:8888 --wallet-url http://ux-wallet:8901 push action eosio initresource '{"dataset_batch_size": 100, "oracle_consensus_threshold": 1, "period_start": "2020-11-07T08:00:00", "period_seconds": 300, "initial_value_transfer_rate": 0.1, "max_pay_constant": 0.2947}' -p eosio@active
+########### //
+
 ########### clone/build/deploy asynq contract
 # bash $DIR/asynq-deploy.sh clone build deploy
 
